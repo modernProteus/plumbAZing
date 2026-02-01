@@ -850,14 +850,25 @@
                 <div class="pill" style="justify-content: center; width: 100%">
                   $50 OFF first-time customers (exp. 12/31/25)
                 </div>
-                <button
-                  class="btn primary"
-                  type="button"
-                  onclick="openMailDraft()"
-                  style="width: 100%; border: none; cursor: pointer"
-                >
-                  Send Request
-                </button>
+                <div class="split">
+                  <button
+                    class="btn primary"
+                    type="button"
+                    style="width: 100%; border: none; cursor: pointer"
+                    onclick="openMailDraft()"
+                  >
+                    Send via Email
+                  </button>
+
+                  <button
+                    class="btn secondary"
+                    type="button"
+                    style="width: 100%; cursor: pointer"
+                    onclick="openTextDraft()"
+                  >
+                    Send via Text
+                  </button>
+                </div>
               </div>
 
               <p class="mini" style="margin: 0; color: var(--muted)">
@@ -907,7 +918,7 @@
 
                 // Optional: CC the customer so they have a copy
                 // Note: Some mail clients ignore cc in mailto.
-                const cc = email ? `&cc=${encodeURIComponent(email)}` : "";
+                // const cc = email ? `&cc=${encodeURIComponent(email)}` : "";
 
                 const mailto = `mailto:${encodeURIComponent(
                   to,
@@ -916,6 +927,47 @@
                 )}&body=${encodeURIComponent(body)}${cc}`;
 
                 window.location.href = mailto;
+              }
+            </script>
+            <script>
+              function openTextDraft() {
+                const form = document.getElementById("serviceForm");
+
+                const name = form.querySelector("[name=name]").value.trim();
+                const phone = form.querySelector("[name=phone]").value.trim();
+                const address = form
+                  .querySelector("[name=address]")
+                  .value.trim();
+                const details = form
+                  .querySelector("[name=details]")
+                  .value.trim();
+
+                if (!name || !phone || !details) {
+                  alert(
+                    "Please include your name, phone, and a short description of the issue.",
+                  );
+                  return;
+                }
+
+                const to = "15128884406"; // no dashes for SMS links
+
+                // Keep SMS concise
+                const message = `PlumbAZing service request:
+			${name}
+			${phone}
+			${address || "(address not provided)"}
+			
+			Issue:
+			${details}`;
+
+                // iOS uses ?&body=, Android prefers ?body=
+                const smsLink = /iPhone|iPad|iPod|Macintosh/.test(
+                  navigator.userAgent,
+                )
+                  ? `sms:${to}&body=${encodeURIComponent(message)}`
+                  : `sms:${to}?body=${encodeURIComponent(message)}`;
+
+                window.location.href = smsLink;
               }
             </script>
           </div>
