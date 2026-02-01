@@ -518,7 +518,6 @@
             <!-- Replace with your hosted logo URL -->
           </a>
 
-
           <div class="nav-actions">
             <span class="pill">Austin, TX • MC-44738</span>
             <a class="btn secondary" href="sms:+15128884406">Text</a>
@@ -794,7 +793,7 @@
           <div class="card">
             <!-- NOTE: This is a basic HTML form.
 			   If SquareTrade/Square Website provides its own form embed, replace this entire form block with their embed code. -->
-            <form action="#" method="post">
+            <form id="serviceForm">
               <div class="split">
                 <div>
                   <label for="name">Name</label>
@@ -870,11 +869,47 @@
                 for faster triage.
               </p>
             </form>
+
+            <script>
+              const form = document.getElementById("serviceForm");
+
+              form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                const payload = {
+                  name: form.querySelector("[name=name]").value.trim(),
+                  phone: form.querySelector("[name=phone]").value.trim(),
+                  email: form.querySelector("[name=email]").value.trim(),
+                  address: form.querySelector("[name=address]").value.trim(),
+                  time: form.querySelector("[name=time]").value,
+                  details: form.querySelector("[name=details]").value.trim(),
+                };
+
+                const resp = await fetch(
+                  "https://sendmail-yr43.onrender.com/api/request",
+                  {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                  }
+                );
+
+                const data = await resp.json();
+                if (data.ok) {
+                  alert(
+                    "Thanks! We got your request and will contact you shortly.",
+                  );
+                  form.reset();
+                } else {
+                  alert(
+                    "Something went wrong. Please call/text (512) 888-4406.",
+                  );
+                }
+              });
+            </script>
           </div>
 
-          <aside class="aside">
-
-          </aside>
+          <aside class="aside"></aside>
         </div>
       </div>
     </section>
