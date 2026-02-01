@@ -6,6 +6,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use(cors({
+  origin: ["https://plumbazing.com", "https://www.plumbazing.com"],
+  methods: ["POST", "GET"],
+  allowedHeaders: ["Content-Type"]
+}));
+
 // Health check
 app.get("/health", (_, res) => res.json({ ok: true }));
 
