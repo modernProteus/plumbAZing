@@ -755,11 +755,7 @@
               <span class="pill">Free Estimates</span>
               <span class="pill">Call or Text</span>
               <span class="pill">
-                <img
-                  width="50px"
-                  src="lgbtqOwned.png"
-                  alt="PlumbAZing logo"
-                />
+                <img width="50px" src="lgbtqOwned.png" alt="PlumbAZing logo" />
               </span>
             </div>
 
@@ -856,7 +852,8 @@
                 </div>
                 <button
                   class="btn primary"
-                  type="submit"
+                  type="button"
+                  onclick="openMailDraft()"
                   style="width: 100%; border: none; cursor: pointer"
                 >
                   Send Request
@@ -871,41 +868,55 @@
             </form>
 
             <script>
-              const form = document.getElementById("serviceForm");
+              function openMailDraft() {
+                const form = document.getElementById("serviceForm");
 
-              form.addEventListener("submit", async (e) => {
-                e.preventDefault();
+                const name = form.querySelector("[name=name]").value.trim();
+                const phone = form.querySelector("[name=phone]").value.trim();
+                const email = form.querySelector("[name=email]").value.trim();
+                const address = form
+                  .querySelector("[name=address]")
+                  .value.trim();
+                const time = form.querySelector("[name=time]").value;
+                const details = form
+                  .querySelector("[name=details]")
+                  .value.trim();
 
-                const payload = {
-                  name: form.querySelector("[name=name]").value.trim(),
-                  phone: form.querySelector("[name=phone]").value.trim(),
-                  email: form.querySelector("[name=email]").value.trim(),
-                  address: form.querySelector("[name=address]").value.trim(),
-                  time: form.querySelector("[name=time]").value,
-                  details: form.querySelector("[name=details]").value.trim(),
-                };
-
-                const resp = await fetch(
-                  "https://sendmail-yr43.onrender.com/api/request",
-                  {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
-                  }
-                );
-
-                const data = await resp.json();
-                if (data.ok) {
+                if (!name || !phone || !details) {
                   alert(
-                    "Thanks! We got your request and will contact you shortly.",
+                    "Please include your name, phone, and a short description of the issue.",
                   );
-                  form.reset();
-                } else {
-                  alert(
-                    "Something went wrong. Please call/text (512) 888-4406.",
-                  );
+                  return;
                 }
-              });
+
+                const to = "office@plumbazing.com";
+                const subject = `Service Request — ${name} (${phone})`;
+
+                const body = `New service request:
+			
+			Name: ${name}
+			Phone: ${phone}
+			Email: ${email || "(not provided)"}
+			Address: ${address || "(not provided)"}
+			Preferred time: ${time || "(not provided)"}
+			
+			Issue:
+			${details}
+			
+			Sent from pumbazing.com`;
+
+                // Optional: CC the customer so they have a copy
+                // Note: Some mail clients ignore cc in mailto.
+                const cc = email ? `&cc=${encodeURIComponent(email)}` : "";
+
+                const mailto = `mailto:${encodeURIComponent(
+                  to,
+                )}?subject=${encodeURIComponent(
+                  subject,
+                )}&body=${encodeURIComponent(body)}${cc}`;
+
+                window.location.href = mailto;
+              }
             </script>
           </div>
 
