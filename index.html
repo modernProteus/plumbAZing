@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PlumbAZing | Your A–Z Plumbing Experts</title>
+    <meta
+      name="description"
+      content="PlumbAZing — honest, reliable residential plumbing. Call or text (512) 888-4406. Request service online at plumbazing.com."
+    />
+
+    <style>
+      :root {
+        /* Pulled from the logo vibe (approx): adjust if you have exact hex codes */
+        --blue: #0b3d91;
+        --red: #c1121f;
+        --ink: #0f172a;
+        --muted: #475569;
+        --bg: #ffffff;
+        --card: #f8fafc;
+        --line: #e2e8f0;
+        --shadow: 0 10px 30px rgba(2, 8, 23, 0.08);
+        --radius: 18px;
+        --max: 1120px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+          Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        color: var(--ink);
+        background: var(--bg);
+        line-height: 1.45;
+      }
+      a {
+        color: inherit;
+      }
+      .container {
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 0 18px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 16px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        text-decoration: none;
+        font-weight: 800;
+        letter-spacing: 0.2px;
+        transition: transform 0.08s ease, box-shadow 0.15s ease,
+          background 0.15s ease;
+        white-space: nowrap;
+      }
+      .btn:active {
+        transform: translateY(1px);
+      }
+      .btn.primary {
+        background: var(--red);
+        color: #fff;
+        box-shadow: 0 10px 18px rgba(193, 18, 31, 0.18);
+      }
+      .btn.primary:hover {
+        box-shadow: 0 14px 24px rgba(193, 18, 31, 0.22);
+      }
+      .btn.secondary {
+        background: #fff;
+        border-color: rgba(11, 61, 145, 0.25);
+        color: var(--blue);
+      }
+      .btn.secondary:hover {
+        background: rgba(11, 61, 145, 0.05);
+      }
+      .pill {
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(11, 61, 145, 0.07);
+        border: 1px solid rgba(11, 61, 145, 0.14);
+        color: var(--blue);
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(255, 255, 255, 0.86);
+        backdrop-filter: saturate(140%) blur(10px);
+        border-bottom: 1px solid var(--line);
+      }
+      .topbar .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 0;
+        gap: 12px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 180px;
+        text-decoration: none;
+      }
+      .brand img {
+        height: 44px;
+        width: auto;
+        display: block;
+      }
+      .brand .wordmark {
+        display: none; /* keep logo-only look; toggle if you want text */
+        font-weight: 900;
+        letter-spacing: 0.2px;
+      }
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: 42px 0 26px;
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: -120px -100px auto -100px;
+        height: 320px;
+        background: radial-gradient(
+            1200px 260px at 20% 30%,
+            rgba(11, 61, 145, 0.14),
+            transparent 60%
+          ),
+          radial-gradient(
+            900px 240px at 80% 20%,
+            rgba(193, 18, 31, 0.14),
+            transparent 60%
+          ),
+          linear-gradient(
+            90deg,
+            rgba(11, 61, 145, 0.06),
+            rgba(193, 18, 31, 0.06)
+          );
+        transform: skewY(-6deg);
+        border-bottom: 1px solid rgba(2, 8, 23, 0.06);
+      }
+      .hero-grid {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1.3fr 0.7fr;
+        gap: 22px;
+        align-items: stretch;
+      }
+      .hero-card {
+        background: #fff;
+        border: 1px solid rgba(2, 8, 23, 0.08);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 22px;
+      }
+      h1 {
+        margin: 0 0 10px;
+        font-size: clamp(30px, 3.3vw, 44px);
+        line-height: 1.08;
+        letter-spacing: -0.6px;
+      }
+      .subhead {
+        margin: 0 0 16px;
+        color: var(--muted);
+        font-size: clamp(15px, 1.55vw, 18px);
+      }
+      .cta-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-top: 10px;
+      }
+      .trust-strip {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 16px;
+      }
+      .trust {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 12px;
+        font-weight: 800;
+        color: var(--ink);
+      }
+      .trust small {
+        display: block;
+        font-weight: 700;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .side-card {
+        background: linear-gradient(
+          180deg,
+          rgba(11, 61, 145, 0.06),
+          rgba(193, 18, 31, 0.06)
+        );
+        border: 1px solid rgba(2, 8, 23, 0.08);
+        border-radius: var(--radius);
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 14px;
+      }
+      .offer {
+        background: #fff;
+        border: 1px solid rgba(193, 18, 31, 0.18);
+        border-radius: 16px;
+        padding: 14px;
+      }
+      .offer .big {
+        font-size: 34px;
+        font-weight: 950;
+        letter-spacing: -0.8px;
+        color: var(--red);
+        line-height: 1;
+        margin: 0;
+      }
+      .offer .text {
+        margin: 6px 0 0;
+        font-weight: 900;
+      }
+      .offer .fine {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .info {
+        background: #fff;
+        border: 1px solid rgba(11, 61, 145, 0.18);
+        border-radius: 16px;
+        padding: 14px;
+      }
+      .info .label {
+        color: var(--muted);
+        font-weight: 800;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+      }
+      .info .value {
+        margin-top: 6px;
+        font-weight: 950;
+        font-size: 20px;
+      }
+      section {
+        padding: 28px 0;
+      }
+      .section-title {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+      h2 {
+        margin: 0;
+        font-size: clamp(22px, 2.1vw, 30px);
+        letter-spacing: -0.4px;
+      }
+      .section-sub {
+        margin: 0;
+        color: var(--muted);
+        font-weight: 650;
+      }
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .card {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 18px;
+        box-shadow: 0 8px 20px rgba(2, 8, 23, 0.05);
+      }
+      .services {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .svc {
+        border: 1px solid var(--line);
+        background: var(--card);
+        border-radius: 14px;
+        padding: 12px;
+        font-weight: 850;
+      }
+      .svc span {
+        color: var(--blue);
+      }
+      .banner {
+        border-radius: var(--radius);
+        padding: 18px;
+        border: 1px solid rgba(193, 18, 31, 0.18);
+        background: linear-gradient(
+          90deg,
+          rgba(193, 18, 31, 0.06),
+          rgba(11, 61, 145, 0.06)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .banner .left {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .banner .headline {
+        font-size: 22px;
+        font-weight: 950;
+        letter-spacing: -0.4px;
+        margin: 0;
+      }
+      .banner .note {
+        margin: 0;
+        color: var(--muted);
+        font-weight: 650;
+      }
+      .how {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 12px;
+      }
+      .step {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 16px;
+      }
+      .step .num {
+        width: 34px;
+        height: 34px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        font-weight: 950;
+        color: #fff;
+        background: var(--blue);
+        box-shadow: 0 10px 18px rgba(11, 61, 145, 0.18);
+        margin-bottom: 10px;
+      }
+      .step:nth-child(2) .num {
+        background: var(--red);
+        box-shadow: 0 10px 18px rgba(193, 18, 31, 0.18);
+      }
+      .step h3 {
+        margin: 0 0 6px;
+        font-size: 17px;
+        letter-spacing: -0.2px;
+      }
+      .step p {
+        margin: 0;
+        color: var(--muted);
+        font-weight: 650;
+      }
+      .form {
+        display: grid;
+        grid-template-columns: 1fr 0.9fr;
+        gap: 14px;
+        align-items: start;
+      }
+      form {
+        display: grid;
+        gap: 10px;
+      }
+      label {
+        font-weight: 850;
+        font-size: 14px;
+      }
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 12px 12px;
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        background: #fff;
+        font: inherit;
+        outline: none;
+      }
+      input:focus,
+      textarea:focus,
+      select:focus {
+        border-color: rgba(11, 61, 145, 0.45);
+        box-shadow: 0 0 0 4px rgba(11, 61, 145, 0.1);
+      }
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+      .split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .aside {
+        position: sticky;
+        top: 92px;
+        border-radius: var(--radius);
+        border: 1px solid var(--line);
+        background: var(--card);
+        padding: 16px;
+      }
+      .aside .qr {
+        width: 100%;
+        max-width: 220px;
+        border-radius: 16px;
+        background: #fff;
+        border: 1px solid var(--line);
+        padding: 12px;
+        display: grid;
+        place-items: center;
+        margin-top: 10px;
+      }
+      .aside img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 22px 0;
+        color: var(--muted);
+        font-weight: 650;
+      }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 14px;
+        align-items: start;
+      }
+      .kicker {
+        font-size: 13px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 900;
+      }
+      .mini {
+        font-size: 13px;
+      }
+      .badges {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+
+      @media (max-width: 920px) {
+        .hero-grid {
+          grid-template-columns: 1fr;
+        }
+        .form {
+          grid-template-columns: 1fr;
+        }
+        .aside {
+          position: relative;
+          top: auto;
+        }
+      }
+      @media (max-width: 640px) {
+        .trust-strip {
+          grid-template-columns: 1fr;
+        }
+        .services {
+          grid-template-columns: 1fr;
+        }
+        .how {
+          grid-template-columns: 1fr;
+        }
+        .split {
+          grid-template-columns: 1fr;
+        }
+        .nav-actions .btn {
+          padding: 11px 14px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="container">
+        <div class="row">
+          <a class="brand" href="#top" aria-label="PlumbAZing home">
+            <!-- Replace with your hosted logo URL -->
+            <img
+              src="file:///Users/nickmessina/ProteusEcosystem/The%20Grove/3%20Projects/PlumbAZing/PlumbAZing_logo.jpeg"
+              alt="PlumbAZing logo"
+            />
+          </a>
+
+          <div class="nav-actions">
+            <span class="pill">Austin, TX • MC-44738</span>
+            <a class="btn secondary" href="sms:+15128884406">Text</a>
+            <a class="btn secondary" href="tel:+15128884406">
+              Call (512) 888-4406
+            </a>
+            <a class="btn primary" href="#request">Request Service</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <main id="top" class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-card">
+            <table>
+              <tr>
+                <td>
+                  <img
+                    width="200px"
+                    src="file:///Users/nickmessina/ProteusEcosystem/The%20Grove/3%20Projects/PlumbAZing/PlumbAZing_logo.jpeg"
+                    alt="PlumbAZing logo"
+                  />
+                </td>
+                <td><h1>Honest, Reliable Plumbing Service in Austin</h1></td>
+              </tr>
+            </table>
+            <p class="subhead">
+              Residential repairs, installs, and drain help. Fast response,
+              clean work, no runaround.
+              <strong style="color: var(--blue)">Free estimates</strong>
+              for most jobs.
+              <br />
+              <br />
+              Call us today for a free estimate—we’d be happy to help.
+            </p>
+
+            <div class="cta-row">
+              <a class="btn primary" href="#request">Request Service</a>
+              <a class="btn secondary" href="tel:+15128884406">
+                Call or Text (512) 888-4406
+              </a>
+            </div>
+
+            <div class="trust-strip" aria-label="Trust signals">
+              <div class="trust">
+                Locally Owned
+                <small>We treat your home like ours.</small>
+              </div>
+              <div class="trust">
+                Free Estimates
+                <small>For most common jobs.</small>
+              </div>
+              <div class="trust">
+                Straightforward Service
+                <small>Clear options. Clear pricing.</small>
+              </div>
+            </div>
+          </div>
+
+          <aside class="side-card">
+            <div class="offer">
+              <p class="big">$50</p>
+              <p class="text">OFF your first plumbing service</p>
+              <p class="fine">First-time customers • Expires: 12/31/25</p>
+            </div>
+
+            <div class="info">
+              <div class="label">Call or Text</div>
+              <div class="value">(512) 888-4406</div>
+            </div>
+
+            <div class="info">
+              <div class="label">Email</div>
+              <div class="value">office@plumbazing.com</div>
+            </div>
+
+            <div class="cta-row">
+              <a class="btn primary" href="#request">Claim Offer</a>
+              <a class="btn secondary" href="#services">View Services</a>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <!-- Services -->
+    <section id="services">
+      <div class="container">
+        <div class="section-title">
+          <div>
+            <h2>Plumbing Services</h2>
+            <p class="section-sub">
+              If it leaks, clogs, or won’t behave… we handle it.
+            </p>
+          </div>
+          <a class="btn secondary" href="sms:+15128884406">Text us a photo</a>
+        </div>
+
+        <div class="card">
+          <div class="services">
+            <div class="svc">
+              <span>✓</span>
+              Leak detection & repair
+            </div>
+            <div class="svc">
+              <span>✓</span>
+              Drain cleaning / clogs
+            </div>
+            <div class="svc">
+              <span>✓</span>
+              Toilet repair & installation
+            </div>
+            <div class="svc">
+              <span>✓</span>
+              Faucet & fixture installs
+            </div>
+            <div class="svc">
+              <span>✓</span>
+              Garbage disposal repair/install
+            </div>
+            <div class="svc">
+              <span>✓</span>
+              Water heater repair/install
+            </div>
+            <div class="svc">
+              <span>✓</span>
+              Shutoff valves / supply lines
+            </div>
+            <div class="svc">
+              <span>✓</span>
+              Water treatment & conditioning
+            </div>
+            <div class="svc">
+              <span>✓</span>
+              Tankless water heater specialist
+            </div>
+            <div class="svc">
+              <span>✓</span>
+              General plumbing repairs
+            </div>
+          </div>
+          <p
+            class="mini"
+            style="margin: 12px 0 0; color: var(--muted); font-weight: 650"
+          >
+            Not sure what it is? Call or text and we’ll point you in the right
+            direction.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Offer Banner -->
+    <section aria-label="First time customer offer">
+      <div class="container">
+        <div class="banner">
+          <div class="left">
+            <p class="headline">
+              New here? Get
+              <span style="color: var(--red)">$50 OFF</span>
+              your first service.
+            </p>
+            <p class="note">First-time customers • Expires: 12/31/25</p>
+          </div>
+          <div class="cta-row">
+            <a class="btn primary" href="#request">Request Service</a>
+            <a class="btn secondary" href="tel:+15128884406">Call Now</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it Works + About -->
+    <section id="about">
+      <div class="container">
+        <div class="grid-2">
+          <div class="card">
+            <div class="section-title" style="margin-bottom: 8px">
+              <div>
+                <h2>Getting Help is Easy</h2>
+                <p class="section-sub">Simple steps. No mystery scheduling.</p>
+              </div>
+            </div>
+
+            <div class="how">
+              <div class="step">
+                <div class="num">1</div>
+                <h3>Reach out</h3>
+                <p>Call, text, or submit the request form below.</p>
+              </div>
+              <div class="step">
+                <div class="num">2</div>
+                <h3>We confirm</h3>
+                <p>
+                  We’ll clarify details and give you a clear arrival window.
+                </p>
+              </div>
+              <div class="step">
+                <div class="num">3</div>
+                <h3>We fix it</h3>
+                <p>Quality work, clean finish, and you’re back to normal.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="section-title" style="margin-bottom: 8px">
+              <div>
+                <h2>About PlumbAZing</h2>
+                <p class="section-sub">
+                  Local, reliable, and easy to work with.
+                </p>
+              </div>
+            </div>
+
+            <p style="margin: 0; color: var(--muted); font-weight: 650">
+              Plumbazing is a locally owned and operated plumbing company
+              serving the Greater Austin area. Founded by experienced plumbers
+              Josh and Alan, we spent years working for large plumbing companies
+              before starting our own business.
+              <br />
+              <br />
+              Our goal is simple: to provide the same high level of service and
+              professionalism you’d expect from the big companies—without the
+              inflated pricing and overhead. We specialize in residential and
+              light commercial plumbing and take pride in honest work, clear
+              communication, and reliable results.
+            </p>
+
+            <div class="badges" aria-label="Badges">
+              <span class="pill">Locally Owned</span>
+              <span class="pill">Free Estimates</span>
+              <span class="pill">Call or Text</span>
+              <span class="pill">
+                <img
+                  width="50px"
+                  src="file:///Users/nickmessina/ProteusEcosystem/The%20Grove/3%20Projects/PlumbAZing/lgbtqOwned.png"
+                  alt="PlumbAZing logo"
+                />
+              </span>
+            </div>
+
+            <div class="cta-row" style="margin-top: 14px">
+              <a class="btn primary" href="#request">Request Service</a>
+              <a class="btn secondary" href="mailto:office@plumbazing.com">
+                Email: office@
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Request Service -->
+    <section id="request">
+      <div class="container">
+        <div class="section-title">
+          <div>
+            <h2>Request Service</h2>
+            <p class="section-sub">
+              Tell us what’s going on. We’ll respond ASAP.
+            </p>
+          </div>
+          <a class="btn secondary" href="tel:+15128884406">
+            Prefer calling? (512) 888-4406
+          </a>
+        </div>
+
+        <div class="form">
+          <div class="card">
+            <!-- NOTE: This is a basic HTML form.
+			   If SquareTrade/Square Website provides its own form embed, replace this entire form block with their embed code. -->
+            <form action="#" method="post">
+              <div class="split">
+                <div>
+                  <label for="name">Name</label>
+                  <input id="name" name="name" autocomplete="name" required />
+                </div>
+                <div>
+                  <label for="phone">Phone (required)</label>
+                  <input
+                    id="phone"
+                    name="phone"
+                    inputmode="tel"
+                    autocomplete="tel"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="split">
+                <div>
+                  <label for="email">Email (optional)</label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                  />
+                </div>
+                <div>
+                  <label for="time">Preferred Time</label>
+                  <select id="time" name="time">
+                    <option value="asap">ASAP</option>
+                    <option value="morning">Morning</option>
+                    <option value="afternoon">Afternoon</option>
+                    <option value="evening">Evening</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label for="address">Address (optional)</label>
+                <input
+                  id="address"
+                  name="address"
+                  autocomplete="street-address"
+                />
+              </div>
+
+              <div>
+                <label for="details">What’s happening?</label>
+                <textarea
+                  id="details"
+                  name="details"
+                  placeholder="Ex: kitchen sink backing up, dripping faucet, water heater not heating…"
+                ></textarea>
+              </div>
+
+              <div class="split">
+                <div class="pill" style="justify-content: center; width: 100%">
+                  $50 OFF first-time customers (exp. 12/31/25)
+                </div>
+                <button
+                  class="btn primary"
+                  type="submit"
+                  style="width: 100%; border: none; cursor: pointer"
+                >
+                  Send Request
+                </button>
+              </div>
+
+              <p class="mini" style="margin: 0; color: var(--muted)">
+                Tip: You can also text a photo to
+                <strong>(512) 888-4406</strong>
+                for faster triage.
+              </p>
+            </form>
+          </div>
+
+          <aside class="aside">
+            <div class="kicker">Quick Contact</div>
+            <div
+              style="
+                margin-top: 8px;
+                font-weight: 950;
+                font-size: 18px;
+                color: var(--ink);
+              "
+            >
+              Call or Text:
+              <a
+                href="tel:+15128884406"
+                style="color: var(--blue); text-decoration: none"
+              >
+                (512) 888-4406
+              </a>
+            </div>
+            <div class="mini" style="margin-top: 6px">
+              Email:
+              <a
+                href="mailto:office@plumbazing.com"
+                style="color: var(--blue); text-decoration: none"
+              >
+                office@plumbazing.com
+              </a>
+              <br />
+              Accounting:
+              <a
+                href="mailto:accounting@plumbazing.com"
+                style="color: var(--blue); text-decoration: none"
+              >
+                accounting@plumbazing.com
+              </a>
+            </div>
+
+            <div class="qr" aria-label="QR code">
+              <!-- Replace with your hosted QR image URL -->
+              <img src="YOUR_QR_CODE_URL.png" alt="Scan to request service" />
+            </div>
+            <div class="mini" style="margin-top: 8px; text-align: center">
+              Scan to request service
+              <br />
+              <strong>plumbazing.com</strong>
+            </div>
+
+            <div class="badges">
+              <span class="pill">MC-44738</span>
+              <span class="pill">Locally Owned</span>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <div class="kicker">PlumbAZing</div>
+            <p style="margin: 8px 0 0">
+              Honest, reliable residential plumbing in Austin, TX.
+            </p>
+            <p style="margin: 8px 0 0" class="mini">
+              Call/Text:
+              <a
+                href="tel:+15128884406"
+                style="
+                  color: var(--blue);
+                  text-decoration: none;
+                  font-weight: 900;
+                "
+              >
+                (512) 888-4406
+              </a>
+              • Email:
+              <span style="font-weight: 900; color: var(--ink)">
+                office@plumbazing.com
+              </span>
+            </p>
+          </div>
+          <div>
+            <div class="kicker">Business</div>
+            <p style="margin: 8px 0 0" class="mini">
+              Biz ID:
+              <strong>MC-44738</strong>
+              <br />
+              Email:
+              <strong>office@plumbazing.com</strong>
+              <br />
+              Accounting:
+              <strong>accounting@plumbazing.com</strong>
+            </p>
+          </div>
+        </div>
+
+        <p class="mini" style="margin: 14px 0 0">
+          ©
+          <span id="y"></span>
+          PlumbAZing. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById("y").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
