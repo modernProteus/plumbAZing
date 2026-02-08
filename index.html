@@ -1168,7 +1168,7 @@
             } else {
               console.error("Form submit failed:", text);
               setStatus(
-                "Sorry — something went wrong. Please call or text us.",
+                `Submit failed: ${out.error}` : `Submit failed: ${text}`,
                 true
               );
             }
