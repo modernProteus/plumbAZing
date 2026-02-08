@@ -572,6 +572,7 @@
 
             <div class="cta-row">
               <a class="btn primary" href="#request">Request Service</a>
+              <a class="btn secondary" href="#services">View Services</a>
               <a class="btn secondary" href="tel:+15128884406">
                 Call or Text (512) 888-4406
               </a>
@@ -600,19 +601,8 @@
               <p class="fine">First-time customers • Expires: 12/31/26</p>
             </div>
 
-            <div class="info">
-              <div class="label">Call or Text</div>
-              <div class="value">(512) 888-4406</div>
-            </div>
-
-            <div class="info">
-              <div class="label">Email</div>
-              <div class="value">office@plumbazing.com</div>
-            </div>
-
             <div class="cta-row">
               <a class="btn primary" href="#request">Claim Offer</a>
-              <a class="btn secondary" href="#services">View Services</a>
             </div>
           </aside>
         </div>
@@ -771,13 +761,6 @@
                 <img width="50px" src="lgbtqOwned.png" alt="PlumbAZing logo" />
               </span>
             </div>
-
-            <div class="cta-row" style="margin-top: 14px">
-              <a class="btn primary" href="#request">Request Service</a>
-              <a class="btn secondary" href="mailto:office@plumbazing.com">
-                Email: office@
-              </a>
-            </div>
           </div>
         </div>
       </div>
@@ -793,15 +776,12 @@
               Tell us what’s going on. We’ll respond ASAP.
             </p>
           </div>
-          <a class="btn secondary" href="tel:+15128884406">
-            Prefer calling? (512) 888-4406
-          </a>
         </div>
 
         <div class="form">
           <div class="card">
             <!-- NOTE: This is a basic HTML form.
-			   If SquareTrade/Square Website provides its own form embed, replace this entire form block with their embed code. -->
+         If SquareTrade/Square Website provides its own form embed, replace this entire form block with their embed code. -->
             <form id="serviceForm">
               <div class="split">
                 <div>
@@ -881,14 +861,11 @@
                   >
                     Send via Text
                   </button>
+                  <a style="text-align: center" href="tel:+15128884406">
+                    Prefer calling? (512) 888-4406
+                  </a>
                 </div>
               </div>
-
-              <p class="mini" style="margin: 0; color: var(--muted)">
-                Tip: You can also text a photo to
-                <strong>(512) 888-4406</strong>
-                for faster triage.
-              </p>
             </form>
 
             <script>
@@ -908,7 +885,7 @@
 
                 if (!name || !phone || !details) {
                   alert(
-                    "Please include your name, phone, and a short description of the issue.",
+                    "Please include your name, phone, and a short description of the issue."
                   );
                   return;
                 }
@@ -917,26 +894,26 @@
                 const subject = `Service Request — ${name} (${phone})`;
 
                 const body = `New service request:
-			
-			Name: ${name}
-			Phone: ${phone}
-			Email: ${email || "(not provided)"}
-			Address: ${address || "(not provided)"}
-			Preferred time: ${time || "(not provided)"}
-			
-			Issue:
-			${details}
-			
-			Sent from pumbazing.com`;
+      
+      Name: ${name}
+      Phone: ${phone}
+      Email: ${email || "(not provided)"}
+      Address: ${address || "(not provided)"}
+      Preferred time: ${time || "(not provided)"}
+      
+      Issue:
+      ${details}
+      
+      Sent from pumbazing.com`;
 
                 // Optional: CC the customer so they have a copy
                 // Note: Some mail clients ignore cc in mailto.
                 // const cc = email ? `&cc=${encodeURIComponent(email)}` : "";
 
                 const mailto = `mailto:${encodeURIComponent(
-                  to,
+                  to
                 )}?subject=${encodeURIComponent(
-                  subject,
+                  subject
                 )}&body=${encodeURIComponent(body)}${cc}`;
 
                 window.location.href = mailto;
@@ -957,7 +934,7 @@
 
                 if (!name || !phone || !details) {
                   alert(
-                    "Please include your name, phone, and a short description of the issue.",
+                    "Please include your name, phone, and a short description of the issue."
                   );
                   return;
                 }
@@ -966,16 +943,16 @@
 
                 // Keep SMS concise
                 const message = `PlumbAZing service request:
-			${name}
-			${phone}
-			${address || "(address not provided)"}
-			
-			Issue:
-			${details}`;
+      ${name}
+      ${phone}
+      ${address || "(address not provided)"}
+      
+      Issue:
+      ${details}`;
 
                 // iOS uses ?&body=, Android prefers ?body=
                 const smsLink = /iPhone|iPad|iPod|Macintosh/.test(
-                  navigator.userAgent,
+                  navigator.userAgent
                 )
                   ? `sms:${to}&body=${encodeURIComponent(message)}`
                   : `sms:${to}?body=${encodeURIComponent(message)}`;
@@ -999,6 +976,9 @@
             <p style="margin: 8px 0 0">
               Honest, reliable residential plumbing in Austin, TX.
             </p>
+          </div>
+          <div>
+            <div class="kicker">Business</div>
             <p style="margin: 8px 0 0" class="mini">
               Call/Text:
               <a
@@ -1013,21 +993,12 @@
               </a>
               • Email:
               <span style="font-weight: 900; color: var(--ink)">
-                office@plumbazing.com
+                info@plumbazing.com
               </span>
             </p>
-          </div>
-          <div>
-            <div class="kicker">Business</div>
             <p style="margin: 8px 0 0" class="mini">
               Biz ID:
               <strong>ML-44738</strong>
-              <br />
-              Email:
-              <strong>office@plumbazing.com</strong>
-              <br />
-              Accounting:
-              <strong>accounting@plumbazing.com</strong>
             </p>
           </div>
         </div>
