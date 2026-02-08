@@ -1,4 +1,87 @@
-<!DOCTYPE html>
+<!DOCTYPE
+            <script>
+              // Option B2: Post to Google Apps Script Web App + log to Sheet
+              const PLUMBAZING_WEBAPP_URL =
+                "https://script.google.com/macros/s/AKfycbyd8OUWp2X-v9yM7zsCBs3JC36_EK3kVVZY5l71EluwX2L3a9G3ByaBxJeOCTFJaKjomA/exec";
+
+              // Step 5 (anti-spam key): set this to match the SECRET in your Apps Script
+              // Tip: use a long random string (32+ chars)
+              const PLUMBAZING_FORM_SECRET = "REPLACE_WITH_YOUR_LONG_RANDOM_SECRET";
+
+              const form = document.getElementById("serviceForm");
+              const submitBtn = document.getElementById("submitBtn");
+              const statusEl = document.getElementById("formStatus");
+
+              function setStatus(msg, isError = false) {
+                statusEl.textContent = msg;
+                statusEl.style.color = isError ? "var(--red)" : "var(--muted)";
+              }
+
+              form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                setStatus("");
+
+                const fd = new FormData(form);
+                const data = Object.fromEntries(fd.entries());
+
+                // Basic validation
+                if (!data.name?.trim() || !data.phone?.trim() || !data.message?.trim()) {
+                  setStatus("Please include your name, phone, and a short description of the issue.", true);
+                  return;
+                }
+
+                // Honeypot check (bots often fill hidden fields)
+                if (data.company && String(data.company).trim().length > 0) {
+                  // Pretend success to avoid tipping off bots
+                  form.reset();
+                  setStatus("Thanks! We got your request and will contact you shortly.");
+                  return;
+                }
+
+                const payload = {
+                  name: String(data.name).trim(),
+                  phone: String(data.phone).trim(),
+                  email: String(data.email || "").trim(),
+                  address: String(data.address || "").trim(),
+                  issue: String(data.issue || "").trim(), // optional (not currently on the form)
+                  message: String(data.message).trim(),
+                  preferredTime: String(data.time || "").trim(),
+                  sourceUrl: window.location.href,
+                  secret: PLUMBAZING_FORM_SECRET,
+                };
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = "Sending…";
+
+                try {
+                  const res = await fetch(PLUMBAZING_WEBAPP_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                  });
+
+                  // Some Apps Script deployments return text; handle both.
+                  const text = await res.text();
+                  let out = null;
+                  try { out = JSON.parse(text); } catch (_) { out = null; }
+
+                  if (res.ok && (out?.ok === true || out === null)) {
+                    form.reset();
+                    setStatus("Thanks! We got your request and will contact you shortly.");
+                  } else {
+                    console.error("Form submit failed:", text);
+                    setStatus("Sorry — something went wrong. Please call or text us at (512) 888-4406.", true);
+                  }
+                } catch (err) {
+                  console.error(err);
+                  setStatus("Network error — please call or text us at (512) 888-4406.", true);
+                } finally {
+                  submitBtn.disabled = false;
+                  submitBtn.textContent = "Send Request";
+                }
+              });
+            </script>
+ html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -822,20 +905,23 @@
               </div>
 
               <div>
-                <label for="address">Address (optional)</label>
+                <label for="address">Service Address</label>
                 <input
                   id="address"
                   name="address"
                   autocomplete="street-address"
+                  placeholder="Street address, city, ZIP"
+                  required
                 />
               </div>
 
               <div>
                 <label for="details">What’s happening?</label>
                 <textarea
-                  id="details"
-                  name="details"
+                  id="message"
+                  name="message"
                   placeholder="Ex: kitchen sink backing up, dripping faucet, water heater not heating…"
+                  required
                 ></textarea>
               </div>
 
@@ -843,14 +929,15 @@
                 <div class="pill" style="justify-content: center; width: 100%">
                   $50 OFF first-time customers (exp. 12/31/26)
                 </div>
+
                 <div class="split">
                   <button
+                    id="submitBtn"
                     class="btn primary"
-                    type="button"
+                    type="submit"
                     style="width: 100%; border: none; cursor: pointer"
-                    onclick="openMailDraft()"
                   >
-                    Send via Email
+                    Send Request
                   </button>
 
                   <button
@@ -861,105 +948,51 @@
                   >
                     Send via Text
                   </button>
+
                   <a style="text-align: center" href="tel:+15128884406">
                     Prefer calling? (512) 888-4406
                   </a>
                 </div>
               </div>
+
+              <p id="formStatus" class="mini" style="margin: 0; color: var(--muted); font-weight: 700"></p>
+</div>
             </form>
 
-            <script>
-              function openMailDraft() {
-                const form = document.getElementById("serviceForm");
-
-                const name = form.querySelector("[name=name]").value.trim();
-                const phone = form.querySelector("[name=phone]").value.trim();
-                const email = form.querySelector("[name=email]").value.trim();
-                const address = form
-                  .querySelector("[name=address]")
-                  .value.trim();
-                const time = form.querySelector("[name=time]").value;
-                const details = form
-                  .querySelector("[name=details]")
-                  .value.trim();
-
-                if (!name || !phone || !details) {
-                  alert(
-                    "Please include your name, phone, and a short description of the issue."
-                  );
-                  return;
-                }
-
-                const to = "office@plumbazing.com";
-                const subject = `Service Request — ${name} (${phone})`;
-
-                const body = `New service request:
-      
-      Name: ${name}
-      Phone: ${phone}
-      Email: ${email || "(not provided)"}
-      Address: ${address || "(not provided)"}
-      Preferred time: ${time || "(not provided)"}
-      
-      Issue:
-      ${details}
-      
-      Sent from pumbazing.com`;
-
-                // Optional: CC the customer so they have a copy
-                // Note: Some mail clients ignore cc in mailto.
-                // const cc = email ? `&cc=${encodeURIComponent(email)}` : "";
-
-                const mailto = `mailto:${encodeURIComponent(
-                  to
-                )}?subject=${encodeURIComponent(
-                  subject
-                )}&body=${encodeURIComponent(body)}${cc}`;
-
-                window.location.href = mailto;
-              }
-            </script>
             <script>
               function openTextDraft() {
                 const form = document.getElementById("serviceForm");
 
                 const name = form.querySelector("[name=name]").value.trim();
                 const phone = form.querySelector("[name=phone]").value.trim();
-                const address = form
-                  .querySelector("[name=address]")
-                  .value.trim();
-                const details = form
-                  .querySelector("[name=details]")
-                  .value.trim();
+                const address = form.querySelector("[name=address]").value.trim();
+                const time = form.querySelector("[name=time]").value;
+                const message = form.querySelector("[name=message]").value.trim();
 
-                if (!name || !phone || !details) {
-                  alert(
-                    "Please include your name, phone, and a short description of the issue."
-                  );
+                if (!name || !phone || !message) {
+                  alert("Please include your name, phone, and a short description of the issue.");
                   return;
                 }
 
                 const to = "15128884406"; // no dashes for SMS links
 
                 // Keep SMS concise
-                const message = `PlumbAZing service request:
-      ${name}
-      ${phone}
-      ${address || "(address not provided)"}
-      
-      Issue:
-      ${details}`;
+                const smsBody = `PlumbAZing service request:
+${name}
+${phone}
+${address || "(address not provided)"}
+Preferred: ${time || "(not provided)"}
 
-                // iOS uses ?&body=, Android prefers ?body=
-                const smsLink = /iPhone|iPad|iPod|Macintosh/.test(
-                  navigator.userAgent
-                )
-                  ? `sms:${to}&body=${encodeURIComponent(message)}`
-                  : `sms:${to}?body=${encodeURIComponent(message)}`;
+Issue:
+${message}`;
+
+                // iOS uses &body=, Android prefers ?body=
+                const smsLink = /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent)
+                  ? `sms:${to}&body=${encodeURIComponent(smsBody)}`
+                  : `sms:${to}?body=${encodeURIComponent(smsBody)}`;
 
                 window.location.href = smsLink;
-              }
-            </script>
+              }</script>
           </div>
 
           <aside class="aside"></aside>
@@ -993,7 +1026,7 @@
               </a>
               • Email:
               <span style="font-weight: 900; color: var(--ink)">
-                info@plumbazing.com
+                service@plumbazing.com
               </span>
             </p>
             <p style="margin: 8px 0 0" class="mini">
@@ -1016,3 +1049,10 @@
     </script>
   </body>
 </html>
+              <!-- Honeypot (anti-spam): leave blank -->
+              <div style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
+                <label for="company">Company</label>
+                <input id="company" name="company" tabindex="-1" autocomplete="off" />
+              </div>
+
+
