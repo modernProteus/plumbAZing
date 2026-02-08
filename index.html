@@ -1,87 +1,4 @@
-<!DOCTYPE
-            <script>
-              // Option B2: Post to Google Apps Script Web App + log to Sheet
-              const PLUMBAZING_WEBAPP_URL =
-                "https://script.google.com/macros/s/AKfycbyd8OUWp2X-v9yM7zsCBs3JC36_EK3kVVZY5l71EluwX2L3a9G3ByaBxJeOCTFJaKjomA/exec";
 
-              // Step 5 (anti-spam key): set this to match the SECRET in your Apps Script
-              // Tip: use a long random string (32+ chars)
-              const PLUMBAZING_FORM_SECRET = "REPLACE_WITH_YOUR_LONG_RANDOM_SECRET";
-
-              const form = document.getElementById("serviceForm");
-              const submitBtn = document.getElementById("submitBtn");
-              const statusEl = document.getElementById("formStatus");
-
-              function setStatus(msg, isError = false) {
-                statusEl.textContent = msg;
-                statusEl.style.color = isError ? "var(--red)" : "var(--muted)";
-              }
-
-              form.addEventListener("submit", async (e) => {
-                e.preventDefault();
-                setStatus("");
-
-                const fd = new FormData(form);
-                const data = Object.fromEntries(fd.entries());
-
-                // Basic validation
-                if (!data.name?.trim() || !data.phone?.trim() || !data.message?.trim()) {
-                  setStatus("Please include your name, phone, and a short description of the issue.", true);
-                  return;
-                }
-
-                // Honeypot check (bots often fill hidden fields)
-                if (data.company && String(data.company).trim().length > 0) {
-                  // Pretend success to avoid tipping off bots
-                  form.reset();
-                  setStatus("Thanks! We got your request and will contact you shortly.");
-                  return;
-                }
-
-                const payload = {
-                  name: String(data.name).trim(),
-                  phone: String(data.phone).trim(),
-                  email: String(data.email || "").trim(),
-                  address: String(data.address || "").trim(),
-                  issue: String(data.issue || "").trim(), // optional (not currently on the form)
-                  message: String(data.message).trim(),
-                  preferredTime: String(data.time || "").trim(),
-                  sourceUrl: window.location.href,
-                  secret: PLUMBAZING_FORM_SECRET,
-                };
-
-                submitBtn.disabled = true;
-                submitBtn.textContent = "Sending…";
-
-                try {
-                  const res = await fetch(PLUMBAZING_WEBAPP_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload),
-                  });
-
-                  // Some Apps Script deployments return text; handle both.
-                  const text = await res.text();
-                  let out = null;
-                  try { out = JSON.parse(text); } catch (_) { out = null; }
-
-                  if (res.ok && (out?.ok === true || out === null)) {
-                    form.reset();
-                    setStatus("Thanks! We got your request and will contact you shortly.");
-                  } else {
-                    console.error("Form submit failed:", text);
-                    setStatus("Sorry — something went wrong. Please call or text us at (512) 888-4406.", true);
-                  }
-                } catch (err) {
-                  console.error(err);
-                  setStatus("Network error — please call or text us at (512) 888-4406.", true);
-                } finally {
-                  submitBtn.disabled = false;
-                  submitBtn.textContent = "Send Request";
-                }
-              });
-            </script>
- html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -1048,6 +965,88 @@ ${message}`;
       document.getElementById("y").textContent = new Date().getFullYear();
     </script>
   </body>
+            <script>
+              // Option B2: Post to Google Apps Script Web App + log to Sheet
+              const PLUMBAZING_WEBAPP_URL =
+                "https://script.google.com/macros/s/AKfycbyd8OUWp2X-v9yM7zsCBs3JC36_EK3kVVZY5l71EluwX2L3a9G3ByaBxJeOCTFJaKjomA/exec";
+
+              // Step 5 (anti-spam key): set this to match the SECRET in your Apps Script
+              // Tip: use a long random string (32+ chars)
+              const PLUMBAZING_FORM_SECRET = "REPLACE_WITH_YOUR_LONG_RANDOM_SECRET";
+
+              const form = document.getElementById("serviceForm");
+              const submitBtn = document.getElementById("submitBtn");
+              const statusEl = document.getElementById("formStatus");
+
+              function setStatus(msg, isError = false) {
+                statusEl.textContent = msg;
+                statusEl.style.color = isError ? "var(--red)" : "var(--muted)";
+              }
+
+              form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                setStatus("");
+
+                const fd = new FormData(form);
+                const data = Object.fromEntries(fd.entries());
+
+                // Basic validation
+                if (!data.name?.trim() || !data.phone?.trim() || !data.message?.trim()) {
+                  setStatus("Please include your name, phone, and a short description of the issue.", true);
+                  return;
+                }
+
+                // Honeypot check (bots often fill hidden fields)
+                if (data.company && String(data.company).trim().length > 0) {
+                  // Pretend success to avoid tipping off bots
+                  form.reset();
+                  setStatus("Thanks! We got your request and will contact you shortly.");
+                  return;
+                }
+
+                const payload = {
+                  name: String(data.name).trim(),
+                  phone: String(data.phone).trim(),
+                  email: String(data.email || "").trim(),
+                  address: String(data.address || "").trim(),
+                  issue: String(data.issue || "").trim(), // optional (not currently on the form)
+                  message: String(data.message).trim(),
+                  preferredTime: String(data.time || "").trim(),
+                  sourceUrl: window.location.href,
+                  secret: PLUMBAZING_FORM_SECRET,
+                };
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = "Sending…";
+
+                try {
+                  const res = await fetch(PLUMBAZING_WEBAPP_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                  });
+
+                  // Some Apps Script deployments return text; handle both.
+                  const text = await res.text();
+                  let out = null;
+                  try { out = JSON.parse(text); } catch (_) { out = null; }
+
+                  if (res.ok && (out?.ok === true || out === null)) {
+                    form.reset();
+                    setStatus("Thanks! We got your request and will contact you shortly.");
+                  } else {
+                    console.error("Form submit failed:", text);
+                    setStatus("Sorry — something went wrong. Please call or text us at (512) 888-4406.", true);
+                  }
+                } catch (err) {
+                  console.error(err);
+                  setStatus("Network error — please call or text us at (512) 888-4406.", true);
+                } finally {
+                  submitBtn.disabled = false;
+                  submitBtn.textContent = "Send Request";
+                }
+              });
+            </script>
 </html>
               <!-- Honeypot (anti-spam): leave blank -->
               <div style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
