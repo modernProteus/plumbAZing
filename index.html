@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -623,48 +623,7 @@
         </div>
 
         <div class="card">
-          <div class="services">
-            <div class="svc">
-              <span>✓</span>
-              Leak detection & repair
-            </div>
-            <div class="svc">
-              <span>✓</span>
-              Drain cleaning / clogs
-            </div>
-            <div class="svc">
-              <span>✓</span>
-              Toilet repair & installation
-            </div>
-            <div class="svc">
-              <span>✓</span>
-              Faucet & fixture installs
-            </div>
-            <div class="svc">
-              <span>✓</span>
-              Garbage disposal repair/install
-            </div>
-            <div class="svc">
-              <span>✓</span>
-              Water heater repair/install
-            </div>
-            <div class="svc">
-              <span>✓</span>
-              Shutoff valves / supply lines
-            </div>
-            <div class="svc">
-              <span>✓</span>
-              Water treatment & conditioning
-            </div>
-            <div class="svc">
-              <span>✓</span>
-              Tankless water heater specialist
-            </div>
-            <div class="svc">
-              <span>✓</span>
-              General plumbing repairs
-            </div>
-          </div>
+          <div class="services" id="servicesGrid"></div>
           <p
             class="mini"
             style="margin: 12px 0 0; color: var(--muted); font-weight: 650"
@@ -699,7 +658,6 @@
     <!-- How it Works + About -->
     <section id="about">
       <div class="container">
-        <div class="grid-2">
           <div class="card">
             <div class="section-title" style="margin-bottom: 8px">
               <div>
@@ -782,14 +740,29 @@
           <div class="card">
             <!-- NOTE: This is a basic HTML form.
          If SquareTrade/Square Website provides its own form embed, replace this entire form block with their embed code. -->
-            <form id="serviceForm">
+            <form id="serviceForm" novalidate>
+              <input
+                type="text"
+                name="company"
+                id="company"
+                autocomplete="off"
+                tabindex="-1"
+                aria-hidden="true"
+                style="
+                  position: absolute;
+                  left: -9999px;
+                  height: 1px;
+                  width: 1px;
+                  opacity: 0;
+                "
+              />
               <div class="split">
                 <div>
-                  <label for="name">Name</label>
+                  <label for="name">Name<span style="color: red">*</span></label>
                   <input id="name" name="name" autocomplete="name" required />
                 </div>
                 <div>
-                  <label for="phone">Phone (required)</label>
+                  <label for="phone">Phone Number<span style="color: red">*</span></label>
                   <input
                     id="phone"
                     name="phone"
@@ -802,7 +775,7 @@
 
               <div class="split">
                 <div>
-                  <label for="email">Email (optional)</label>
+                  <label for="email">Email Address</label>
                   <input
                     id="email"
                     name="email"
@@ -811,46 +784,88 @@
                   />
                 </div>
                 <div>
-                  <label for="time">Preferred Time</label>
-                  <select id="time" name="time">
-                    <option value="asap">ASAP</option>
-                    <option value="morning">Morning</option>
-                    <option value="afternoon">Afternoon</option>
-                    <option value="evening">Evening</option>
+                  <label for="zipcode">Zipcode<span style="color: red">*</span></label>
+                  <input
+                    id="zipcode"
+                    name="zipcode"
+                    inputmode="numeric"
+                    autocomplete="postal-code"
+                    required
+                    maxlength="5"
+                    pattern="\d{5}"
+                    placeholder="5 digits"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label for="streetAddress">Street Address</label>
+                <input
+                  id="streetAddress"
+                  name="streetAddress"
+                  autocomplete="street-address"
+                />
+              </div>
+
+              <div class="split">
+                <div>
+                  <label for="preferredContactTime">
+                    Preferred Contact Time
+                  </label>
+                  <select
+                    id="preferredContactTime"
+                    name="preferredContactTime"
+                    required
+                  >
+                    <option value="" selected disabled>Select</option>
+                    <option value="ASAP">ASAP</option>
+                    <option value="Morning">Morning</option>
+                    <option value="Afternoon">Afternoon</option>
+                    <option value="Evening">Evening</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="preferredContactMethod">
+                    Preferred Contact Method
+                  </label>
+                  <select
+                    id="preferredContactMethod"
+                    name="preferredContactMethod"
+                    required
+                  >
+                    <option value="" selected disabled>Select</option>
+                    <option value="Call">Call</option>
+                    <option value="Text">Text</option>
+                    <option value="Email">Email</option>
                   </select>
                 </div>
               </div>
 
               <div>
-                <label for="address">Service Address</label>
-                <input
-                  id="address"
-                  name="address"
-                  autocomplete="street-address"
-                  placeholder="Street address, city, ZIP"
-                  required
-                />
+                <label for="serviceType">Service Type</label>
+                <select id="serviceType" name="serviceType" required>
+                  <option value="" selected disabled>Select a service</option>
+                  <!-- options injected by JS so the page + form never drift -->
+                </select>
               </div>
 
               <div>
-                <label for="details">What’s happening?</label>
+                <label for="message">How can we help?<span style="color: red">*</span></label>
                 <textarea
                   id="message"
                   name="message"
-                  placeholder="Ex: kitchen sink backing up, dripping faucet, water heater not heating…"
                   required
+                  placeholder="Briefly describe what’s going on…"
                 ></textarea>
               </div>
 
-              <div class="split">
-                <div class="pill" style="justify-content: center; width: 100%">
-                  $50 OFF first-time customers (exp. 12/31/26)
-                </div>
+              <p id="formStatus" class="muted" style="margin-top: 10px"></p>
 
-                <div class="split">
+              <div class="split">
+                  
                   <button
-                    id="submitBtn"
                     class="btn primary"
+                    id="submitBtn"
                     type="submit"
                     style="width: 100%; border: none; cursor: pointer"
                   >
@@ -865,51 +880,41 @@
                   >
                     Send via Text
                   </button>
-
-                  <a style="text-align: center" href="tel:+15128884406">
-                    Prefer calling? (512) 888-4406
-                  </a>
-                </div>
               </div>
-
-              <p id="formStatus" class="mini" style="margin: 0; color: var(--muted); font-weight: 700"></p>
-</div>
+              
             </form>
-
             <script>
-              function openTextDraft() {
-                const form = document.getElementById("serviceForm");
+                function openTextDraft() {
+                  const form = document.getElementById("serviceForm");
+                  const name = (form.querySelector("[name=name]")?.value || "").trim();
+                  const phone = (form.querySelector("[name=phone]")?.value || "").trim();
+                  const email = (form.querySelector("[name=email]")?.value || "").trim();
+                  const street = (form.querySelector("[name=streetAddress]")?.value || "").trim();
+                  const zip = (form.querySelector("[name=zipcode]")?.value || "").trim();
+                  const svc = (form.querySelector("[name=serviceType]")?.value || "").trim();
+                  const when = (form.querySelector("[name=preferredContactTime]")?.value || "").trim();
+                  const how = (form.querySelector("[name=preferredContactMethod]")?.value || "").trim();
+                  const msg = (form.querySelector("[name=message]")?.value || "").trim();
 
-                const name = form.querySelector("[name=name]").value.trim();
-                const phone = form.querySelector("[name=phone]").value.trim();
-                const address = form.querySelector("[name=address]").value.trim();
-                const time = form.querySelector("[name=time]").value;
-                const message = form.querySelector("[name=message]").value.trim();
+                  const lines = [
+                    "PlumbAZing service request:",
+                    name ? `Name: ${name}` : "",
+                    phone ? `Phone: ${phone}` : "",
+                    email ? `Email: ${email}` : "",
+                    street ? `Street: ${street}` : "",
+                    zip ? `Zip: ${zip}` : "",
+                    svc ? `Service: ${svc}` : "",
+                    when ? `Preferred time: ${when}` : "",
+                    how ? `Preferred method: ${how}` : "",
+                    msg ? `Message: ${msg}` : "",
+                  ].filter(Boolean);
 
-                if (!name || !phone || !message) {
-                  alert("Please include your name, phone, and a short description of the issue.");
-                  return;
+                  const body = encodeURIComponent(lines.join("
+              "));
+                  // Send to your business line
+                  window.location.href = `sms:+15128884406&body=${body}`;
                 }
-
-                const to = "15128884406"; // no dashes for SMS links
-
-                // Keep SMS concise
-                const smsBody = `PlumbAZing service request:
-${name}
-${phone}
-${address || "(address not provided)"}
-Preferred: ${time || "(not provided)"}
-
-Issue:
-${message}`;
-
-                // iOS uses &body=, Android prefers ?body=
-                const smsLink = /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent)
-                  ? `sms:${to}&body=${encodeURIComponent(smsBody)}`
-                  : `sms:${to}?body=${encodeURIComponent(smsBody)}`;
-
-                window.location.href = smsLink;
-              }</script>
+            </script>
           </div>
 
           <aside class="aside"></aside>
@@ -943,7 +948,7 @@ ${message}`;
               </a>
               • Email:
               <span style="font-weight: 900; color: var(--ink)">
-                service@plumbazing.com
+                info@plumbazing.com
               </span>
             </p>
             <p style="margin: 8px 0 0" class="mini">
@@ -962,96 +967,226 @@ ${message}`;
     </footer>
 
     <script>
+      // Option B2: Post to Google Apps Script Web App + log to Sheet
+      const PLUMBAZING_WEBAPP_URL =
+        "https://script.google.com/macros/s/AKfycbyd8OUWp2X-v9yM7zsCBs3JC36_EK3kVVZY5l71EluwX2L3a9G3ByaBxJeOCTFJaKjomA/exec";
+
+      // Step 5 (anti-spam key): set this to match the SECRET in your Apps Script
+      // Tip: use a long random string (32+ chars)
+      const PLUMBAZING_FORM_SECRET = "9X2kA0R7ZcTq1EoWb8m5JYH4F6nDLSVUpiPa";
+
+      // Single source of truth for services (used for BOTH the services list + form dropdown)
+      const SERVICES = [
+        { value: "Leak Detection & Repair", label: "Leak detection & repair" },
+        { value: "Drain Cleaning / Clogs", label: "Drain cleaning / clogs" },
+        {
+          value: "Toilet Repair & Installation",
+          label: "Toilet repair & installation",
+        },
+        {
+          value: "Faucet & Fixture Installs",
+          label: "Faucet & fixture installs",
+        },
+        {
+          value: "Garbage Disposal Repair/Install",
+          label: "Garbage disposal repair/install",
+        },
+        {
+          value: "Water Heater Repair/Install",
+          label: "Water heater repair/install",
+        },
+        {
+          value: "Shutoff Valves / Supply Lines",
+          label: "Shutoff valves / supply lines",
+        },
+        {
+          value: "Water Treatment & Conditioning",
+          label: "Water treatment & conditioning",
+        },
+        {
+          value: "Tankless Water Heater Specialist",
+          label: "Tankless water heater specialist",
+        },
+        { value: "🚨Emergency Plumbing", label: "🚨Emergency plumbing" },
+      ];
+
+      function isValidZip(zip) {
+        return /^\d{5}$/.test(zip);
+      }
+
+      // Nice-to-have: Texas ZIP validation (keeps out-of-area spam/leads)
+      // TX ZIPs generally span 75001–79999 and 88501–88595, with a couple Austin uniques (73301/73344).
+      function isTexasZip(zip) {
+        const z = Number(zip);
+        if (!Number.isFinite(z)) return false;
+        if (zip === "73301" || zip === "73344") return true;
+        if (z >= 75001 && z <= 79999) return true;
+        if (z >= 88501 && z <= 88595) return true;
+        return false;
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // Render services grid
+        const servicesGrid = document.getElementById("servicesGrid");
+        if (servicesGrid) {
+          servicesGrid.innerHTML = SERVICES.map(
+            (s) => `
+          <div class="svc"><span>✓</span> ${s.label}</div>
+        `
+          ).join("");
+        }
+
+        // Populate Service Type dropdown
+        const serviceSelect = document.getElementById("serviceType");
+        if (serviceSelect) {
+          SERVICES.forEach((s) => {
+            const opt = document.createElement("option");
+            opt.value = s.value;
+            opt.textContent = s.value;
+            serviceSelect.appendChild(opt);
+          });
+        }
+
+        // Wire up submit
+        const form = document.getElementById("serviceForm");
+        const submitBtn = document.getElementById("submitBtn");
+        const statusEl = document.getElementById("formStatus");
+
+        function setStatus(msg, isError = false) {
+          if (!statusEl) return;
+          statusEl.textContent = msg;
+          statusEl.style.color = isError ? "var(--red)" : "var(--muted)";
+        }
+
+        if (!form) return;
+
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          setStatus("");
+
+          const fd = new FormData(form);
+          const data = Object.fromEntries(fd.entries());
+
+          // Honeypot (bots fill hidden fields)
+          if (data.company && String(data.company).trim().length > 0) {
+            form.reset();
+            setStatus(
+              "Thanks! We got your request and will contact you shortly."
+            );
+            return;
+          }
+
+          // Required fields
+          const name = (data.name || "").trim();
+          const phone = (data.phone || "").trim();
+          const message = (data.message || "").trim();
+          const zipcode = (data.zipcode || "").trim();
+
+          if (!name || !phone || !message || !zipcode) {
+            setStatus(
+              "Please fill out Name, Phone, Zipcode, and a short message.",
+              true
+            );
+            return;
+          }
+
+          // ZIP validation
+          if (!isValidZip(zipcode)) {
+            setStatus("Zipcode must be 5 digits.", true);
+            return;
+          }
+
+          // Nice-to-have: Texas ZIP check
+          if (!isTexasZip(zipcode)) {
+            setStatus(
+              "That ZIP code doesn’t look like Texas. If you’re in TX and this is a special case, please call/text us.",
+              true
+            );
+            return;
+          }
+
+          // Dropdown required checks
+          if (
+            !data.preferredContactTime ||
+            !data.preferredContactMethod ||
+            !data.serviceType
+          ) {
+            setStatus(
+              "Please choose a contact time, contact method, and service type.",
+              true
+            );
+            return;
+          }
+
+          const isEmergency = String(data.serviceType)
+            .toLowerCase()
+            .includes("emergency");
+
+          const payload = {
+            email: String(data.email || "").trim(),
+            phone,
+            name,
+            streetAddress: String(data.streetAddress || "").trim(),
+            zipcode,
+            preferredContactTime: String(
+              data.preferredContactTime || ""
+            ).trim(),
+            preferredContactMethod: String(
+              data.preferredContactMethod || ""
+            ).trim(),
+            serviceType: String(data.serviceType || "").trim(),
+            message,
+            emergency: isEmergency ? "YES" : "NO",
+            sourceUrl: window.location.href,
+            secret: PLUMBAZING_FORM_SECRET,
+          };
+
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Sending…";
+          }
+
+          try {
+            const res = await fetch(PLUMBAZING_WEBAPP_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+
+            // Apps Script sometimes returns text/plain; parse safely
+            const text = await res.text();
+            let out = null;
+            try {
+              out = JSON.parse(text);
+            } catch {}
+
+            if (res.ok && (out?.ok === true || out === null)) {
+              form.reset();
+              setStatus(
+                "Thanks! We received your request. We’ll reach out shortly."
+              );
+            } else {
+              console.error("Form submit failed:", text);
+              setStatus(
+                "Sorry — something went wrong. Please call or text us.",
+                true
+              );
+            }
+          } catch (err) {
+            console.error(err);
+            setStatus("Network error — please call or text us.", true);
+          } finally {
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = "Send Request";
+            }
+          }
+        });
+      });
+    </script>
+
+    <script>
       document.getElementById("y").textContent = new Date().getFullYear();
     </script>
   </body>
-            <script>
-              // Option B2: Post to Google Apps Script Web App + log to Sheet
-              const PLUMBAZING_WEBAPP_URL =
-                "https://script.google.com/macros/s/AKfycbyd8OUWp2X-v9yM7zsCBs3JC36_EK3kVVZY5l71EluwX2L3a9G3ByaBxJeOCTFJaKjomA/exec";
-
-              // Step 5 (anti-spam key): set this to match the SECRET in your Apps Script
-              // Tip: use a long random string (32+ chars)
-              const PLUMBAZING_FORM_SECRET = "REPLACE_WITH_YOUR_LONG_RANDOM_SECRET";
-
-              const form = document.getElementById("serviceForm");
-              const submitBtn = document.getElementById("submitBtn");
-              const statusEl = document.getElementById("formStatus");
-
-              function setStatus(msg, isError = false) {
-                statusEl.textContent = msg;
-                statusEl.style.color = isError ? "var(--red)" : "var(--muted)";
-              }
-
-              form.addEventListener("submit", async (e) => {
-                e.preventDefault();
-                setStatus("");
-
-                const fd = new FormData(form);
-                const data = Object.fromEntries(fd.entries());
-
-                // Basic validation
-                if (!data.name?.trim() || !data.phone?.trim() || !data.message?.trim()) {
-                  setStatus("Please include your name, phone, and a short description of the issue.", true);
-                  return;
-                }
-
-                // Honeypot check (bots often fill hidden fields)
-                if (data.company && String(data.company).trim().length > 0) {
-                  // Pretend success to avoid tipping off bots
-                  form.reset();
-                  setStatus("Thanks! We got your request and will contact you shortly.");
-                  return;
-                }
-
-                const payload = {
-                  name: String(data.name).trim(),
-                  phone: String(data.phone).trim(),
-                  email: String(data.email || "").trim(),
-                  address: String(data.address || "").trim(),
-                  issue: String(data.issue || "").trim(), // optional (not currently on the form)
-                  message: String(data.message).trim(),
-                  preferredTime: String(data.time || "").trim(),
-                  sourceUrl: window.location.href,
-                  secret: PLUMBAZING_FORM_SECRET,
-                };
-
-                submitBtn.disabled = true;
-                submitBtn.textContent = "Sending…";
-
-                try {
-                  const res = await fetch(PLUMBAZING_WEBAPP_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload),
-                  });
-
-                  // Some Apps Script deployments return text; handle both.
-                  const text = await res.text();
-                  let out = null;
-                  try { out = JSON.parse(text); } catch (_) { out = null; }
-
-                  if (res.ok && (out?.ok === true || out === null)) {
-                    form.reset();
-                    setStatus("Thanks! We got your request and will contact you shortly.");
-                  } else {
-                    console.error("Form submit failed:", text);
-                    setStatus("Sorry — something went wrong. Please call or text us at (512) 888-4406.", true);
-                  }
-                } catch (err) {
-                  console.error(err);
-                  setStatus("Network error — please call or text us at (512) 888-4406.", true);
-                } finally {
-                  submitBtn.disabled = false;
-                  submitBtn.textContent = "Send Request";
-                }
-              });
-            </script>
 </html>
-              <!-- Honeypot (anti-spam): leave blank -->
-              <div style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
-                <label for="company">Company</label>
-                <input id="company" name="company" tabindex="-1" autocomplete="off" />
-              </div>
-
-
