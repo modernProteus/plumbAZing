@@ -760,7 +760,8 @@
           width: min(260px, 100%);
         }
         .ad-media-top img {
-          height: 160px;
+          height: 200px;
+          background-position: center;
         }
       }
     </style>
@@ -792,7 +793,7 @@
       <div class="container">
         <div class="row">
           <a class="brand" href="#top" aria-label="PlumbAZing home">
-            <img src="PlumbAZing_logo.svg" alt="PlumbAZing logo" />
+            <img src="img/PlumbAZing_logo.svg" alt="PlumbAZing logo" />
           </a>
 
           <nav class="nav-actions" aria-label="Quick actions">
@@ -820,7 +821,7 @@
           <!-- Left: Main hero copy -->
           <div class="hero-card">
             <div class="hero-header">
-              <img src="PlumbAZing_logo.svg" alt="PlumbAZing logo" />
+              <img src="img/PlumbAZing_logo.svg" alt="PlumbAZing logo" />
               <div>
                 <h1>Honest, Reliable Plumbing Service in Austin</h1>
                 <p class="subhead">
@@ -1022,7 +1023,11 @@
               <span class="pill">Free Estimates</span>
               <span class="pill">Call or Text</span>
               <span class="pill">
-                <img width="50" src="lgbtqOwned.png" alt="LGBTQ Owned badge" />
+                <img
+                  width="50"
+                  src="img/lgbtqOwned.png"
+                  alt="LGBTQ Owned badge"
+                />
               </span>
             </div>
           </div>
@@ -1111,8 +1116,24 @@
 
       const ADS = [
         {
+          id: "water-heater-special",
+          layout: "stack",
+          badge: "Water Heater Specials",
+          kicker: "Big water heater specials",
+          title: "Save up to $500 + free estimates",
+          copy: "10% OFF installs: up to $250 OFF tank water heaters and up to $500 OFF tankless. Price match guarantee available.",
+          background:
+            "linear-gradient(135deg, rgba(193,18,31,0.75), rgba(11,61,145,0.55))",
+          actions: [{ type: "request", label: "Request service" }],
+          replyNote: "We’ll reply ASAP with options + a quote.",
+          finePrint:
+            "Discount cap limited. Not valid with other offers/coupons/discounts. Price match must match equipment, installation, and warranty. Some limitations apply.",
+          durationMs: 8500, // stay longer on this slide
+          topImage: "img/water-heater-special.png",
+        },
+        {
           id: "request-help",
-          layout: "text",
+          layout: "split",
           badge: "Fast Response",
           kicker: "Tell us what’s going on",
           title: "Request help in under a minute",
@@ -1124,11 +1145,11 @@
             { type: "call", label: "Call/Text" },
           ],
           replyNote: "We’ll reply ASAP with options + a quote.",
-          // rightImage: "img/ad-request.png"
+          rightImage: "img/request-help.png",
         },
         {
           id: "new-here",
-          layout: "text",
+          layout: "split",
           badge: "First-Time Offer",
           kicker: "New here?",
           title: "Get $50 OFF your first service",
@@ -1139,11 +1160,26 @@
           replyNote: "We’ll reply ASAP with options + a quote.",
           finePrint:
             "Expires: 12/31/26. Not valid with other offers. Ask for details.",
-          // rightImage: "img/ad-new-here.png"
+          rightImage: "img/new-customer.png",
+        },
+        {
+          id: "price-match",
+          layout: "split",
+          badge: "Price Match Guarantee",
+          kicker: "Find a better advertised price?",
+          title: "We'll match it!",
+          copy: "",
+          background:
+            "linear-gradient(135deg, rgba(193,18,31,0.75), rgba(11,61,145,0.55))",
+          actions: [{ type: "request", label: "Request service" }],
+          replyNote: "We’ll reply ASAP with options + a quote.",
+          finePrint:
+            "*Quote must match equipment, installation, and warranty. Some limitations apply.",
+          rightImage: "img/pricematch-badge.png",
         },
         {
           id: "leak-repair",
-          layout: "text",
+          layout: "split",
           badge: "Common Fix",
           kicker: "Stop the drip, save the cabinet",
           title: "Leak detection + repair",
@@ -1155,7 +1191,7 @@
             { type: "call", label: "Call/Text" },
           ],
           replyNote: "We’ll reply ASAP with options + a quote.",
-          // rightImage: "img/ad-leak.png"
+          rightImage: "img/stop-drip.png",
         },
         {
           id: "meet-the-team",
@@ -1171,22 +1207,6 @@
           finePrint:
             "Want the quick version? Call or text and tell us what’s going on.",
           topImage: "img/ad-team.png",
-        },
-        {
-          id: "water-heater-special",
-          layout: "text",
-          badge: "Water Heater Specials",
-          kicker: "Big water heater specials",
-          title: "Save up to $500 + free estimates",
-          copy: "10% OFF installs: up to $250 OFF tank water heaters and up to $500 OFF tankless. Price match guarantee available.",
-          background:
-            "linear-gradient(135deg, rgba(193,18,31,0.75), rgba(11,61,145,0.55))",
-          actions: [{ type: "request", label: "Request service" }],
-          replyNote: "We’ll reply ASAP with options + a quote.",
-          finePrint:
-            "Discount cap limited. Not valid with other offers/coupons/discounts. Price match must match equipment, installation, and warranty. Some limitations apply.",
-          durationMs: 8500, // stay longer on this slide
-          // rightImage: "img/ad-water-heater.png"
         },
       ];
 
