@@ -227,9 +227,9 @@
       .hero-grid {
         position: relative;
         display: grid;
-        grid-template-columns: 1.3fr 0.7fr;
-        gap: 22px;
-        align-items: stretch;
+        grid-template-columns: 1.25fr 0.75fr;
+        gap: 18px;
+        align-items: stretch; /* important for equal heights */
       }
       .hero-card {
         background: #fff;
@@ -293,28 +293,95 @@
         color: var(--muted);
         margin-top: 2px;
       }
-      .side-card {
-        background: linear-gradient(
-          180deg,
-          rgba(11, 61, 145, 0.06),
-          rgba(193, 18, 31, 0.06)
-        );
-        border: 1px solid rgba(2, 8, 23, 0.08);
+
+      /* Right column */
+      .side-stack {
+        display: grid;
+        gap: 12px;
+        align-content: stretch;
+        height: 100%;
+      }
+
+      /* Carousel */
+      .hero-carousel {
+        position: relative;
+        overflow: hidden;
         border-radius: var(--radius);
-        padding: 18px;
+        border: 1px solid rgba(2, 8, 23, 0.08);
+        box-shadow: 0 8px 20px rgba(2, 8, 23, 0.06);
+        background: #0b1220;
+        height: 100%; /* match hero-card height */
+        min-height: 0; /* allow stretching */
+      }
+
+      /* Visual feedback when jumping to specials */
+      .hero-carousel.jump-highlight {
+        animation: carouselGlow 950ms ease both;
+      }
+      @keyframes carouselGlow {
+        0% {
+          box-shadow: 0 8px 20px rgba(2, 8, 23, 0.06),
+            0 0 0 0 rgba(193, 18, 31, 0);
+        }
+        35% {
+          box-shadow: 0 12px 28px rgba(2, 8, 23, 0.12),
+            0 0 0 6px rgba(193, 18, 31, 0.2);
+        }
+        100% {
+          box-shadow: 0 8px 20px rgba(2, 8, 23, 0.06),
+            0 0 0 0 rgba(193, 18, 31, 0);
+        }
+      }
+
+      .carousel-track {
         display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        height: 100%;
+        transition: transform 420ms ease;
+        will-change: transform;
+      }
+
+      /* Default: text-only layout */
+      .ad-slide {
+        min-width: 100%;
+        padding: 18px;
+        display: grid;
+        grid-template-columns: 1fr;
         gap: 14px;
+        align-items: center;
+        color: #fff;
+        background-size: cover;
+        background-position: center;
+        height: 100%;
       }
-      .offer {
-        background: #fff;
-        border: 1px solid rgba(193, 18, 31, 0.18);
-        border-radius: 16px;
-        padding: 14px;
+
+      /* If image exists: two columns */
+      .ad-slide.has-media {
+        grid-template-columns: 1.25fr 0.75fr;
       }
-      .offer .big {
-        font-size: 34px;
+
+      .ad-left {
+        display: grid;
+        gap: 10px;
+      }
+
+      .ad-badge {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.14);
+        backdrop-filter: blur(8px);
+        font-size: 13px;
+        width: fit-content;
+      }
+      .ad-kicker {
+        font-size: 13px;
+        opacity: 0.92;
+        letter-spacing: 0.02em;
+      }
+      .ad-title {
+        font-size: 22px;
+        line-height: 1.1;
+        margin: 0;
         font-weight: 950;
         letter-spacing: -0.3px;
       }
@@ -324,15 +391,129 @@
         max-width: 54ch;
         margin: 0;
       }
-      .offer .text {
-        margin: 6px 0 0;
+
+      .ad-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 4px;
+      }
+      .ad-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 14px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.16);
+        color: #fff;
+        text-decoration: none;
         font-weight: 900;
       }
-      .offer .fine {
-        margin: 8px 0 0;
-        color: var(--muted);
-        font-size: 13px;
-        font-weight: 700;
+      .ad-link:hover {
+        background: rgba(255, 255, 255, 0.22);
+      }
+
+      .ad-fine {
+        margin: 6px 0 0;
+        font-size: 12px;
+        opacity: 0.86;
+        max-width: 64ch;
+      }
+
+      .ad-reply-note {
+        margin: 0;
+        font-size: 12.5px;
+        opacity: 0.9;
+        font-weight: 800;
+      }
+
+      /* Media (right image) */
+      .ad-media {
+        display: grid;
+        justify-items: end;
+        align-items: center;
+      }
+      .ad-media img {
+        width: min(220px, 100%);
+        height: auto;
+        display: block;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22);
+        transform: translateX(10px);
+        opacity: 0;
+      }
+
+      /* Animate image only when media exists AND slide is active */
+      @keyframes mediaSlideIn {
+        from {
+          transform: translateX(14px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0px);
+          opacity: 1;
+        }
+      }
+      .ad-slide.has-media.is-active .ad-media img {
+        animation: mediaSlideIn 420ms ease both;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .ad-slide.has-media.is-active .ad-media img {
+          animation: none;
+          opacity: 1;
+          transform: none;
+        }
+        .carousel-track {
+          transition: none;
+        }
+        .hero-carousel.jump-highlight {
+          animation: none;
+        }
+      }
+
+      .carousel-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.35);
+        color: #fff;
+        font-size: 28px;
+        line-height: 0;
+        cursor: pointer;
+      }
+      .carousel-btn.prev {
+        left: 10px;
+      }
+      .carousel-btn.next {
+        right: 10px;
+      }
+
+      .carousel-dots {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 10px;
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+      }
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.35);
+        border: 0;
+        cursor: pointer;
+      }
+      .dot.active {
+        background: rgba(255, 255, 255, 0.95);
       }
 
       section {
@@ -432,6 +613,27 @@
         border: 1px solid var(--line);
         background: var(--card);
         padding: 16px;
+        margin-top: 14px;
+      }
+      .kicker {
+        font-size: 13px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 900;
+      }
+      .mini {
+        font-size: 13px;
+      }
+
+      /* About: team photo */
+      .team-photo {
+        width: 100%;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        box-shadow: 0 10px 20px rgba(2, 8, 23, 0.06);
+        margin: 10px 0 14px;
+        display: block;
       }
 
       footer {
@@ -457,14 +659,18 @@
         .hero-grid {
           grid-template-columns: 1fr;
         }
-        .form {
-          grid-template-columns: 1fr;
+        .hero-carousel {
+          height: auto;
+          min-height: 290px;
         }
-        .aside {
-          position: relative;
-          top: auto;
+        .carousel-track {
+          height: auto;
+        }
+        .ad-slide {
+          height: auto;
         }
       }
+
       @media (max-width: 640px) {
         .trust-strip {
           grid-template-columns: 1fr;
@@ -475,11 +681,22 @@
         .how {
           grid-template-columns: 1fr;
         }
-        .split {
+        .topbar {
+          position: relative;
+        }
+        .carousel-btn {
+          display: none;
+        }
+
+        /* Mobile always stacks even if media exists */
+        .ad-slide.has-media {
           grid-template-columns: 1fr;
         }
-        .topbar {
-          position: relative; /* no sticky on mobile */
+        .ad-media {
+          justify-items: start;
+        }
+        .ad-media img {
+          width: min(260px, 100%);
         }
       }
     </style>
@@ -515,9 +732,19 @@
           </a>
 
           <nav class="nav-actions" aria-label="Quick actions">
+            <!-- Urgent promo badge: jumps to Water Heater Specials slide -->
+            <button
+              class="pill promo-badge"
+              type="button"
+              id="waterHeaterBadge"
+              aria-label="View water heater specials"
+              title="Water Heater Specials"
+            >
+              🔥 Water Heater Specials
+            </button>
+
             <a class="btn secondary" href="#services">Services</a>
-            <a class="btn secondary" href="#request">Request</a>
-            <a class="btn primary" href="tel:+15128884406">
+            <a class="btn secondary" href="tel:+15128884406">
               Call/Text (512) 888-4406
             </a>
           </nav>
@@ -545,9 +772,14 @@
             </div>
 
             <div class="cta-row">
-              <button data-token="56fe9001ad314433a6466f5d7d3131b9" data-orgname="Plumbazing" class="hcp-button" onClick="HCPWidget.openModal()"> Book online </button> <script async src="https://online-booking.housecallpro.com/script.js?token=56fe9001ad314433a6466f5d7d3131b9&orgName=Plumbazing"> </script> <!--End of Housecallpro Online booking button-->
-              <a class="btn secondary" href="#services">View Services</a>
-              <a class="btn secondary" href="tel:+15128884406">Call Now</a>
+              <button
+                class="btn primary"
+                type="button"
+                onclick="window.HCPWidget?.openModal?.()"
+              >
+                Request service
+              </button>
+              <a class="btn secondary" href="tel:+15128884406">Call/Text</a>
             </div>
 
             <p class="cta-note">
@@ -571,25 +803,39 @@
             </div>
           </div>
 
-          <!-- Offer Banner -->
-          <section aria-label="First time customer offer">
-            <div class="container">
-              <div class="banner">
-                <div class="left">
-                  <p class="headline">
-                    New here? Get
-                    <span style="color: var(--red)">$50 OFF</span>
-                    your first service.
-                  </p>
-                  <p class="note">First-time customers • Expires: 12/31/26</p>
-                </div>
-                <div class="cta-row">
-                  <button data-token="56fe9001ad314433a6466f5d7d3131b9" data-orgname="Plumbazing" class="hcp-button" onClick="HCPWidget.openModal()"> Book online </button> <script async src="https://online-booking.housecallpro.com/script.js?token=56fe9001ad314433a6466f5d7d3131b9&orgName=Plumbazing"> </script> <!--End of Housecallpro Online booking button-->
-                  <a class="btn secondary" href="tel:+15128884406">Call Now</a>
-                </div>
-              </div>
+          <!-- Right: Carousel -->
+          <aside class="side-stack" aria-label="Promotions">
+            <div
+              class="hero-carousel"
+              aria-label="Promotions carousel"
+              id="heroCarousel"
+            >
+              <div class="carousel-track" id="adTrack"></div>
+
+              <button
+                class="carousel-btn prev"
+                type="button"
+                aria-label="Previous"
+                id="adPrev"
+              >
+                ‹
+              </button>
+              <button
+                class="carousel-btn next"
+                type="button"
+                aria-label="Next"
+                id="adNext"
+              >
+                ›
+              </button>
+
+              <div
+                class="carousel-dots"
+                id="adDots"
+                aria-label="Carousel navigation"
+              ></div>
             </div>
-          </section>
+          </aside>
         </div>
       </div>
     </main>
@@ -620,6 +866,28 @@
             Not sure what it is? Call or text and we’ll point you in the right
             direction.
           </p>
+
+          <div class="aside" aria-label="Need help fast">
+            <div class="kicker">Need help now?</div>
+            <p style="margin: 8px 0 0" class="mini">
+              Call or text:
+              <a
+                href="tel:+15128884406"
+                style="
+                  color: var(--blue);
+                  text-decoration: none;
+                  font-weight: 900;
+                "
+              >
+                (512) 888-4406
+              </a>
+            </p>
+            <p style="margin: 10px 0 0" class="mini">
+              Prefer online? Hit
+              <strong>Request service</strong>
+              and tell us what’s going on.
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -640,7 +908,7 @@
               <div class="step">
                 <div class="num">1</div>
                 <h3>Reach out</h3>
-                <p>Call, text, or submit the request form below.</p>
+                <p>Call, text, or request service.</p>
               </div>
               <div class="step">
                 <div class="num">2</div>
@@ -743,5 +1011,304 @@
         </p>
       </div>
     </footer>
+
+    <script>
+      // Year
+      document.getElementById("y").textContent = new Date().getFullYear();
+
+      // Services list (easy to edit)
+      const SERVICES = [
+        "Leak repair",
+        "Clogged drains",
+        "Toilets & faucets",
+        "Water heaters",
+        "Garbage disposals",
+        "Shower & tub valves",
+        "Gas line work (where applicable)",
+        "Sewer line diagnostics",
+        "Fixture installs",
+        "Emergency plumbing",
+      ];
+
+      const grid = document.getElementById("servicesGrid");
+      if (grid)
+        grid.innerHTML = SERVICES.map(
+          (s) => `<div class="svc"><span>✓</span> ${s}</div>`
+        ).join("");
+
+      // Slides:
+      // - Request service language
+      // - Add Meet the Team slide
+      // - Keep Water Heater Specials highlighted in topbar + obvious jump feedback
+      // - Remove duplicate leak slide
+      const ADS = [
+        {
+          id: "request-help",
+          badge: "Fast Response",
+          kicker: "Tell us what’s going on",
+          title: "Request help in under a minute",
+          copy: "Share details + urgency. We’ll reply ASAP with options + a quote.",
+          background:
+            "linear-gradient(135deg, rgba(3,105,161,0.85), rgba(2,132,199,0.55))",
+          ctaText: "Request service",
+          replyNote: "We’ll reply ASAP with options + a quote.",
+          // rightImage: "img/ad-request.png" // optional
+        },
+        {
+          id: "new-here",
+          badge: "First-Time Offer",
+          kicker: "New here?",
+          title: "Get $50 OFF your first service",
+          copy: "First-time customers. Request service or call/text and mention this offer.",
+          background:
+            "linear-gradient(135deg, rgba(193,18,31,0.75), rgba(11,61,145,0.55))",
+          ctaText: "Request service",
+          replyNote: "We’ll reply ASAP with options + a quote.",
+          finePrint:
+            "Expires: 12/31/26. Not valid with other offers. Ask for details.",
+          // rightImage: "img/ad-new-here.png" // optional
+        },
+        {
+          id: "leak-repair",
+          badge: "Common Fix",
+          kicker: "Stop the drip, save the cabinet",
+          title: "Leak detection + repair",
+          copy: "Clear options, clean work, and straightforward communication.",
+          background:
+            "linear-gradient(135deg, rgba(30,41,59,0.75), rgba(14,116,144,0.55))",
+          ctaText: "Request service",
+          replyNote: "We’ll reply ASAP with options + a quote.",
+          // rightImage: "img/ad-leak.png" // optional
+        },
+        {
+          id: "meet-the-team",
+          badge: "Meet the Team",
+          kicker: "Local. Experienced. Easy to work with.",
+          title: "Josh + Alan",
+          copy: "We’re the folks who show up, explain the options, and leave your place cleaner than we found it.",
+          background:
+            "linear-gradient(135deg, rgba(11,61,145,0.70), rgba(15,23,42,0.75))",
+          ctaText: "Request service",
+          replyNote: "We’ll reply ASAP with options + a quote.",
+          finePrint:
+            "Want the quick version? Call or text and tell us what’s going on.",
+          rightImage: "img/ad-team.png", // optional (team photo cutout works great)
+        },
+        {
+          id: "water-heater-special",
+          badge: "Water Heater Specials",
+          kicker: "Big water heater specials",
+          title: "Save up to $500 + free estimates",
+          copy: "10% OFF installs: up to $250 OFF tank water heaters and up to $500 OFF tankless. Price match guarantee available.",
+          background:
+            "linear-gradient(135deg, rgba(7,89,133,0.86), rgba(2,6,23,0.60))",
+          ctaText: "Request service",
+          replyNote: "We’ll reply ASAP with options + a quote.",
+          finePrint:
+            "Discount cap limited. Not valid with other offers/coupons/discounts. Price match must match equipment, installation, and warranty. Some limitations apply.",
+          // rightImage: "img/ad-water-heater.png" // optional
+        },
+      ];
+
+      const track = document.getElementById("adTrack");
+      const dotsWrap = document.getElementById("adDots");
+      const prevBtn = document.getElementById("adPrev");
+      const nextBtn = document.getElementById("adNext");
+      const heroCarousel = document.getElementById("heroCarousel");
+
+      let idx = 0;
+      let timer = null;
+      let pauseUntil = 0;
+
+      function renderCarousel() {
+        if (!track || !dotsWrap) return;
+
+        track.innerHTML = ADS.map((ad, i) => {
+          const bg = ad.imageUrl
+            ? `linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.72)), url('${ad.imageUrl}')`
+            : ad.background ||
+              "linear-gradient(135deg, rgba(2,132,199,0.75), rgba(15,23,42,0.65))";
+
+          const hasMedia = !!ad.rightImage;
+
+          return `
+            <article
+              class="ad-slide ${hasMedia ? "has-media" : ""} ${
+            i === idx ? "is-active" : ""
+          }"
+              role="group"
+              aria-roledescription="slide"
+              aria-label="${i + 1} of ${ADS.length}"
+              data-ad-id="${ad.id || ""}"
+              style="background-image:${bg}">
+
+              <div class="ad-left">
+                ${ad.badge ? `<span class="ad-badge">${ad.badge}</span>` : ""}
+                ${ad.kicker ? `<div class="ad-kicker">${ad.kicker}</div>` : ""}
+                <h3 class="ad-title">${ad.title || ""}</h3>
+                ${ad.copy ? `<p class="ad-copy">${ad.copy}</p>` : ""}
+
+                <div class="ad-actions">
+                  <a class="ad-link" href="#" data-ad-cta="${i}">${
+            ad.ctaText || "Request service"
+          }</a>
+                  <a class="ad-link" href="tel:+15128884406">Call/Text</a>
+                </div>
+
+                ${
+                  ad.replyNote
+                    ? `<p class="ad-reply-note">${ad.replyNote}</p>`
+                    : ""
+                }
+                ${ad.finePrint ? `<p class="ad-fine">${ad.finePrint}</p>` : ""}
+              </div>
+
+              ${
+                hasMedia
+                  ? `
+                    <div class="ad-media" aria-hidden="true">
+                      <img src="${ad.rightImage}" alt="">
+                    </div>
+                  `
+                  : ""
+              }
+            </article>
+          `;
+        }).join("");
+
+        dotsWrap.innerHTML = ADS.map(
+          (_, i) =>
+            `<button class="dot ${
+              i === idx ? "active" : ""
+            }" aria-label="Go to slide ${i + 1}" data-dot="${i}"></button>`
+        ).join("");
+
+        updateCarousel();
+      }
+
+      function updateCarousel() {
+        if (!track || !dotsWrap) return;
+
+        track.style.transform = `translateX(-${idx * 100}%)`;
+
+        [...dotsWrap.children].forEach((d, i) =>
+          d.classList.toggle("active", i === idx)
+        );
+        [...track.children].forEach((slide, i) =>
+          slide.classList.toggle("is-active", i === idx)
+        );
+      }
+
+      function go(n) {
+        idx = (n + ADS.length) % ADS.length;
+        updateCarousel();
+        restartAuto();
+      }
+      function next() {
+        go(idx + 1);
+      }
+      function prev() {
+        go(idx - 1);
+      }
+
+      function restartAuto() {
+        if (timer) clearInterval(timer);
+        timer = setInterval(() => {
+          // pause auto-rotate when we intentionally jump (e.g., Water Heater badge)
+          if (Date.now() < pauseUntil) return;
+          next();
+        }, 6500);
+      }
+
+      // Jump to slide by id
+      window.goToAd = function (
+        adId,
+        opts = { scroll: true, highlight: false, pauseMs: 0 }
+      ) {
+        const targetIndex = ADS.findIndex((a) => a.id === adId);
+        if (targetIndex === -1) return;
+
+        go(targetIndex);
+
+        if (opts.pauseMs) pauseUntil = Date.now() + opts.pauseMs;
+
+        if (opts.scroll && heroCarousel?.scrollIntoView) {
+          heroCarousel.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+
+        if (opts.highlight && heroCarousel) {
+          heroCarousel.classList.remove("jump-highlight"); // reset if spam-clicked
+          void heroCarousel.offsetWidth; // reflow to restart animation
+          heroCarousel.classList.add("jump-highlight");
+          setTimeout(
+            () => heroCarousel.classList.remove("jump-highlight"),
+            1100
+          );
+        }
+      };
+
+      // Dots click
+      dotsWrap?.addEventListener("click", (e) => {
+        const b = e.target.closest("button[data-dot]");
+        if (!b) return;
+        go(parseInt(b.dataset.dot, 10));
+      });
+
+      // CTA click -> HouseCallPro modal
+      track?.addEventListener("click", (e) => {
+        const a = e.target.closest("a[data-ad-cta]");
+        if (!a) return;
+        e.preventDefault();
+        window.HCPWidget?.openModal?.();
+      });
+
+      prevBtn?.addEventListener("click", prev);
+      nextBtn?.addEventListener("click", next);
+
+      // Swipe support
+      let startX = 0,
+        dx = 0;
+      track?.addEventListener(
+        "touchstart",
+        (e) => {
+          startX = e.touches[0].clientX;
+          dx = 0;
+        },
+        { passive: true }
+      );
+      track?.addEventListener(
+        "touchmove",
+        (e) => {
+          dx = e.touches[0].clientX - startX;
+        },
+        { passive: true }
+      );
+      track?.addEventListener("touchend", () => {
+        if (Math.abs(dx) > 45) dx < 0 ? next() : prev();
+        dx = 0;
+      });
+
+      // Pause auto-rotate on hover (desktop)
+      heroCarousel?.addEventListener(
+        "mouseenter",
+        () => timer && clearInterval(timer)
+      );
+      heroCarousel?.addEventListener("mouseleave", restartAuto);
+
+      // Topbar badge -> jump to water heater slide with obvious feedback + pause
+      document
+        .getElementById("waterHeaterBadge")
+        ?.addEventListener("click", () => {
+          window.goToAd("water-heater-special", {
+            scroll: true,
+            highlight: true,
+            pauseMs: 12000,
+          });
+        });
+
+      // Init
+      renderCarousel();
+      restartAuto();
+    </script>
   </body>
 </html>
