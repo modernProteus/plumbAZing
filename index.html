@@ -171,6 +171,12 @@
         padding: 12px 0;
         gap: 12px;
       }
+
+      .topbar .row.topbar-actions-only {
+        justify-content: flex-end;
+        gap: 10px;
+      }
+
       .brand {
         display: flex;
         align-items: center;
@@ -748,6 +754,16 @@
         .carousel-btn {
           display: none;
         }
+        .hero-header img {
+          width: 105px;
+          max-width: 22vw;
+          height: auto;
+          display: block;
+        }
+
+        #waterHeaterBadge {
+          display: none;
+        }
 
         /* On mobile, stack split layout into one column */
         .ad-slide.layout-split {
@@ -760,8 +776,11 @@
           width: min(260px, 100%);
         }
         .ad-media-top img {
-          height: 200px;
-          background-position: center center;
+          width: 100%;
+          height: 200px; /* keep a consistent banner height */
+          object-fit: contain; /* key: no cropping */
+          object-position: center;
+          display: block;
         }
       }
     </style>
@@ -791,25 +810,20 @@
     <!-- Top Bar -->
     <header class="topbar" aria-label="Top bar">
       <div class="container">
-        <div class="row">
-          <a class="brand" href="#top" aria-label="PlumbAZing home">
-            <img src="img/PlumbAZing_logo.svg" alt="PlumbAZing logo" />
+        <div class="row topbar-actions-only">
+          <button class="btn promo" type="button" id="waterHeaterBadge">
+            🔥 Water Heater Specials
+          </button>
+          <button
+            class="btn primary"
+            type="button"
+            onclick="window.HCPWidget?.openModal?.()"
+          >
+            Request service
+          </button>
+          <a class="btn promo" href="tel:+15128884406">
+            Call/Text (512) 888-4406
           </a>
-
-          <nav class="nav-actions" aria-label="Quick actions">
-            <!-- Urgent promo badge: jumps to Water Heater Specials slide -->
-            <button
-              class="pill promo-badge"
-              type="button"
-              id="waterHeaterBadge"
-              aria-label="View water heater specials"
-              title="Water Heater Specials"
-            >
-              🔥 Water Heater Specials
-            </button>
-
-            <a class="btn secondary" href="#services">Services</a>
-          </nav>
         </div>
       </div>
     </header>
@@ -821,15 +835,19 @@
           <!-- Left: Main hero copy -->
           <div class="hero-card">
             <div class="hero-header">
-              <img src="img/PlumbAZing_logo.svg" alt="PlumbAZing logo" />
-              <div>
-                <h1>Honest, Reliable Plumbing Service in Austin</h1>
-                <p class="subhead">
-                  Residential repairs, installs, and drain help. Fast response,
-                  clean work, no runaround.
-                  <strong style="color: var(--blue)">Free estimates</strong>
-                  for most jobs.
-                </p>
+              <div class="cta-row">
+                <div>
+                  <img src="img/PlumbAZing_logo.svg" alt="PlumbAZing logo" />
+                </div>
+                <div>
+                  <h1>Honest, Reliable Plumbing Service in Austin</h1>
+                  <p class="subhead">
+                    Residential repairs, installs, and drain help. Fast
+                    response, clean work, no runaround.
+                    <strong style="color: var(--blue)">Free estimates</strong>
+                    for most jobs.
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -841,8 +859,7 @@
               >
                 Request service
               </button>
-              <a class="btn secondary" href="#services">View Services</a>
-              <a class="btn secondary" href="tel:+15128884406">Call/Text</a>
+              <a class="btn promo" href="#services">View Services</a>
             </div>
 
             <p class="cta-note">
@@ -913,7 +930,14 @@
               If it leaks, clogs, or won’t behave… we handle it.
             </p>
           </div>
-          <a class="btn secondary" href="sms:+15128884406">Text us a photo</a>
+          <button
+            class="btn primary"
+            type="button"
+            onclick="window.HCPWidget?.openModal?.()"
+          >
+            Request service
+          </button>
+          <a class="btn promo" href="sms:+15128884406">Text us a photo</a>
         </div>
 
         <div class="card">
@@ -958,34 +982,7 @@
     <!-- How it Works + About -->
     <section id="about">
       <div class="container">
-        <div class="grid-2">
-          <div class="card">
-            <div class="section-title" style="margin-bottom: 8px">
-              <div>
-                <h2>Getting Help is Easy</h2>
-                <p class="section-sub">Simple steps. No mystery scheduling.</p>
-              </div>
-            </div>
-
-            <div class="how">
-              <div class="step">
-                <div class="num">1</div>
-                <h3>Reach out</h3>
-                <p>Call, text, or request service.</p>
-              </div>
-              <div class="step">
-                <div class="num">2</div>
-                <h3>We respond ASAP</h3>
-                <p>We’ll confirm details and send options + a quote.</p>
-              </div>
-              <div class="step">
-                <div class="num">3</div>
-                <h3>We schedule + fix it</h3>
-                <p>Once approved, we lock in a time and get it handled.</p>
-              </div>
-            </div>
-          </div>
-
+        <div class="grid-1">
           <div class="card" id="team">
             <div class="section-title" style="margin-bottom: 8px">
               <div>
