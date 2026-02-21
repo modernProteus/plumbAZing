@@ -67,7 +67,7 @@
 		{ type: "call", label: "Call/Text" },
 	  ],
 	  replyNote: "We’ll reply ASAP with options + a quote.",
-	  // rightImage: "img/ad-request.png"
+	  // rightImage: "/img/ad-request.png"
 	},
 	{
 	  id: "new-here",
@@ -82,7 +82,7 @@
 	  replyNote: "We’ll reply ASAP with options + a quote.",
 	  finePrint:
 		"Expires: 12/31/26. Not valid with other offers. Ask for details.",
-	  // rightImage: "img/ad-new-here.png"
+	  // rightImage: "/img/ad-new-here.png"
 	},
 	{
 	  id: "leak-repair",
@@ -98,7 +98,7 @@
 		{ type: "call", label: "Call/Text" },
 	  ],
 	  replyNote: "We’ll reply ASAP with options + a quote.",
-	  // rightImage: "img/ad-leak.png"
+	  // rightImage: "/img/ad-leak.png"
 	},
 	{
 	  id: "meet-the-team",
@@ -113,7 +113,7 @@
 	  textLink: { label: "About PlumbAZing ↓", target: "#about" },
 	  finePrint:
 		"Want the quick version? Call or text and tell us what’s going on.",
-	  topImage: "img/ad-team.png",
+	  topImage: "/img/ad-team.png",
 	},
 	{
 	  id: "water-heater-special",
@@ -129,7 +129,7 @@
 	  finePrint:
 		"Discount cap limited. Not valid with other offers/coupons/discounts. Price match must match equipment, installation, and warranty. Some limitations apply.",
 	  durationMs: 8500, // stay longer on this slide
-	  // rightImage: "img/ad-water-heater.png"
+	  // rightImage: "/img/ad-water-heater.png"
 	},
   ];
 
