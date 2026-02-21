@@ -171,7 +171,54 @@
         padding: 12px 0;
         gap: 12px;
       }
+      .topbar-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
 
+      /* Your buttons container */
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      /* Compact brand in nav (hidden by default) */
+      .nav-brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        min-width: 0;
+        opacity: 0;
+        transform: translateY(-4px);
+        pointer-events: none;
+        transition: opacity 180ms ease, transform 180ms ease;
+      }
+
+      .nav-brand-logo {
+        height: 26px;
+        width: auto;
+        display: block;
+      }
+
+      .nav-brand-text {
+        font-weight: 950;
+        letter-spacing: -0.2px;
+        color: var(--ink);
+        white-space: nowrap;
+      }
+
+      /* When page is scrolled and big logo is out of view */
+      .topbar.scrolled .nav-brand {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
       .topbar .row.topbar-actions-only {
         justify-content: flex-end;
         gap: 10px;
@@ -761,6 +808,16 @@
           display: block;
         }
 
+        .topbar-row {
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+        /* On mobile, when brand shows, keep it centered above buttons if needed */
+        .topbar.scrolled .nav-brand {
+          width: 100%;
+          justify-content: center;
+        }
+
         /* On mobile, stack split layout into one column */
         .ad-slide.layout-split {
           grid-template-columns: 1fr;
@@ -806,17 +863,33 @@
     <!-- Top Bar -->
     <header class="topbar" aria-label="Top bar">
       <div class="container">
-        <div class="row topbar-actions-only">
-          <button class="btn promo" type="button" id="waterHeaterBadge">
-            🔥 Water Heater Specials
-          </button>
-          <button
-            class="btn primary"
-            type="button"
-            onclick="window.HCPWidget?.openModal?.()"
-          >
-            Request service
-          </button>
+        <div class="row topbar-row" id="topbarRow">
+          <a class="nav-brand" href="#top" aria-label="PlumbAZing home">
+            <img
+              class="nav-brand-logo"
+              src="img/Plumbazing_logo.svg"
+              alt="Plumbazing"
+            />
+            <span
+              class="nav-brand-text"
+              style="color: color(display-p3 0.769 0.239 0.18)"
+            >
+              Plumbazing
+            </span>
+          </a>
+
+          <div class="nav-actions">
+            <button class="btn promo" type="button" id="waterHeaterBadge">
+              🔥 Water Heater Specials
+            </button>
+            <button
+              class="btn primary"
+              type="button"
+              onclick="window.HCPWidget?.openModal?.()"
+            >
+              Request service
+            </button>
+          </div>
         </div>
       </div>
     </header>
@@ -829,7 +902,7 @@
           <div class="hero-card">
             <div class="hero-header">
               <div class="cta-row">
-                <div>
+                <div class="hero-logo" id="heroLogo">
                   <img src="img/Plumbazing_logo.svg" alt="Plumbazing logo" />
                 </div>
                 <div>
@@ -1501,6 +1574,27 @@
       // Init
       renderCarousel();
       restartAuto();
+      (function setupTopbarBrandReveal() {
+        const topbar = document.querySelector(".topbar");
+        const heroLogo = document.getElementById("heroLogo");
+        if (!topbar || !heroLogo) return;
+
+        // If the hero logo is NOT visible, show the compact nav brand.
+        const obs = new IntersectionObserver(
+          (entries) => {
+            const isVisible = entries[0]?.isIntersecting;
+            topbar.classList.toggle("scrolled", !isVisible);
+          },
+          {
+            // Trigger a bit earlier/later depending on your topbar height
+            root: null,
+            threshold: 0.05,
+            rootMargin: "-70px 0px 0px 0px", // helps account for sticky header overlay
+          }
+        );
+
+        obs.observe(heroLogo);
+      })();
     </script>
   </body>
 </html>
