@@ -838,47 +838,34 @@
       }
     </style>
 
-    <!-- Google tag (gtag.js) -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=AW-17942862558"
-    ></script>
-    <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtag.js?id='+i+dl;f.parentNode.insertBefore(j,f); (https://www.googletagmanager.com/gtag.js?id=%27+i+dl;f.parentNode.insertBefore(j,f);)
-})(window,document,'script','dataLayer','GTM-K52WZPK8');</script>
-    <!-- End Google Tag Manager -->
-
     <!-- Google Tag Manager -->
     <script>
-      (function(w,d,s,l,i){
-        w[l]=w[l]||[];
-        w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
-        var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),
-        dl=l!='dataLayer'?'&l='+l:'';
-        j.async=true;
-        j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-        f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-K52WZPK8');
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-K52WZPK8");
     </script>
     <!-- End Google Tag Manager -->
-
-    <!-- HouseCallPro Online Booking (load ONCE) -->
-    <script
-      async
-      src="https://online-booking.housecallpro.com/script.js?token=56fe9001ad314433a6466f5d7d3131b9&orgName=Plumbazing"
-    ></script>
   </head>
 
   <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K52WZPK8"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-K52WZPK8"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe>
+    </noscript>
     <!-- End Google Tag Manager (noscript) -->
-    
+
     <!-- Top Bar -->
     <header class="topbar" aria-label="Top bar">
       <div class="container">
@@ -1183,7 +1170,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       const grid = document.getElementById("servicesGrid");
       if (grid)
         grid.innerHTML = SERVICES.map(
-          (s) => `<div class="svc"><span>✓</span> ${s}</div>`
+          (s) => `<div class="svc"><span>✓</span> ${s}</div>`,
         ).join("");
 
       /*
@@ -1418,7 +1405,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           (_, i) =>
             `<button class="dot ${
               i === idx ? "active" : ""
-            }" aria-label="Go to slide ${i + 1}" data-dot="${i}"></button>`
+            }" aria-label="Go to slide ${i + 1}" data-dot="${i}"></button>`,
         ).join("");
 
         updateCarousel();
@@ -1430,10 +1417,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         track.style.transform = `translateX(-${idx * 100}%)`;
 
         [...dotsWrap.children].forEach((d, i) =>
-          d.classList.toggle("active", i === idx)
+          d.classList.toggle("active", i === idx),
         );
         [...track.children].forEach((slide, i) =>
-          slide.classList.toggle("is-active", i === idx)
+          slide.classList.toggle("is-active", i === idx),
         );
       }
 
@@ -1476,7 +1463,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       // Jump to slide by id
       window.goToAd = function (
         adId,
-        opts = { scroll: true, highlight: false, pauseMs: 0 }
+        opts = { scroll: true, highlight: false, pauseMs: 0 },
       ) {
         const targetIndex = ADS.findIndex((a) => a.id === adId);
         if (targetIndex === -1) return;
@@ -1495,7 +1482,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           heroCarousel.classList.add("jump-highlight");
           setTimeout(
             () => heroCarousel.classList.remove("jump-highlight"),
-            1100
+            1100,
           );
         }
       };
@@ -1558,14 +1545,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           startX = e.touches[0].clientX;
           dx = 0;
         },
-        { passive: true }
+        { passive: true },
       );
       track?.addEventListener(
         "touchmove",
         (e) => {
           dx = e.touches[0].clientX - startX;
         },
-        { passive: true }
+        { passive: true },
       );
       track?.addEventListener("touchend", () => {
         if (Math.abs(dx) > 45) dx < 0 ? next(false) : prev();
@@ -1575,7 +1562,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       // Pause auto-rotate on hover (desktop)
       heroCarousel?.addEventListener(
         "mouseenter",
-        () => timer && clearTimeout(timer)
+        () => timer && clearTimeout(timer),
       );
       heroCarousel?.addEventListener("mouseleave", restartAuto);
 
@@ -1609,7 +1596,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             root: null,
             threshold: 0.05,
             rootMargin: "-70px 0px 0px 0px", // helps account for sticky header overlay
-          }
+          },
         );
 
         obs.observe(heroLogo);
