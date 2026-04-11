@@ -19,24 +19,36 @@
   ></script>
 </head>
 <body>
-  <header class="site-header">
-	<div class="container header-inner">
-	  <a class="site-brand" href="#top" aria-label="PlumbAZING home">
-		<img src="img/PlumbAZING_logo_small.svg" alt="PlumbAZING logo">
-		<span>PlumbAZING</span>
+<header class="site-header">
+  <div class="container header-inner">
+	  
+<a class="site-brand" href="#top" aria-label="PlumbAZING home">
+	<img class="site-brand__icon" src="img/Jax.png" alt="PlumbAZING logo icon">
+	<img class="site-brand__wordmark" src="img/bizName.svg" alt="PlumbAZING">
+  </a>
+
+	<nav class="site-nav" aria-label="Primary">
+	  <a href="#services">Services</a>
+	  <a href="#reviews">Reviews</a>
+	  <a href="#faq">FAQ</a>
+	</nav>
+
+	<div class="header-actions">
+	  <a class="phone-chip" href="tel:+15128884406" aria-label="Call or text PlumbAZING at 512-888-4406">
+		<span class="phone-chip__label">Call or Text</span>
+		<strong class="phone-chip__number">(512) 888-4406</strong>
 	  </a>
 
-	  <div class="header-actions">
-		<button class="btn btn--promo" type="button" id="waterHeaterBadge">
-		  🔥 Water Heater Specials
-		</button>
-		<a class="btn btn--secondary" href="tel:+15128884406">Call/Text</a>
-		<button class="btn btn--primary" type="button" data-request-service>
-		  Request service
-		</button>
-	  </div>
+	  <button class="btn btn--promo" type="button" id="waterHeaterBadge">
+		🔥 Water Heater Specials
+	  </button>
+
+	  <button class="btn btn--primary" type="button" data-request-service>
+		Request service
+	  </button>
 	</div>
-  </header>
+  </div>
+</header>
 
   <main id="top">
 	<section class="hero">
@@ -46,23 +58,24 @@
 			<img src="img/PlumbAZING_logo.svg" alt="PlumbAZING logo">
 		  </div>
 
-		  
-		  <h1 class="hero-blue">Honest, reliable plumbing service without the runaround</h1>
+		  <p class="eyebrow">Local plumbing help in Austin</p>
+		  <h1 class="hero-title">Honest, reliable plumbing service without the runaround</h1>
 		  <p class="hero-copy">
-			Residential repairs, installs, and drain help. Fast response, clean work,
-			and clear options. <strong>Free estimates</strong> for most jobs.
+			Plumbing repairs, installs, drain help, and water heater service for Austin-area homeowners.
+			Fast response, clean work, and clear options. <strong>Free estimates for most jobs.</strong>
 		  </p>
 
 		  <div class="hero-actions">
 			<button class="btn btn--primary" type="button" data-request-service>
 			  Request service
 			</button>
-			<a class="btn btn--secondary" href="tel:+15128884406">Call/Text</a>
-			<a class="btn btn--secondary" href="#services">View services</a>
+			<a class="btn btn--secondary" href="tel:+15128884406">Call now</a>
+			<a class="btn btn--ghost" href="#services">View services</a>
 		  </div>
 
 		  <p class="hero-note">
-			Tell us what’s going on and how urgent it is. We’ll reply ASAP with options and a quote.
+			Call, text, or request service online. Tell us what’s going on and how urgent it is,
+			and we’ll get back to you as quickly as possible.
 		  </p>
 
 		  <div class="trust-grid" aria-label="Trust signals">
@@ -127,6 +140,136 @@
 	  </div>
 	</section>
 
+	<section class="section" id="process">
+	  <div class="container">
+		<div class="section-head section-head--tight">
+		  <div>
+			<p class="eyebrow">How it works</p>
+			<h2>Simple, clear, and easy from the start</h2>
+			<p class="section-copy">
+			  We keep the process straightforward so you can get help fast without the guesswork.
+			</p>
+		  </div>
+		</div>
+
+		<div class="process-grid">
+		  <div class="process-card">
+			<span class="process-step">1</span>
+			<h3>Reach out</h3>
+			<p>Call, text, or request service online and tell us what’s going on.</p>
+		  </div>
+
+		  <div class="process-card">
+			<span class="process-step">2</span>
+			<h3>Get a clear plan</h3>
+			<p>We’ll follow up, talk through the issue, and help you understand the next step.</p>
+		  </div>
+
+		  <div class="process-card">
+			<span class="process-step">3</span>
+			<h3>Get it handled</h3>
+			<p>We show up, do clean work, and focus on practical plumbing solutions that last.</p>
+		  </div>
+		</div>
+	  </div>
+	</section>
+
+	<section class="section" id="reviews">
+	  <div class="container">
+		<div class="section-head">
+		  <div>
+			<p class="eyebrow">Featured reviews</p>
+			<h2>Why homeowners call PlumbAZING</h2>
+			<p class="section-copy">
+			  Clean work, clear communication, and a team that’s easy to deal with.
+			</p>
+		  </div>
+
+		  <div class="section-actions">
+			<a
+			  class="btn btn--secondary"
+			  href="https://www.google.com/search?q=PlumbAZING+Austin+TX"
+			  target="_blank"
+			  rel="noopener"
+			  aria-label="Find PlumbAZING on Google"
+			>
+			  Find us on Google
+			</a>
+		  </div>
+		</div>
+
+		<div class="reviews-grid">
+		  <article class="review-card">
+			<div class="review-stars" aria-label="5 star review">★★★★★</div>
+			<p>
+			  “Fast response, honest communication, and everything was handled professionally.
+			  We’ll definitely call PlumbAZING again.”
+			</p>
+			<strong>- Homeowner in Austin</strong>
+		  </article>
+
+		  <article class="review-card">
+			<div class="review-stars" aria-label="5 star review">★★★★★</div>
+			<p>
+			  “They explained the issue clearly, gave us options, and did clean work.
+			  Super easy to work with.”
+			</p>
+			<strong>- Residential customer</strong>
+		  </article>
+
+		  <article class="review-card">
+			<div class="review-stars" aria-label="5 star review">★★★★★</div>
+			<p>
+			  “Very responsive, fair, and professional. It felt like dealing with real people,
+			  not a giant company script.”
+			</p>
+			<strong>- Austin-area customer</strong>
+		  </article>
+		</div>
+	  </div>
+	</section>
+
+	<section class="section" id="service-area">
+	  <div class="container">
+		<div class="panel">
+		  <div class="section-head section-head--tight">
+			<div>
+			  <p class="eyebrow">Service area</p>
+			  <h2>Proudly serving Austin and nearby communities</h2>
+			  <p class="section-copy">
+				We serve homeowners across the Greater Austin area. Not sure if you’re in range?
+				Call or text and ask.
+			  </p>
+			</div>
+		  </div>
+
+		  <div class="service-area-layout">
+			<div>
+			  <div class="service-area-list">
+				<span class="pill">Austin</span>
+				<span class="pill">Round Rock</span>
+				<span class="pill">Pflugerville</span>
+				<span class="pill">Cedar Park</span>
+				<span class="pill">Leander</span>
+				<span class="pill">Georgetown</span>
+				<span class="pill">Hutto</span>
+				<span class="pill">Buda</span>
+				<span class="pill">Kyle</span>
+			  </div>
+			</div>
+
+			<div class="info-box service-area-box">
+			  <p>
+				Need plumbing help nearby? Call or text
+				<a href="tel:+15128884406">(512) 888-4406</a>
+				to confirm availability.
+			  </p>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</section>
+
 	<section class="section" id="about">
 	  <div class="container">
 		<div class="panel">
@@ -167,6 +310,50 @@
 		</div>
 	  </div>
 	</section>
+
+	<section class="section" id="faq">
+	  <div class="container">
+		<div class="section-head section-head--tight">
+		  <div>
+			<p class="eyebrow">FAQ</p>
+			<h2>Common questions</h2>
+			<p class="section-copy">
+			  A few quick answers to things homeowners ask us all the time.
+			</p>
+		  </div>
+		</div>
+
+		<div class="faq-list">
+		  <details class="faq-item">
+			<summary>Do you offer free estimates?</summary>
+			<p>
+			  Yes. We offer free estimates for most common jobs. Reach out with details and we’ll let you know what to expect.
+			</p>
+		  </details>
+
+		  <details class="faq-item">
+			<summary>Can I call or text?</summary>
+			<p>
+			  Yes. You can call or text us at <a href="tel:+15128884406">(512) 888-4406</a>.
+			</p>
+		  </details>
+
+		  <details class="faq-item">
+			<summary>What kinds of plumbing work do you handle?</summary>
+			<p>
+			  We help with common residential plumbing issues like leaks, clogs, fixtures, drains, water heaters, and more.
+			</p>
+		  </details>
+
+		  <details class="faq-item">
+			<summary>Do you serve areas outside Austin?</summary>
+			<p>
+			  Yes. We serve much of the Greater Austin area. Contact us to confirm your location.
+			</p>
+		  </details>
+		</div>
+	  </div>
+	</section>
   </main>
 
   <footer class="site-footer">
@@ -180,7 +367,7 @@
 		<p class="eyebrow">Contact</p>
 		<p>
 		  <a href="tel:+15128884406">(512) 888-4406</a><br>
-		  <a href="mailto:service@PlumbAZING.com">service@PlumbAZING.com</a><br>
+		  <a href="mailto:service@plumbazing.com">service@plumbazing.com</a><br>
 		  ML-44738
 		</p>
 	  </div>
@@ -190,6 +377,14 @@
 	  <p class="footer-note">© <span id="y"></span> PlumbAZING. All rights reserved.</p>
 	</div>
   </footer>
+
+  <div class="mobile-cta-bar">
+	<a href="tel:+15128884406" class="mobile-cta mobile-cta--secondary">Call</a>
+	<a href="sms:+15128884406" class="mobile-cta mobile-cta--secondary">Text</a>
+	<button type="button" class="mobile-cta mobile-cta--primary" data-request-service>
+	  Request service
+	</button>
+  </div>
 
   <script src="js/site.js"></script>
 </body>
