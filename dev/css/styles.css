@@ -147,8 +147,17 @@ a {
 }
 
 .hero-brand img {
-  width: min(220px, 50vw);
+  width: min(440px, 100vw);
   height: auto;
+}
+
+.hero-brand--centered {
+  display: flex;
+  justify-content: center;
+}
+
+.hero-blue {
+  color: rgb(12, 60, 131);
 }
 
 .eyebrow {
