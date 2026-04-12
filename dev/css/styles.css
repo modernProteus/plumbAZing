@@ -181,7 +181,7 @@ a {
 }
 
 .hero-brand img {
-  width: min(260px, 70vw);
+  width: min(360px, 80vw);
   height: auto;
 }
 
