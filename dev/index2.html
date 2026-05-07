@@ -1085,7 +1085,58 @@
 			0 1px 2px rgba(255, 255, 255, 0.35);
 		}
 	}
-
+.header-wordmark {
+	  opacity: 0;
+	  transform: translateY(-8px) scale(0.96);
+	  transition:
+		opacity 220ms ease,
+		transform 260ms ease;
+	  pointer-events: none;
+	}
+	
+	.hero-brand-lockup {
+	
+	  display: flex;
+	
+	  justify-content: center;
+	
+	  margin-bottom: 1.25rem;
+	
+	}
+	
+	.hero-brand-logo {
+	
+	  width: min(100%, 420px);
+	
+	  height: auto;
+	
+	  object-fit: contain;
+	
+	  filter: drop-shadow(0 10px 24px rgba(16, 42, 67, 0.10));
+	
+	}
+	
+	body.hero-brand-passed .header-wordmark {
+	  opacity: 1;
+	  transform: translateY(0) scale(1);
+	  pointer-events: auto;
+	}
+	
+	body.hero-brand-passed .hero-brand-lockup {
+	  opacity: 0.18;
+	  transform: translateY(-10px) scale(0.96);
+	}
+#hero .eyebrow {
+	  display: inline-flex;
+	}
+	
+	#hero .hero-copy-top > div:first-child {
+	  text-align: center;
+	}
+	
+	#hero .btn-row {
+	  justify-content: center;
+	}
 	@media (min-width: 1200px) {
 	  .desktop-nav,
 	  .header-actions { display: flex; }
@@ -1095,6 +1146,9 @@
 		gap: 1.35rem;
 		font-weight: 700;
 		color: var(--color-navy);
+		.hero-brand-logo {
+			width: min(100%, 380px);
+		  }
 	  }
 
 	  .desktop-nav a { white-space: nowrap; }
@@ -1189,7 +1243,7 @@
 	  .promo-grid .promo-card-static:first-child { grid-column: auto; }
 	}
 	.hero-brand-logo {
-	  width: min(100%, 220px);
+	  width: min(100%, 420px);
 	  height: auto;
 	  object-fit: contain;
 	  margin-bottom: 1rem;
@@ -1197,7 +1251,7 @@
 	
 	@media (min-width: 1200px) {
 	  .hero-brand-logo {
-		width: min(100%, 250px);
+		width: min(100%, 420px);
 		margin-bottom: 1.1rem;
 	  }
 	}
@@ -1247,7 +1301,7 @@
 	  <a class="brand" href="#hero" aria-label="PlumbAZING home">
 		<img class="brand-mark" src="img/Jax.png" alt="Jax mascot" />
 		<div class="brand-copy">
-		  <img class="brand-wordmark" src="img/bizName.png" alt="PlumbAZING" />
+		  <img class="brand-wordmark header-wordmark" src="img/bizName.svg" alt="PlumbAZING" />
 		  <span>Honest Plumbing. Austin Proud.</span>
 		</div>
 	  </a>
@@ -1295,7 +1349,7 @@
   </header>
 
   <div class="mobile-action-bar">
-	<div class="promo-ribbon">PRV Special: 10% Off + Free Pressure Check</div>
+	<div class="promo-ribbon"><a href="#promo-PRV">PRV Special: 10% Off + Free Pressure Check</a></div>
 	<div class="mobile-action-inner">
 	  <a class="btn btn-secondary" href="tel:15128884406">Call Now</a>
 	  <button class="btn btn-primary" type="button" data-request-service>Request Service</button>
@@ -1308,13 +1362,16 @@
 		<div class="hero-copy hero-copy--with-logo">
 		  <div class="hero-copy-top">
 			<div>
-			  <div class="eyebrow">Serving Greater Austin, TX</div>
+				<div class="hero-brand-lockup" id="heroBrandLockup">
+				  <img class="hero-brand-logo" src="img/Plumbazing_logo_noBack.png" alt="PlumbAZING" />
+				</div>
 			  <h1>Honest, reliable plumbing help without the runaround</h1>
-			  <p class="lead">Repairs, installs, drain help, and water heater service for Austin-area homeowners. Fast response, clean work, and clear options. Free estimates for most jobs.</p>
 			  <div class="btn-row">
 				<button class="btn btn-primary" type="button" data-request-service>Request Service</button>
 				<a class="btn btn-secondary" href="tel:15128884406"><img class="call-now-icon" src="img/callNow2.svg" alt="" /> (512) 888-4406</a>
 			  </div>
+			  <p class="lead">Repairs, installs, drain help, and water heater service for Austin-area homeowners. Fast response, clean work, and clear options. Free estimates for most jobs.</p>
+			  <div class="eyebrow">Serving Greater Austin, TX</div>
 			  <p class="hero-support">Call, text, or request service online and tell us what’s going on. We’ll get back to you as quickly as possible.</p>
 			</div>
 
@@ -1322,24 +1379,7 @@
 			  <div class="hero-carousel" id="heroCarousel">
 				<div class="hero-carousel-viewport">
 
-				  <article class="hero-slide" data-hero-slide="0">
-					<div class="hero-slide-card">
-					  <div class="hero-slide-media">
-						<img src="img/Plumbazing_logo_noBack.png" alt="Price match offer" />
-					  </div>
-					  <div class="hero-slide-body">
-						<span class="hero-slide-kicker">Fast Response</span>
-						<h3>Request help in under a minute</h3>
-						<p>Share details + urgency. We’ll reply ASAP with options + a quote.</p>
-						<div class="hero-slide-actions">
-							<button class="btn btn-primary" type="button" data-request-service>Request Service</button>
-							<a class="btn btn-secondary" href="tel:15128884406">Call Now</a>
-						  </div>
-					  </div>
-					</div>
-				  </article>
-
-				<article class="hero-slide active" data-hero-slide="1">
+				<article class="hero-slide active" data-hero-slide="0">
 					<div class="hero-slide-card">
 					  <div class="hero-slide-media">
 						<img src="img/ad-prv.png" alt="Pre-Summer PRV Special" />
@@ -1357,7 +1397,7 @@
 					</div>
 				  </article>
 				  
-				  <article class="hero-slide" data-hero-slide="2">
+				  <article class="hero-slide" data-hero-slide="1">
 					  <div class="hero-slide-card">
 						<div class="hero-slide-media">
 						  <img src="img/pricematch-badge.png" alt="Price match offer" />
@@ -1370,7 +1410,7 @@
 					  </div>
 					</article>
 
-				  <article class="hero-slide" data-hero-slide="3">
+				  <article class="hero-slide" data-hero-slide="2">
 					<div class="hero-slide-card">
 					  <div class="hero-slide-media">
 						<img src="img/new-customer2.png" alt="First time offer" />
@@ -1388,7 +1428,7 @@
 					</div>
 				  </article>
 
-				  <article class="hero-slide" data-hero-slide="4">
+				  <article class="hero-slide" data-hero-slide="3">
 					<div class="hero-slide-card">
 					  <div class="hero-slide-media hero-slide-media--review">
 						<img src="img/Jax.png" alt="Jax mascot" />
@@ -1402,7 +1442,7 @@
 					</div>
 				  </article>
 
-				  <article class="hero-slide" data-hero-slide="5">
+				  <article class="hero-slide" data-hero-slide="4">
 					<div class="hero-slide-card">
 					  <div class="hero-slide-media">
 						<img src="img/ad-team.png" alt="Josh and Alan from PlumbAZING" />
@@ -1426,7 +1466,6 @@
 					<button class="hero-dot" type="button" aria-label="Go to slide 3" data-hero-dot="2"></button>
 					<button class="hero-dot" type="button" aria-label="Go to slide 4" data-hero-dot="3"></button>
 					<button class="hero-dot" type="button" aria-label="Go to slide 5" data-hero-dot="4"></button>
-					<button class="hero-dot" type="button" aria-label="Go to slide 6" data-hero-dot="5"></button>
 				  </div>
 
 				  <div class="hero-carousel-nav">
@@ -1655,7 +1694,7 @@
 
 		<div class="promo-grid">
 		  <article class="promo-card-static promo-card-static--gradient">
-			<div class="promo-image">
+			<div class="promo-image" id="promo-PRV">
 			  <img src="img/ad-prv.png" alt="Pre-Summer PRV Special" />
 			</div>
 			<div class="promo-content">
@@ -2002,6 +2041,24 @@
 	}
 
 	bindRequestServiceButtons();
+	
+	const heroBrandLockup = document.getElementById('heroBrandLockup');
+	const siteHeader = document.querySelector('.site-header');
+	
+	function updateHeroBrandState() {
+	  if (!heroBrandLockup || !siteHeader) return;
+	
+	  const heroRect = heroBrandLockup.getBoundingClientRect();
+	  const headerRect = siteHeader.getBoundingClientRect();
+	
+	  const passed = heroRect.bottom <= headerRect.bottom + 16;
+	  document.body.classList.toggle('hero-brand-passed', passed);
+	}
+	
+	window.addEventListener('scroll', updateHeroBrandState, { passive: true });
+	window.addEventListener('resize', updateHeroBrandState);
+	updateHeroBrandState();
+	
   </script>
 </body>
 </html>
