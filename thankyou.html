@@ -1,198 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Thank You | PlumbAZing</title>
-    <meta
-      name="description"
-      content="Thanks for booking with PlumbAZing. We'll be in touch shortly."
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thank You | PlumbAZING</title>
+  <meta name="description" content="Thanks for reaching out to PlumbAZING. We’ll be in touch shortly." />
+  <style>
+	:root {
+	  --font-heading: "Barlow Semi Condensed", "Arial Narrow", Arial, sans-serif;
+	  --font-body: Inter, Arial, Helvetica, sans-serif;
+	  --color-red: #D62828;
+	  --color-red-dark: #B61F1F;
+	  --color-blue: #1D4E89;
+	  --color-navy: #102A43;
+	  --color-text: #1F2933;
+	  --color-muted: #52606D;
+	  --color-bg: #FFFFFF;
+	  --color-bg-soft: #F7FAFC;
+	  --color-bg-tint: #EEF4FA;
+	  --color-border: #D9E2EC;
+	  --shadow-sm: 0 2px 8px rgba(16, 42, 67, 0.06);
+	  --shadow-md: 0 8px 24px rgba(16, 42, 67, 0.10);
+	  --shadow-lg: 0 14px 36px rgba(16, 42, 67, 0.14);
+	  --radius-md: 1rem;
+	  --radius-lg: 1.25rem;
+	  --radius-xl: 1.5rem;
+	  --radius-pill: 999px;
+	  --text-sm: 0.875rem;
+	  --text-base: 1rem;
+	  --text-md: 1.125rem;
+	  --text-xl: 1.5rem;
+	  --text-2xl: 2rem;
+	  --text-3xl: 2.5rem;
+	  --lh-snug: 1.2;
+	  --lh-base: 1.5;
+	  --space-3: 0.75rem;
+	  --space-4: 1rem;
+	  --space-5: 1.25rem;
+	  --space-6: 1.5rem;
+	  --space-8: 2rem;
+	  --space-10: 2.5rem;
+	  --space-12: 3rem;
+	  --space-16: 4rem;
+	  --container: 860px;
+	}
 
-    <style>
-      :root {
-        --blue: #0b3d91;
-        --red: #c1121f;
-        --ink: #0f172a;
-        --muted: #475569;
-        --bg: #ffffff;
-        --card: #f8fafc;
-        --line: #e2e8f0;
-        --shadow: 0 10px 30px rgba(2, 8, 23, 0.08);
-        --radius: 18px;
-        --max: 860px;
-      }
+	* { box-sizing: border-box; }
+	body {
+	  margin: 0;
+	  min-height: 100vh;
+	  display: grid;
+	  place-items: center;
+	  padding: 24px;
+	  font-family: var(--font-body);
+	  color: var(--color-text);
+	  line-height: var(--lh-base);
+	  background:
+		radial-gradient(circle at top left, rgba(29,78,137,0.12), transparent 30%),
+		radial-gradient(circle at top right, rgba(214,40,40,0.10), transparent 24%),
+		linear-gradient(180deg, #ffffff, #f7fafc);
+	}
 
-      * {
-        box-sizing: border-box;
-      }
+	.wrap {
+	  width: min(100%, var(--container));
+	}
 
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
-          Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-        color: var(--ink);
-        background: radial-gradient(
-            1200px 260px at 20% 20%,
-            rgba(11, 61, 145, 0.14),
-            transparent 60%
-          ),
-          radial-gradient(
-            900px 240px at 80% 10%,
-            rgba(193, 18, 31, 0.12),
-            transparent 60%
-          ),
-          linear-gradient(180deg, #ffffff, #f8fafc);
-        line-height: 1.45;
-        padding: 24px;
-      }
+	.card {
+	  background: rgba(255,255,255,0.96);
+	  border: 1px solid rgba(217,226,236,0.9);
+	  border-radius: 28px;
+	  box-shadow: var(--shadow-lg);
+	  padding: 40px 28px;
+	  text-align: center;
+	  overflow: hidden;
+	  position: relative;
+	}
 
-      .wrap {
-        width: 100%;
-        max-width: var(--max);
-      }
+	.card::before {
+	  content: "";
+	  position: absolute;
+	  inset: 0 0 auto 0;
+	  height: 6px;
+	  background: linear-gradient(90deg, var(--color-blue), var(--color-red));
+	}
 
-      .card {
-        background: rgba(255, 255, 255, 0.96);
-        border: 1px solid rgba(2, 8, 23, 0.08);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        padding: 32px 24px;
-        text-align: center;
-      }
+	.logo {
+	  width: min(260px, 66vw);
+	  height: auto;
+	  margin: 0 auto 20px;
+	  display: block;
+	  filter: drop-shadow(0 12px 28px rgba(16,42,67,0.12));
+	}
 
-      .logo {
-        width: min(240px, 60vw);
-        height: auto;
-        display: block;
-        margin: 0 auto 20px;
-      }
+	.eyebrow {
+	  display: inline-flex;
+	  align-items: center;
+	  gap: 8px;
+	  padding: 8px 12px;
+	  border-radius: var(--radius-pill);
+	  background: var(--color-bg-tint);
+	  border: 1px solid rgba(29,78,137,0.16);
+	  color: var(--color-blue);
+	  font-size: var(--text-sm);
+	  font-weight: 800;
+	  text-transform: uppercase;
+	  letter-spacing: 0.04em;
+	  margin-bottom: var(--space-5);
+	}
 
-      .eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 12px;
-        border-radius: 999px;
-        background: rgba(11, 61, 145, 0.07);
-        border: 1px solid rgba(11, 61, 145, 0.14);
-        color: var(--blue);
-        font-weight: 900;
-        font-size: 14px;
-      }
+	h1 {
+	  margin: 0 0 12px;
+	  font-family: var(--font-heading);
+	  font-size: clamp(2.25rem, 4vw, 3.5rem);
+	  line-height: var(--lh-snug);
+	  color: var(--color-navy);
+	}
 
-      h1 {
-        margin: 18px 0 10px;
-        font-size: clamp(32px, 5vw, 46px);
-        line-height: 1.05;
-        letter-spacing: -0.6px;
-      }
+	.lead {
+	  max-width: 42rem;
+	  margin: 0 auto;
+	  color: var(--color-muted);
+	  font-size: var(--text-md);
+	}
 
-      p {
-        margin: 0 auto;
-        max-width: 38rem;
-        color: var(--muted);
-        font-size: 18px;
-      }
+	.status-grid {
+	  display: grid;
+	  gap: var(--space-5);
+	  margin-top: var(--space-8);
+	  text-align: left;
+	}
 
-      .actions {
-        display: flex;
-        gap: 12px;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-top: 26px;
-      }
+	.status-card {
+	  background: var(--color-bg-soft);
+	  border: 1px solid rgba(217,226,236,0.9);
+	  border-radius: 22px;
+	  box-shadow: var(--shadow-sm);
+	  padding: 18px 18px 16px;
+	}
 
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 12px 18px;
-        border-radius: 999px;
-        border: 1px solid transparent;
-        text-decoration: none;
-        font-weight: 850;
-        letter-spacing: 0.2px;
-      }
+	.status-card h2 {
+	  margin: 0 0 6px;
+	  font-family: var(--font-heading);
+	  font-size: var(--text-xl);
+	  color: var(--color-navy);
+	}
 
-      .btn.primary {
-        background: var(--red);
-        color: #fff;
-        box-shadow: 0 10px 18px rgba(193, 18, 31, 0.18);
-      }
+	.status-card p {
+	  margin: 0;
+	  color: var(--color-muted);
+	}
 
-      .btn.secondary {
-        background: #fff;
-        border-color: rgba(11, 61, 145, 0.25);
-        color: var(--blue);
-      }
+	.actions {
+	  display: flex;
+	  flex-wrap: wrap;
+	  justify-content: center;
+	  gap: 12px;
+	  margin-top: var(--space-8);
+	}
 
-      .note {
-        margin-top: 18px;
-        font-size: 14px;
-        font-weight: 700;
-        color: var(--muted);
-      }
+	.btn {
+	  display: inline-flex;
+	  align-items: center;
+	  justify-content: center;
+	  padding: 0.95rem 1.35rem;
+	  border-radius: var(--radius-md);
+	  border: 0;
+	  font-family: var(--font-body);
+	  font-weight: 800;
+	  text-decoration: none;
+	  transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+	}
 
-      @media (max-width: 640px) {
-        .card {
-          padding: 28px 18px;
-        }
+	.btn:hover { transform: translateY(-2px); }
 
-        p {
-          font-size: 16px;
-        }
-      }
-    </style>
+	.btn-primary {
+	  background: var(--color-red);
+	  color: #fff;
+	  box-shadow: var(--shadow-md);
+	}
 
-    <!-- Google Tag Manager -->
-    <script>
-      (function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != "dataLayer" ? "&l=" + l : "";
-        j.async = true;
-        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-        f.parentNode.insertBefore(j, f);
-      })(window, document, "script", "dataLayer", "GTM-K52WZPK8");
-    </script>
-    <!-- End Google Tag Manager -->
-  </head>
+	.btn-primary:hover { background: var(--color-red-dark); }
 
-  <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript>
-      <iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-K52WZPK8"
-        height="0"
-        width="0"
-        style="display: none; visibility: hidden"
-      ></iframe>
-    </noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    <main class="wrap">
-      <section class="card" aria-label="Booking confirmation">
-        <img class="logo" src="img/Plumbazing_logo.svg" alt="PlumbAZing logo" />
+	.btn-secondary {
+	  background: #fff;
+	  color: var(--color-blue);
+	  border: 1.5px solid var(--color-blue);
+	}
 
-        <div class="eyebrow">Booking received</div>
-        <h1>Thank you for booking.</h1>
-        <p>
-          We’ve received your request and will be in touch shortly to confirm
-          the details.
-        </p>
+	.note {
+	  margin-top: var(--space-6);
+	  font-size: var(--text-sm);
+	  color: var(--color-muted);
+	  font-weight: 700;
+	}
 
-        <div class="actions">
-          <a class="btn primary" href="/">Back to home</a>
-          <a class="btn secondary" href="tel:+15128884406">Call/Text us</a>
-        </div>
+	@media (min-width: 768px) {
+	  .status-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	  }
+	  .card {
+		padding: 48px 36px;
+	  }
+	}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+	<section class="card" aria-label="Thank you confirmation">
+	  <img class="logo" src="img/Plumbazing_logo.jpg" alt="PlumbAZING logo" />
+	  <div class="eyebrow">Request Received</div>
+	  <h1>Thank you — we’ve got your request.</h1>
+	  <p class="lead">We’ll review the details and get back to you as quickly as possible. If your issue is urgent, go ahead and give us a call so we can help you faster.</p>
 
-        <div class="note">PlumbAZing • Honest, reliable plumbing in Austin</div>
-      </section>
-    </main>
-  </body>
+	  <div class="status-grid">
+		<article class="status-card">
+		  <h2>What happens next</h2>
+		  <p>We’ll review your request and follow up with the next steps as soon as possible.</p>
+		</article>
+		<article class="status-card">
+		  <h2>Need faster help?</h2>
+		  <p>If this is urgent, call now so we can help you take the next right step right away.</p>
+		</article>
+		<article class="status-card">
+		  <h2>Serving Greater Austin</h2>
+		  <p>We proudly serve Austin and nearby areas with practical solutions and clear communication.</p>
+		</article>
+	  </div>
+
+	  <div class="actions">
+		<a class="btn btn-primary" href="index.html">Back to Home</a>
+		<a class="btn btn-secondary" href="tel:15128884406">Call Now</a>
+	  </div>
+
+	  <div class="note">PlumbAZING · Honest, reliable plumbing help without the runaround</div>
+	</section>
+  </main>
+</body>
 </html>
