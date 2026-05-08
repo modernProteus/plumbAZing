@@ -4,1298 +4,40 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PlumbAZING | Honest, reliable plumbing help without the runaround</title>
-  <script async src="https://online-booking.housecallpro.com/script.js?token=56fe9001ad314433a6466f5d7d3131b9&orgName=PlumbAZING"></script>
-  <style>
-	:root {
-	  --font-heading: "Barlow Semi Condensed", "Arial Narrow", Arial, sans-serif;
-	  --font-body: Inter, Arial, Helvetica, sans-serif;
+  <!-- Google Tag Manager -->
+  <script>
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != "dataLayer" ? "&l=" + l : "";
+      j.async = true;
+      j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", "GTM-K52WZPK8");
+  </script>
+  <!-- End Google Tag Manager -->
+
+  <link rel="stylesheet" href="css/styles.css" />
+  <script
+    async
+    src="https://online-booking.housecallpro.com/script.js?token=56fe9001ad314433a6466f5d7d3131b9&orgName=PlumbAZING"
+  ></script>
 
-	  --text-xs: 0.75rem;
-	  --text-sm: 0.875rem;
-	  --text-base: 1rem;
-	  --text-md: 1.125rem;
-	  --text-lg: 1.25rem;
-	  --text-xl: 1.5rem;
-	  --text-2xl: 2rem;
-	  --text-3xl: 2.5rem;
-	  --text-4xl: 3.25rem;
-
-	  --lh-tight: 1.1;
-	  --lh-snug: 1.2;
-	  --lh-base: 1.5;
-	  --lh-loose: 1.65;
-
-	  --color-red: #D62828;
-	  --color-red-dark: #AD0C20;
-	  --color-blue: #1D4E89;
-	  --color-blue-dark: #0B3B82;
-	  --color-navy: #102A43;
-	  --color-charcoal: #243B53;
-	  --color-text: #1F2933;
-	  --color-muted: #52606D;
-	  --color-bg: #FFFFFF;
-	  --color-bg-soft: #F7FAFC;
-	  --color-bg-tint: #EEF4FA;
-	  --color-border: #D9E2EC;
-	  --color-star: #F6AD55;
-
-	  --space-2: 0.5rem;
-	  --space-3: 0.75rem;
-	  --space-4: 1rem;
-	  --space-5: 1.25rem;
-	  --space-6: 1.5rem;
-	  --space-8: 2rem;
-	  --space-10: 2.5rem;
-	  --space-12: 3rem;
-	  --space-16: 4rem;
-	  --space-20: 5rem;
-	  --space-24: 6rem;
-
-	  --radius-sm: 0.75rem;
-	  --radius-md: 1rem;
-	  --radius-lg: 1.25rem;
-	  --radius-xl: 1.5rem;
-	  --radius-pill: 999px;
-
-	  --shadow-sm: 0 2px 8px rgba(16, 42, 67, 0.06);
-	  --shadow-md: 0 8px 24px rgba(16, 42, 67, 0.10);
-	  --shadow-lg: 0 14px 36px rgba(16, 42, 67, 0.14);
-
-	  --container-xl: 1080px;
-	  --transition-fast: 180ms ease;
-	  --transition-base: 240ms ease;
-	  --transition-slow: 320ms ease;
-	}
-
-	* { box-sizing: border-box; }
-	html { scroll-behavior: smooth; }
-
-	body {
-	  margin: 0;
-	  font-family: var(--font-body);
-	  color: var(--color-text);
-	  background: var(--color-bg);
-	  line-height: var(--lh-base);
-	  padding-bottom: 110px;
-	}
-
-	img { max-width: 100%; display: block; }
-	a { color: inherit; text-decoration: none; }
-	button { font: inherit; cursor: pointer; }
-
-	.container {
-	  width: min(100% - 2rem, var(--container-xl));
-	  margin: 0 auto;
-	}
-
-	.section { padding: var(--space-16) 0; }
-	.section-soft { background: var(--color-bg-soft); }
-	.section-tint { background: var(--color-bg-tint); }
-	.section-dark { background: var(--color-navy); color: #fff; }
-
-	.eyebrow {
-	  display: inline-flex;
-	  align-items: center;
-	  gap: 0.5rem;
-	  padding: 0.45rem 0.9rem;
-	  border-radius: var(--radius-pill);
-	  background: var(--color-bg-tint);
-	  color: var(--color-blue-dark);
-	  font-size: var(--text-sm);
-	  font-weight: 700;
-	  text-transform: uppercase;
-	  letter-spacing: 0.04em;
-	  margin-bottom: var(--space-5);
-	}
-
-	h1, h2, h3, h4 {
-	  margin: 0 0 var(--space-4);
-	  font-family: var(--font-heading);
-	  line-height: var(--lh-snug);
-	  letter-spacing: -0.01em;
-	}
-
-	h1 { font-size: clamp(2.5rem, 4vw, var(--text-4xl)); }
-	h2 { font-size: clamp(1.9rem, 3vw, var(--text-2xl)); }
-	h3 { font-size: var(--text-xl); }
-
-	.lead {
-	  font-size: var(--text-md);
-	  color: var(--color-muted);
-	  max-width: 62ch;
-	}
-
-	.section-header {
-	  max-width: 760px;
-	  margin-bottom: var(--space-10);
-	}
-
-	.btn-row {
-	  display: flex;
-	  flex-wrap: wrap;
-	  gap: 0.9rem;
-	  align-items: center;
-	}
-
-	.btn {
-	  display: inline-flex;
-	  align-items: center;
-	  justify-content: center;
-	  gap: 0.5rem;
-	  padding: 0.95rem 1.4rem;
-	  border-radius: var(--radius-md);
-	  font-weight: 800;
-	  border: 0;
-	  transition:
-		transform var(--transition-fast),
-		box-shadow var(--transition-fast),
-		background var(--transition-fast),
-		color var(--transition-fast);
-	  box-shadow: var(--shadow-md);
-	}
-
-	.btn:hover { transform: translateY(-2px); }
-
-	.btn-primary {
-	  background: var(--color-red);
-	  color: #fff;
-	}
-
-	.btn-primary:hover { background: var(--color-red-dark); }
-
-	.btn-secondary {
-	  background: #fff;
-	  color: var(--color-blue);
-	  border: 1.5px solid var(--color-blue);
-	  box-shadow: none;
-	}
-
-	.site-header {
-	  position: sticky;
-	  top: 0;
-	  z-index: 50;
-	  background: rgba(255,255,255,0.94);
-	  backdrop-filter: blur(10px);
-	  border-bottom: 1px solid rgba(217, 226, 236, 0.7);
-	}
-
-	.header-inner {
-	  display: flex;
-	  align-items: center;
-	  justify-content: space-between;
-	  min-height: 78px;
-	  gap: var(--space-6);
-	}
-
-	.brand {
-	  display: flex;
-	  align-items: center;
-	  gap: 0.85rem;
-	  min-width: 0;
-	}
-
-	.brand-mark {
-	  width: 56px;
-	  height: 56px;
-	  border-radius: 16px;
-	  object-fit: contain;
-	  object-position: center;
-	  box-shadow: var(--shadow-sm);
-	  flex: 0 0 auto;
-	  background: #fff;
-	  padding: 0.3rem;
-	}
-
-	.brand-copy { min-width: 0; }
-
-	.brand-copy strong {
-	  display: block;
-	  font-family: var(--font-heading);
-	  font-size: 1.4rem;
-	  line-height: 1;
-	  color: var(--color-navy);
-	}
-
-	.brand-copy span {
-	  display: block;
-	  font-size: var(--text-sm);
-	  color: var(--color-muted);
-	  white-space: nowrap;
-	  overflow: hidden;
-	  text-overflow: ellipsis;
-	}
-
-	.desktop-nav,
-	.header-actions { display: none; }
-
-	.mobile-header-actions {
-	  display: flex;
-	  align-items: center;
-	  gap: 0.7rem;
-	}
-
-	.icon-btn {
-	  width: 46px;
-	  height: 46px;
-	  border-radius: 14px;
-	  border: 1px solid var(--color-border);
-	  background: #fff;
-	  display: grid;
-	  place-items: center;
-	  box-shadow: var(--shadow-sm);
-	  color: var(--color-blue-dark);
-	}
-
-	.call-now-btn {
-	  padding: 0;
-	}
-
-	.call-now-icon {
-	  width: 24px;
-	  height: 24px;
-	  object-fit: contain;
-	  display: block;
-	}
-
-	.icon {
-	  width: 20px;
-	  height: 20px;
-	  position: relative;
-	  display: block;
-	}
-
-	.icon-menu::before,
-	.icon-menu::after,
-	.icon-menu span {
-	  content: "";
-	  position: absolute;
-	  background: currentColor;
-	  border-radius: 999px;
-	}
-
-	.icon-menu::before { left: 2px; right: 2px; top: 4px; height: 2.5px; }
-	.icon-menu span { left: 2px; right: 2px; top: 9px; height: 2.5px; }
-	.icon-menu::after { left: 2px; right: 2px; bottom: 4px; height: 2.5px; }
-
-	.mobile-menu {
-	  display: none;
-	  border-top: 1px solid var(--color-border);
-	  background: #fff;
-	}
-
-	.mobile-menu.open { display: block; }
-
-	.mobile-menu-inner {
-	  padding: var(--space-6) 0 var(--space-8);
-	  display: grid;
-	  gap: var(--space-4);
-	}
-
-	.mobile-menu a {
-	  font-weight: 700;
-	  color: var(--color-navy);
-	}
-
-	.mobile-menu a[href^="tel:"] {
-	  color: var(--color-red);
-	  font-weight: 800;
-	}
-
-	.mobile-menu .btn { width: 100%; }
-
-	.mobile-action-bar {
-	  position: fixed;
-	  left: 0;
-	  right: 0;
-	  bottom: 0;
-	  z-index: 60;
-	  display: block;
-	  border-top: 1px solid rgba(217,226,236,0.8);
-	  background: rgba(255,255,255,0.96);
-	  backdrop-filter: blur(12px);
-	  padding-bottom: env(safe-area-inset-bottom, 0);
-	  box-shadow: 0 -8px 24px rgba(16,42,67,0.10);
-	}
-
-	.promo-ribbon {
-	  background: var(--color-blue);
-	  color: #fff;
-	  text-align: center;
-	  font-size: var(--text-sm);
-	  font-weight: 800;
-	  padding: 0.65rem 1rem;
-	}
-
-	.mobile-action-inner {
-	  display: grid;
-	  grid-template-columns: 1fr 1fr;
-	  gap: 0.8rem;
-	  padding: 0.8rem 1rem 0.9rem;
-	}
-
-	.mobile-action-inner .btn {
-	  min-height: 52px;
-	  padding: 0.95rem 1rem;
-	}
-
-	.hero {
-	  padding: var(--space-16) 0 var(--space-12);
-	  background:
-		radial-gradient(circle at top right, rgba(29,78,137,0.10), transparent 30%),
-		radial-gradient(circle at left center, rgba(214,40,40,0.08), transparent 24%),
-		var(--color-bg);
-	}
-
-	.hero-grid {
-	  display: grid;
-	  gap: var(--space-10);
-	  align-items: center;
-	}
-
-	.hero-grid--simple { grid-template-columns: 1fr; }
-
-	.hero-copy .lead { margin-bottom: var(--space-6); }
-
-	.hero-support {
-	  margin-top: var(--space-5);
-	  color: var(--color-muted);
-	  font-size: var(--text-sm);
-	}
-
-	.hero-copy-top {
-	  display: grid;
-	  gap: var(--space-8);
-	  align-items: center;
-	}
-
-	.hero-carousel-wrap {
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
-	}
-
-	.hero-carousel {
-	  width: 100%;
-	  max-width: 420px;
-	  background: #fff;
-	  border: 1px solid rgba(217,226,236,0.9);
-	  border-radius: 24px;
-	  box-shadow: var(--shadow-lg);
-	  overflow: hidden;
-	  position: relative;
-	}
-
-	.hero-carousel-viewport {
-	  position: relative;
-	  min-height: 540px;
-	  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-	}
-
-	.hero-slide {
-	  display: none;
-	  height: 100%;
-	  min-height: 540px;
-	  padding: 1rem;
-	}
-
-	.hero-slide.active {
-	  display: flex;
-	}
-
-	.hero-slide-card {
-	  width: 100%;
-	  border-radius: 20px;
-	  overflow: hidden;
-	  display: flex;
-	  flex-direction: column;
-	  background: #fff;
-	  border: 1px solid rgba(217,226,236,0.85);
-	  box-shadow: var(--shadow-sm);
-	}
-
-	.hero-slide-media {
-	  background: linear-gradient(145deg, var(--color-blue), var(--color-navy));
-	  min-height: 250px;
-	  display: flex;
-	  align-items: center;
-	  justify-content: center;
-	  padding: 1rem;
-	}
-
-	.hero-slide-media img {
-	  width: 100%;
-	  height: 100%;
-	  max-height: 240px;
-	  object-fit: contain;
-	}
-
-	.hero-slide-body {
-	  padding: var(--space-6);
-	  display: grid;
-	  gap: var(--space-4);
-	}
-
-	.hero-slide-kicker {
-	  display: inline-flex;
-	  align-items: center;
-	  justify-content: center;
-	  width: fit-content;
-	  padding: 0.45rem 0.8rem;
-	  border-radius: var(--radius-pill);
-	  background: var(--color-bg-tint);
-	  color: var(--color-blue-dark);
-	  font-size: var(--text-sm);
-	  font-weight: 800;
-	  text-transform: uppercase;
-	  letter-spacing: 0.04em;
-	}
-
-	.hero-slide h3 {
-	  margin: 0;
-	  color: var(--color-navy);
-	  font-size: 1.65rem;
-	}
-
-	.hero-slide p {
-	  margin: 0;
-	  color: var(--color-muted);
-	}
-
-	.hero-slide-actions {
-	  display: flex;
-	  flex-wrap: wrap;
-	  gap: 0.75rem;
-	  margin-top: 0.25rem;
-	}
-
-	.hero-carousel-controls {
-	  display: flex;
-	  align-items: center;
-	  justify-content: space-between;
-	  gap: 1rem;
-	  padding: 0.9rem 1rem 1rem;
-	  border-top: 1px solid rgba(217,226,236,0.8);
-	  background: #fff;
-	}
-
-	.hero-carousel-dots {
-	  display: flex;
-	  align-items: center;
-	  gap: 0.55rem;
-	}
-
-	.hero-dot {
-	  width: 10px;
-	  height: 10px;
-	  border-radius: 999px;
-	  border: 0;
-	  background: rgba(16,42,67,0.18);
-	  box-shadow: none;
-	  padding: 0;
-	}
-
-	.hero-dot.active {
-	  background: var(--color-red);
-	}
-
-	.hero-carousel-nav {
-	  display: flex;
-	  gap: 0.5rem;
-	}
-
-	.hero-nav-btn {
-	  width: 38px;
-	  height: 38px;
-	  border-radius: 12px;
-	  border: 1px solid rgba(217,226,236,0.9);
-	  background: #fff;
-	  color: var(--color-blue-dark);
-	  box-shadow: var(--shadow-sm);
-	  display: grid;
-	  place-items: center;
-	  padding: 0;
-	  font-weight: 800;
-	}
-
-	.trust-grid,
-	.steps-grid,
-	.reviews-grid,
-	.coverage-grid,
-	.faq-grid,
-	.promo-grid,
-	.about-grid {
-	  display: grid;
-	  gap: var(--space-5);
-	}
-
-	.trust-item,
-	.step-card,
-	.review-card,
-	.faq-item,
-	.city-chip,
-	.service-pill,
-	.coverage-map-card,
-	.coverage-copy-card,
-	.final-cta-card,
-	.promo-card-static,
-	.about-card,
-	.about-image-card {
-	  border-radius: var(--radius-xl);
-	}
-
-	.trust-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-	.trust-item {
-	  background: #fff;
-	  border: 1px solid rgba(217,226,236,0.9);
-	  box-shadow: var(--shadow-sm);
-	  padding: var(--space-5);
-	  display: block;
-	}
-
-	.trust-item h3,
-	.service-front h3,
-	.coverage-copy-card h3,
-	.about-card h3,
-	.promo-card-static h3 {
-	  font-size: var(--text-lg);
-	  margin-bottom: 0.35rem;
-	}
-
-	.trust-item p,
-	.review-card p,
-	.faq-answer,
-	.city-note,
-	.coverage-copy-card p,
-	.about-card p,
-	.promo-card-static p {
-	  margin: 0;
-	  color: var(--color-muted);
-	}
-
-	.service-visual {
-	  width: 100%;
-	  aspect-ratio: 1 / 1;
-	  border-radius: 18px;
-	  object-fit: cover;
-	  background: #eef4fa;
-	  box-shadow: var(--shadow-sm);
-	  border: 1px solid rgba(217, 226, 236, 0.85);
-	}
-
-	.services-grid {
-	  display: grid;
-	  gap: var(--space-6);
-	}
-
-	.service-card {
-	  perspective: none;
-	  min-height: auto;
-	}
-
-	.service-card-inner {
-	  position: static;
-	  width: 100%;
-	  min-height: auto;
-	  transform: none !important;
-	  transform-style: flat;
-	}
-
-	.service-face {
-	  position: static;
-	  inset: auto;
-	  padding: var(--space-6);
-	  border-radius: var(--radius-xl);
-	  backface-visibility: visible;
-	  box-shadow: var(--shadow-md);
-	  display: flex;
-	  flex-direction: column;
-	  justify-content: space-between;
-	  border: 1px solid rgba(217,226,236,0.85);
-	}
-
-	.service-front {
-	  background: linear-gradient(180deg, #ffffff, #f8fbff);
-	}
-
-	.service-back {
-	  display: none;
-	  background: var(--color-navy);
-	  color: #fff;
-	  transform: none;
-	  border-color: rgba(16,42,67,0.9);
-	}
-
-	.service-card.is-flipped .service-front {
-	  display: none;
-	}
-
-	.service-card.is-flipped .service-back {
-	  display: flex;
-	}
-
-	.service-front p {
-	  max-width: unset;
-	  color: var(--color-muted);
-	}
-
-	.service-top {
-	  display: grid;
-	  gap: var(--space-5);
-	}
-
-	.service-back h3 { margin-bottom: 0.35rem; }
-
-	.service-back p,
-	.service-back li {
-	  color: rgba(255,255,255,0.82);
-	}
-
-	.service-back ul {
-	  padding-left: 1.2rem;
-	  margin: 0;
-	  display: grid;
-	  gap: 0.55rem;
-	}
-
-	.service-cta-label {
-	  font-weight: 800;
-	  margin-bottom: var(--space-3);
-	}
-
-	.service-actions {
-	  display: flex;
-	  flex-wrap: wrap;
-	  gap: 0.75rem;
-	  margin-top: var(--space-5);
-	}
-
-	.text-link {
-	  font-weight: 800;
-	  color: inherit;
-	  opacity: 0.96;
-	  background: transparent;
-	  border: 0;
-	  padding: 0;
-	}
-
-	.flip-hint,
-	.promo-flip-hint {
-	  margin-top: var(--space-4);
-	  font-size: var(--text-sm);
-	  color: var(--color-muted);
-	  font-weight: 700;
-	}
-
-	.pill-label {
-	  margin-top: var(--space-10);
-	  margin-bottom: var(--space-4);
-	  color: var(--color-muted);
-	  font-size: var(--text-sm);
-	  font-weight: 700;
-	  text-transform: uppercase;
-	  letter-spacing: 0.04em;
-	}
-
-	.pill-row,
-	.about-pill-row {
-	  display: flex;
-	  flex-wrap: wrap;
-	  gap: 0.8rem;
-	}
-
-	.service-pill,
-	.city-chip,
-	.about-pill {
-	  display: inline-flex;
-	  align-items: center;
-	  justify-content: center;
-	  padding: 0.85rem 1rem;
-	  border: 1px solid var(--color-border);
-	  background: #fff;
-	  color: var(--color-blue-dark);
-	  font-weight: 700;
-	  box-shadow: var(--shadow-sm);
-	  border-radius: var(--radius-pill);
-	}
-
-	.steps-grid { grid-template-columns: 1fr; }
-
-	.step-card {
-	  background: transparent;
-	  box-shadow: none;
-	  border: 0;
-	  padding: 0;
-	  display: block;
-	}
-
-	.process-card-image {
-	  width: 100%;
-	  aspect-ratio: 1 / 1;
-	  border-radius: 22px;
-	  object-fit: contain;
-	  object-position: center;
-	  background: #fff;
-	  box-shadow: var(--shadow-sm);
-	  border: 1px solid rgba(217, 226, 236, 0.6);
-	  padding: 0.5rem;
-	}
-
-	.promo-grid {
-	  grid-template-columns: 1fr;
-	}
-
-	.promo-card-static {
-	  background: #fff;
-	  border: 1px solid rgba(217,226,236,0.9);
-	  box-shadow: var(--shadow-md);
-	  overflow: hidden;
-	  display: flex;
-	  flex-direction: column;
-	}
-
-	.promo-card-static--gradient {
-	  background: linear-gradient(145deg, var(--color-blue), var(--color-navy));
-	  color: #fff;
-	  border-color: transparent;
-	}
-
-	.promo-card-static--gradient p,
-	.promo-card-static--gradient .promo-meta {
-	  color: rgba(255,255,255,0.88);
-	}
-
-	.promo-card-static--warm {
-	  background: linear-gradient(145deg, #8b1e3f, #243b83);
-	  color: #fff;
-	  border-color: transparent;
-	}
-
-	.promo-card-static--warm p,
-	.promo-card-static--warm .promo-meta {
-	  color: rgba(255,255,255,0.88);
-	}
-
-	.promo-card-static--light {
-	  background: linear-gradient(180deg, #ffffff, #f8fbff);
-	}
-
-	.promo-image {
-	  padding: 0.75rem;
-	}
-
-	.promo-image img {
-	  width: 100%;
-	  max-height: 240px;
-	  object-fit: contain;
-	  border-radius: 18px;
-	  background: #fff;
-	}
-
-	.promo-content {
-	  padding: var(--space-6);
-	  display: grid;
-	  gap: var(--space-4);
-	}
-
-	.promo-kicker-static {
-	  display: inline-flex;
-	  width: fit-content;
-	  padding: 0.45rem 0.8rem;
-	  border-radius: var(--radius-pill);
-	  background: rgba(255,255,255,0.16);
-	  color: #fff;
-	  font-size: var(--text-sm);
-	  font-weight: 800;
-	  text-transform: uppercase;
-	  letter-spacing: 0.04em;
-	}
-
-	.promo-card-static--light .promo-kicker-static {
-	  background: var(--color-bg-tint);
-	  color: var(--color-blue-dark);
-	}
-
-	.promo-meta {
-	  font-size: var(--text-sm);
-	  font-weight: 700;
-	  color: var(--color-muted);
-	}
-
-	.reviews-summary {
-	  display: inline-flex;
-	  gap: 0.6rem;
-	  align-items: center;
-	  padding: 0.6rem 0.9rem;
-	  background: #fff;
-	  border: 1px solid rgba(217,226,236,0.9);
-	  border-radius: var(--radius-pill);
-	  box-shadow: var(--shadow-sm);
-	  margin-bottom: var(--space-6);
-	  color: var(--color-blue-dark);
-	  font-weight: 800;
-	}
-
-	.stars {
-	  color: var(--color-star);
-	  letter-spacing: 0.08em;
-	}
-
-	.reviews-grid { grid-template-columns: 1fr; }
-
-	.review-card {
-	  background: #fff;
-	  padding: var(--space-6);
-	  border: 1px solid rgba(217,226,236,0.9);
-	  box-shadow: var(--shadow-md);
-	}
-
-	.review-meta {
-	  margin-top: var(--space-4);
-	  font-size: var(--text-sm);
-	  color: var(--color-muted);
-	  font-weight: 700;
-	}
-
-	.about-grid {
-	  grid-template-columns: 1fr;
-	  align-items: center;
-	}
-
-	.about-card {
-	  background: #fff;
-	  border: 1px solid rgba(217,226,236,0.9);
-	  box-shadow: var(--shadow-md);
-	  padding: var(--space-6);
-	}
-
-	.about-image-card {
-	  background: #fff;
-	  border: 1px solid rgba(217,226,236,0.9);
-	  box-shadow: var(--shadow-md);
-	  padding: 0.75rem;
-	}
-
-	.about-image-card img {
-	  width: 100%;
-	  border-radius: 18px;
-	  object-fit: cover;
-	}
-
-	.coverage-grid {
-	  grid-template-columns: 1fr;
-	  align-items: center;
-	}
-
-	.coverage-copy-card {
-	  background: #fff;
-	  border: 1px solid rgba(217,226,236,0.9);
-	  box-shadow: var(--shadow-md);
-	  padding: var(--space-6);
-	}
-
-	.coverage-city-grid {
-	  display: grid;
-	  grid-template-columns: repeat(2, minmax(0, 1fr));
-	  gap: 0.8rem;
-	  margin-top: var(--space-6);
-	}
-
-	.coverage-note {
-	  margin-top: var(--space-6);
-	  font-size: var(--text-sm);
-	  color: var(--color-muted);
-	  font-weight: 700;
-	}
-
-	.coverage-map-card {
-	  background: #fff;
-	  border: 1px solid rgba(217,226,236,0.9);
-	  box-shadow: var(--shadow-md);
-	  padding: 0.75rem;
-	}
-
-	.coverage-map-image {
-	  width: 100%;
-	  border-radius: 18px;
-	  object-fit: contain;
-	  background: #fff;
-	}
-
-	.faq-grid { grid-template-columns: 1fr; }
-
-	.faq-item {
-	  background: #fff;
-	  border: 1px solid rgba(217,226,236,0.9);
-	  box-shadow: var(--shadow-sm);
-	  overflow: hidden;
-	}
-
-	.faq-question {
-	  width: 100%;
-	  background: transparent;
-	  border: 0;
-	  padding: var(--space-5) var(--space-6);
-	  display: flex;
-	  align-items: center;
-	  justify-content: space-between;
-	  text-align: left;
-	  font-weight: 800;
-	  color: var(--color-navy);
-	}
-
-	.faq-chevron {
-	  transition: transform var(--transition-base);
-	  color: var(--color-blue);
-	  font-size: 1.25rem;
-	  line-height: 1;
-	}
-
-	.faq-item.open .faq-chevron { transform: rotate(45deg); }
-
-	.faq-answer {
-	  display: none;
-	  padding: 0 var(--space-6) var(--space-6);
-	}
-
-	.faq-item.open .faq-answer { display: block; }
-
-	.final-cta-card {
-	  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
-	  border: 1px solid rgba(255,255,255,0.12);
-	  box-shadow: var(--shadow-lg);
-	  padding: var(--space-8);
-	}
-
-	.final-cta-card p {
-	  color: rgba(255,255,255,0.82);
-	  max-width: 62ch;
-	}
-
-	.site-footer {
-	  background: #0B1F33;
-	  color: #fff;
-	  padding: var(--space-16) 0;
-	}
-
-	.footer-grid {
-	  display: grid;
-	  gap: var(--space-8);
-	}
-
-	.footer-brand p,
-	.footer-links a,
-	.footer-contact p {
-	  color: rgba(255,255,255,0.76);
-	}
-
-	.footer-links {
-	  display: grid;
-	  gap: var(--space-3);
-	}
-
-	.footer-heading {
-	  font-family: var(--font-heading);
-	  font-size: var(--text-lg);
-	  margin-bottom: var(--space-4);
-	}
-.hero-slide-media--review {
-	  position: relative;
-	  overflow: hidden;
-	}
-	
-	.hero-slide-media--review img {
-	  width: 100%;
-	  height: 100%;
-	  max-height: 240px;
-	  object-fit: contain;
-	  object-position: 30% center;
-	  transform: scale(1.04);
-	}
-	
-	.hero-stars-badge {
-	  position: absolute;
-	  top: 40px;
-	  right: 10px;
-	  display: inline-flex;
-	  align-items: center;
-	  justify-content: center;
-	  padding: 0;
-	  background: transparent;
-	  border: 0;
-	  box-shadow: none;
-	  color: var(--color-star);
-	  font-size: 1.55rem;
-	  font-weight: 900;
-	  letter-spacing: 0.1em;
-	  line-height: 1;
-	  z-index: 2;
-	  text-shadow:
-		0 2px 8px rgba(16, 42, 67, 0.18),
-		0 1px 2px rgba(255, 255, 255, 0.35);
-	}
-	@media (min-width: 768px) {
-	  body { padding-bottom: 0; }
-	  .hero { padding: var(--space-20) 0 var(--space-16); }
-	  .hero-copy-top { grid-template-columns: minmax(0, 1fr) 360px; }
-	  .steps-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-	  .reviews-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-	  .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-	  .coverage-grid,
-	  .about-grid { grid-template-columns: 1fr 1fr; }
-	  .coverage-city-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-	  .faq-grid { gap: var(--space-6); }
-	  .mobile-action-bar { display: none; }
-	  .promo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-	  .promo-grid .promo-card-static:first-child { grid-column: 1 / -1; }
-	  .footer-grid { grid-template-columns: 1.2fr 0.7fr 0.9fr; }
-	  .hero-slide-media--review {
-		  position: relative;
-		  overflow: hidden;
-		}
-		
-		.hero-slide-media--review img {
-		  width: 100%;
-		  height: 100%;
-		  max-height: 240px;
-		  object-fit: contain;
-		  object-position: 30% center;
-		  transform: scale(1.04);
-		}
-		
-		.hero-stars-badge {
-		  position: absolute;
-		  top: 40px;
-		  right: 10px;
-		  display: inline-flex;
-		  align-items: center;
-		  justify-content: center;
-		  padding: 0;
-		  background: transparent;
-		  border: 0;
-		  box-shadow: none;
-		  color: var(--color-star);
-		  font-size: 1.55rem;
-		  font-weight: 900;
-		  letter-spacing: 0.1em;
-		  line-height: 1;
-		  z-index: 2;
-		  text-shadow:
-			0 2px 8px rgba(16, 42, 67, 0.18),
-			0 1px 2px rgba(255, 255, 255, 0.35);
-		}
-	}
-.header-wordmark {
-	  opacity: 0;
-	  transform: translateY(-8px) scale(0.96);
-	  transition:
-		opacity 220ms ease,
-		transform 260ms ease;
-	  pointer-events: none;
-	}
-	
-	.hero-brand-lockup {
-	
-	  display: flex;
-	
-	  justify-content: center;
-	
-	  margin-bottom: 1.25rem;
-	
-	}
-	
-	.hero-brand-logo {
-	
-	  width: min(100%, 420px);
-	
-	  height: auto;
-	
-	  object-fit: contain;
-	
-	  filter: drop-shadow(0 10px 24px rgba(16, 42, 67, 0.10));
-	
-	}
-	
-	body.hero-brand-passed .header-wordmark {
-	  opacity: 1;
-	  transform: translateY(0) scale(1);
-	  pointer-events: auto;
-	}
-	
-	body.hero-brand-passed .hero-brand-lockup {
-	  opacity: 0.18;
-	  transform: translateY(-10px) scale(0.96);
-	}
-#hero .eyebrow {
-	  display: inline-flex;
-	}
-	
-	#hero .hero-copy-top > div:first-child {
-	  text-align: center;
-	}
-	
-	#hero .btn-row {
-	  justify-content: center;
-	}
-	@media (min-width: 1200px) {
-	  .desktop-nav,
-	  .header-actions { display: flex; }
-
-	  .desktop-nav {
-		align-items: center;
-		gap: 1.35rem;
-		font-weight: 700;
-		color: var(--color-navy);
-		.hero-brand-logo {
-			width: min(100%, 380px);
-		  }
-	  }
-
-	  .desktop-nav a { white-space: nowrap; }
-
-	  .header-actions {
-		align-items: center;
-		gap: 0.8rem;
-	  }
-
-	  .mobile-header-actions,
-	  .mobile-menu { display: none !important; }
-
-	  .trust-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-	  .services-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-	  .hero-grid { grid-template-columns: 1.02fr 0.98fr; }
-
-	  .service-card {
-		perspective: 1200px;
-		min-height: 420px;
-	  }
-
-	  .service-card-inner {
-		position: relative;
-		min-height: 420px;
-		transform-style: preserve-3d;
-		transition: transform var(--transition-slow);
-	  }
-
-	  .service-card.is-flipped .service-card-inner,
-	  .service-card:hover .service-card-inner {
-		transform: rotateY(180deg) !important;
-	  }
-
-	  .service-face {
-		position: absolute;
-		inset: 0;
-		backface-visibility: hidden;
-	  }
-
-	  .service-front {
-		display: flex !important;
-	  }
-
-	  .service-back {
-		display: flex !important;
-		transform: rotateY(180deg);
-	  }
-
-	  #hero .hero-copy {
-		grid-column: 1 / -1;
-	  }
-
-	  .hero-carousel-wrap {
-		justify-content: flex-end;
-	  }
-.hero-slide-media--review {
-		position: relative;
-		overflow: hidden;
-	  }
-	  
-	  .hero-slide-media--review img {
-		width: 100%;
-		height: 100%;
-		max-height: 240px;
-		object-fit: contain;
-		object-position: 30% center;
-		transform: scale(1.04);
-	  }
-	  
-	  .hero-stars-badge {
-		position: absolute;
-		top: 40px;
-		right:10px;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0;
-		background: transparent;
-		border: 0;
-		box-shadow: none;
-		color: var(--color-star);
-		font-size: 1.55rem;
-		font-weight: 900;
-		letter-spacing: 0.1em;
-		line-height: 1;
-		z-index: 2;
-		text-shadow:
-		  0 2px 8px rgba(16, 42, 67, 0.18),
-		  0 1px 2px rgba(255, 255, 255, 0.35);
-	  }
-	  .promo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-	  .promo-grid .promo-card-static:first-child { grid-column: auto; }
-	}
-	.hero-brand-logo {
-	  width: min(100%, 420px);
-	  height: auto;
-	  object-fit: contain;
-	  margin-bottom: 1rem;
-	}
-	
-	@media (min-width: 1200px) {
-	  .hero-brand-logo {
-		width: min(100%, 420px);
-		margin-bottom: 1.1rem;
-	  }
-	}
-	.brand-wordmark {
-	  display: block;
-	  width: auto;
-	  height: 28px;
-	  max-width: 220px;
-	  object-fit: contain;
-	}
-	
-	@media (min-width: 1200px) {
-	  .brand-wordmark {
-		height: 30px;
-		max-width: 240px;
-	  }
-	}
-	
-	.brand-copy strong {
-	  display: none;
-	}
-	.hero-slide-actions {
-	  display: none;
-	}
-	
-	@media (max-width: 767px) {
-	  .hero-slide-actions {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.75rem;
-		margin-top: 0.25rem;
-	  }
-	}
-	@media (max-width: 1199px) {
-	  .hero-slide-actions {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.75rem;
-		margin-top: 0.25rem;
-	  }
-	}
-  </style>
 </head>
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe
+      src="https://www.googletagmanager.com/ns.html?id=GTM-K52WZPK8"
+      height="0"
+      width="0"
+      style="display: none; visibility: hidden"
+    ></iframe>
+  </noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
   <header class="site-header">
 	<div class="container header-inner">
 	  <a class="brand" href="#hero" aria-label="PlumbAZING home">
@@ -1311,11 +53,13 @@
 		<a href="#promos">Promos</a>
 		<a href="#reviews">Reviews</a>
 		<a href="#about">About</a>
-		<a href="#coverage">Coverage Area</a>
 		<a href="#faq">FAQ</a>
 	  </nav>
 
 	  <div class="header-actions">
+    <a class="lgbtq-header-badge" href="#about" aria-label="LGBTQ+ owned business">
+      <img src="img/lgbtqOwned.png" alt="LGBTQ+ owned business badge" />
+    </a>
 		<a class="icon-btn call-now-btn" href="tel:15128884406" aria-label="Call now">
 		  <img class="call-now-icon" src="img/callNow2.svg" alt="" />
 		</a>
@@ -1445,9 +189,7 @@
 						<span class="hero-slide-kicker">Meet the Team</span>
 						<h3>Josh + Alan + Jackson</h3>
 						<p>We’re the folks who show up, explain the options, and leave your place cleaner than we found it.</p>
-						<div class="hero-slide-actions">
-						  <a class="btn btn-secondary" href="#about">About PlumbAZING</a>
-						</div>
+						<a href="#about">About PlumbAZING</a>
 					  </div>
 					</div>
 				  </article>
@@ -1766,25 +508,99 @@
 		  <p class="lead">Local, reliable, and easy to work with.</p>
 		</div>
 
-		<div class="about-grid">
-		  <div class="about-image-card">
-			<img src="img/ad-team.png" alt="The PlumbAZING team" />
-		  </div>
+		
+    <div class="about-profile-grid">
+      <article class="profile-card" data-profile-card>
+        <div class="profile-card-inner">
+          <div class="profile-face profile-front">
+            <img class="profile-photo" src="img/Josh_caricature_logo.png" alt="Caricature portrait of Josh from PlumbAZING" />
+            <div class="profile-front-copy">
+              <h3>Josh</h3>
+              <p>Owner • Plumbing pro • Clear-options guy</p>
+            </div>
+          </div>
+          <div class="profile-face profile-back profile-back--josh">
+            <div class="profile-icon" aria-hidden="true">♙</div>
+            <h3>Josh</h3>
+            <div class="profile-rule"></div>
+            <p>Josh is the owner and heartbeat behind PlumbAZING, bringing calm problem-solving, honest work, and clear communication to every job.</p>
+            <div class="profile-rule"></div>
+            <p><span class="rainbow-heart" aria-hidden="true">❤️</span> Proudly gay and proud to support the Austin community.</p>
+            <div class="profile-rule"></div>
+            <p>Outside of work, he’s usually hiking, traveling, or spending time with his rescue pup.</p>
+          </div>
+        </div>
+      </article>
 
-		  <div class="about-card">
-			<h3>Josh + Alan + Jackson</h3>
-			<p>PlumbAZING is a locally owned and operated plumbing company serving the Greater Austin area. Founded by experienced plumbers Josh and Alan, we built this business to offer the same high level of service and professionalism homeowners expect — without the inflated pricing, confusion, or runaround.</p>
-			<p style="margin-top: 1.25rem;">We specialize in residential and light commercial plumbing, with a focus on honest work, clear communication, and reliable results. Our goal is simple: show up, explain the issue clearly, offer practical options, and leave your place cleaner than we found it.</p>
+      <article class="profile-card" data-profile-card>
+        <div class="profile-card-inner">
+          <div class="profile-face profile-front">
+            <img class="profile-photo" src="img/alanCharacter2.png" alt="Caricature portrait of Alan from PlumbAZING" />
+            <div class="profile-front-copy">
+              <h3>Alan</h3>
+              <p>Co-founder • Father of three • Honest work</p>
+            </div>
+          </div>
+          <div class="profile-face profile-back profile-back--alan">
+            <div class="profile-icon" aria-hidden="true">♙</div>
+            <h3>Alan</h3>
+            <div class="profile-rule"></div>
+            <p>Alan is a local plumber and co-founder serving the Austin area, with about 10 years of hands-on field experience.</p>
+            <div class="profile-rule"></div>
+            <p>He takes pride in honest work, clean job sites, and explaining the issue clearly so customers understand their options.</p>
+            <div class="profile-rule"></div>
+            <p><span class="family-icon" aria-hidden="true">👨‍👩‍👧‍👦</span> As a father of three, Alan knows how important it is to have someone trustworthy working in your home or business.</p>
+          </div>
+        </div>
+      </article>
 
-			<div class="about-pill-row" style="margin-top: 1.5rem;">
-			  <span class="about-pill">Locally Owned</span>
-			  <span class="about-pill">Free Estimates</span>
-			  <span class="about-pill">Call or Text</span>
-			</div>
-		  </div>
-		</div>
-	  </div>
-	</section>
+      <article class="profile-card" data-profile-card>
+        <div class="profile-card-inner">
+          <div class="profile-face profile-front">
+            <img class="profile-photo profile-photo--contain" src="img/Jax.png" alt="Jackson, the PlumbAZING mascot" />
+            <div class="profile-front-copy">
+              <h3>Jackson</h3>
+              <p>Mascot • Morale manager • Treat inspector</p>
+            </div>
+          </div>
+          <div class="profile-face profile-back profile-back--jax">
+            <div class="profile-icon profile-icon--paw" aria-hidden="true">🐾</div>
+            <h3>Jackson</h3>
+            <div class="profile-rule"></div>
+            <p>Jackson takes his job very seriously: greeting customers, boosting team morale, and supervising snack breaks.</p>
+            <div class="profile-rule"></div>
+            <p>He’s 100% good boy and always up for belly rubs.</p>
+            <div class="profile-rule"></div>
+            <p><span class="heart-icon" aria-hidden="true">❤️</span> Loves naps, car rides, and making new friends.</p>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <p class="about-signoff">We treat your home like our own.<br><span>Thanks for supporting your local, family-run business!</span> <span class="rainbow-heart" aria-hidden="true">❤️</span></p>
+
+    <div class="about-card about-story-card">
+      <div class="about-story-media">
+        <img src="img/ad-team.png" alt="Josh, Alan, and Jackson from PlumbAZING" />
+      </div>
+
+      <div class="about-story-copy">
+        <h3>Local plumbing, built around honest service</h3>
+        <p>PlumbAZING is a locally owned and operated plumbing company serving the Greater Austin area. Founded by experienced plumbers Josh and Alan, we built this business to offer the same high level of service and professionalism homeowners expect without the inflated pricing, confusion, or runaround.</p>
+        <p style="margin-top: 1.25rem;">We specialize in residential and light commercial plumbing, with a focus on honest work, clear communication, and reliable results. Our goal is simple: show up, explain the issue clearly, offer practical options, and leave your place cleaner than we found it.</p>
+
+        <div class="about-pill-row">
+          <span class="about-pill">Locally Owned</span>
+          <span class="about-pill">Free Estimates</span>
+          <span class="about-pill">Call or Text</span>
+          <span class="about-pill about-pill--badge-only" aria-label="LGBTQ+ owned business">
+            <img src="img/lgbtqOwned.png" alt="LGBTQ+ owned business badge" />
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 	<section id="coverage" class="section">
 	  <div class="container">
@@ -1901,7 +717,7 @@
 	  <div class="footer-links">
 		<div class="footer-heading">Explore</div>
 		<a href="#services">Services</a>
-		<a href="#Promos">Promos</a>
+		<a href="#promos">Promos</a>
 		<a href="#reviews">Reviews</a>
 		<a href="#about">About</a>
 		<a href="#coverage">Coverage Area</a>
@@ -1910,141 +726,12 @@
 	  <div class="footer-contact">
 		<div class="footer-heading">Contact</div>
 		<p><a href="tel:15128884406">(512) 888-4406</a></p>
-		<p><a href="mailto:service@plumbazing.com">service@plumbazing.com</p>
+		<p><a href="mailto:service@plumbazing.com">service@plumbazing.com</a></p>
 		<p>Greater Austin service area</p>
 	  </div>
 	</div>
   </footer>
 
-  <script>
-	const menuToggle = document.getElementById('menuToggle');
-	const mobileMenu = document.getElementById('mobileMenu');
-
-	function bindRequestServiceButtons() {
-	  document.querySelectorAll('[data-request-service]').forEach((button) => {
-		button.addEventListener('click', () => {
-		  window.HCPWidget?.openModal?.();
-		});
-	  });
-	}
-
-	if (menuToggle && mobileMenu) {
-	  menuToggle.addEventListener('click', () => {
-		const isOpen = mobileMenu.classList.toggle('open');
-		menuToggle.setAttribute('aria-expanded', String(isOpen));
-	  });
-
-	  mobileMenu.querySelectorAll('a, button').forEach(link => {
-		link.addEventListener('click', () => {
-		  mobileMenu.classList.remove('open');
-		  menuToggle.setAttribute('aria-expanded', 'false');
-		});
-	  });
-	}
-
-	const serviceCards = document.querySelectorAll('[data-card]');
-	const mobileMq = window.matchMedia('(max-width: 1199px)');
-
-	serviceCards.forEach(card => {
-	  card.addEventListener('click', () => {
-		if (!mobileMq.matches) return;
-		const isFlipped = card.classList.contains('is-flipped');
-		serviceCards.forEach(other => other.classList.remove('is-flipped'));
-		if (!isFlipped) card.classList.add('is-flipped');
-	  });
-	});
-
-	document.querySelectorAll('.faq-question').forEach(button => {
-	  button.addEventListener('click', () => {
-		const item = button.closest('.faq-item');
-		item.classList.toggle('open');
-	  });
-	});
-
-	const heroCarousel = document.getElementById('heroCarousel');
-	const heroSlides = heroCarousel ? Array.from(heroCarousel.querySelectorAll('[data-hero-slide]')) : [];
-	const heroDots = heroCarousel ? Array.from(heroCarousel.querySelectorAll('[data-hero-dot]')) : [];
-	const heroPrev = heroCarousel ? heroCarousel.querySelector('[data-hero-prev]') : null;
-	const heroNext = heroCarousel ? heroCarousel.querySelector('[data-hero-next]') : null;
-
-	let heroIndex = 0;
-	let heroInterval = null;
-
-	function renderHeroSlide(index) {
-	  heroSlides.forEach((slide, i) => {
-		slide.classList.toggle('active', i === index);
-	  });
-	  heroDots.forEach((dot, i) => {
-		dot.classList.toggle('active', i === index);
-	  });
-	  heroIndex = index;
-	}
-
-	function nextHeroSlide() {
-	  renderHeroSlide((heroIndex + 1) % heroSlides.length);
-	}
-
-	function prevHeroSlide() {
-	  renderHeroSlide((heroIndex - 1 + heroSlides.length) % heroSlides.length);
-	}
-
-	function startHeroCarousel() {
-	  if (!heroSlides.length) return;
-	  stopHeroCarousel();
-	  heroInterval = window.setInterval(nextHeroSlide, 5500);
-	}
-
-	function stopHeroCarousel() {
-	  if (heroInterval) {
-		window.clearInterval(heroInterval);
-		heroInterval = null;
-	  }
-	}
-
-	if (heroCarousel && heroSlides.length) {
-	  heroDots.forEach((dot, i) => {
-		dot.addEventListener('click', () => {
-		  renderHeroSlide(i);
-		  startHeroCarousel();
-		});
-	  });
-
-	  heroPrev?.addEventListener('click', () => {
-		prevHeroSlide();
-		startHeroCarousel();
-	  });
-
-	  heroNext?.addEventListener('click', () => {
-		nextHeroSlide();
-		startHeroCarousel();
-	  });
-
-	  heroCarousel.addEventListener('mouseenter', stopHeroCarousel);
-	  heroCarousel.addEventListener('mouseleave', startHeroCarousel);
-
-	  renderHeroSlide(0);
-	  startHeroCarousel();
-	}
-
-	bindRequestServiceButtons();
-	
-	const heroBrandLockup = document.getElementById('heroBrandLockup');
-	const siteHeader = document.querySelector('.site-header');
-	
-	function updateHeroBrandState() {
-	  if (!heroBrandLockup || !siteHeader) return;
-	
-	  const heroRect = heroBrandLockup.getBoundingClientRect();
-	  const headerRect = siteHeader.getBoundingClientRect();
-	
-	  const passed = heroRect.bottom <= headerRect.bottom + 16;
-	  document.body.classList.toggle('hero-brand-passed', passed);
-	}
-	
-	window.addEventListener('scroll', updateHeroBrandState, { passive: true });
-	window.addEventListener('resize', updateHeroBrandState);
-	updateHeroBrandState();
-	
-  </script>
+  <script defer src="js/main.js"></script>
 </body>
 </html>
