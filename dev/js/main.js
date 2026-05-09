@@ -187,6 +187,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
   bindRequestServiceButtons();
   autoOpenBookingFromUrl();
+  function autoOpenBookingFromUrl() {
+	const shouldOpen = window.location.hash === "#book";
+	if (!shouldOpen) return;
+  
+	const clearBookHash = () => {
+	  history.replaceState({}, "", window.location.pathname + window.location.search);
+	};
+  
+	const tryOpen = () => {
+	  if (window.HCPWidget?.openModal) {
+		window.HCPWidget.openModal();
+		clearBookHash();
+		return true;
+	  }
+  
+	  const requestButton = document.querySelector("[data-request-service]");
+	  if (requestButton) {
+		requestButton.click();
+		clearBookHash();
+		return true;
+	  }
+  
+	  return false;
+	};
+  
+	if (tryOpen()) return;
+  
+	let attempts = 0;
+	const timer = window.setInterval(() => {
+	  attempts += 1;
+  
+	  if (tryOpen() || attempts > 40) {
+		window.clearInterval(timer);
+	  }
+	}, 250);
+  }
+  autoOpenBookingFromUrl();
 
   const heroBrandLockup = document.getElementById("heroBrandLockup");
   const siteHeader = document.querySelector(".site-header");
