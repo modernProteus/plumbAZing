@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	  });
 	});
   }
+
 function autoOpenBookingFromUrl() {
 	const shouldOpen = window.location.hash === "#book";
 	if (!shouldOpen) return;
@@ -38,17 +39,8 @@ function autoOpenBookingFromUrl() {
 		return true;
 	  }
   
-	  const requestButton = document.querySelector("[data-request-service]");
-	  if (requestButton) {
-		requestButton.click();
-		clearBookHash();
-		return true;
-	  }
-  
 	  return false;
 	};
-  
-	if (tryOpen()) return;
   
 	let attempts = 0;
 	const timer = window.setInterval(() => {
@@ -58,7 +50,10 @@ function autoOpenBookingFromUrl() {
 		window.clearInterval(timer);
 	  }
 	}, 250);
+  
+	tryOpen();
   }
+
   const serviceCards = document.querySelectorAll("[data-card]");
   const mobileMq = window.matchMedia("(max-width: 1199px)");
 
