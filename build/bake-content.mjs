@@ -4,12 +4,18 @@
 // FAIL-SAFE CONTRACT: any fetch/network/parse/shape error leaves index.html
 // completely untouched (the committed markup is the last-known-good). A
 // successful fetch that returns an empty list DOES clear the section, since
-// that's a deliberate "turn this promo off" edit in the sheet.
+// that's a deliberate "turn this promo off" edit in the sheet (see
+// plumbazing-sheet-cms/README.md "empty-list fix").
 //
-// Expected Apps Script response shape for
-// `${APPS_SCRIPT_URL}?action=items&type=promos`:
-//   { "items": [ { "title": "...", "body": "...", "kicker"?: "...",
-//                  "meta"?: "...", "imageUrl"?: "..." }, ... ] }
+// Response shape from `${APPS_SCRIPT_URL}?action=items&type=promos`, per
+// plumbazing-sheet-cms/apps-script/code.gs:
+//   { ok: true, type: "promos", updatedAt: "...", items: [
+//       { id, active, title, subtitle, description, badge, icon, cta,
+//         ctaUrl, startDate, endDate, sort, imageUrl? }, ... ] }
+// Validation mirrors plumbazing-sheet-cms/build/fetch-content.mjs: payload.ok
+// must be true, items must be an array, and every item needs an id (or key)
+// and a title. `imageUrl` is this site's addition (image_url sheet column ->
+// code.gs mapping) and is optional.
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -33,12 +39,11 @@ function escapeHtml(value) {
 }
 
 function validateItems(payload) {
-  const items = Array.isArray(payload) ? payload : payload?.items;
+  if (payload?.ok !== true) return null;
+  const items = payload.items;
   if (!Array.isArray(items)) return null;
-  for (const item of items) {
-    if (typeof item !== "object" || item === null) return null;
-    if (typeof item.title !== "string" || typeof item.body !== "string") return null;
-  }
+  const allValid = items.every((item) => item && (item.id || item.key) && item.title);
+  if (!allValid) return null;
   return items;
 }
 
@@ -54,11 +59,12 @@ async function fetchItems(type) {
 
 function renderPromoCard(item, index) {
   const variant = PROMO_VARIANTS[index % PROMO_VARIANTS.length];
-  const kicker = item.kicker
-    ? `\n\t\t\t  <span class="promo-kicker-static">${escapeHtml(item.kicker)}</span>`
+  const kicker = item.badge
+    ? `\n\t\t\t  <span class="promo-kicker-static">${escapeHtml(item.badge)}</span>`
     : "";
-  const meta = item.meta
-    ? `\n\t\t\t  <div class="promo-meta">${escapeHtml(item.meta)}</div>`
+  const body = item.description || item.subtitle || "";
+  const meta = item.endDate
+    ? `\n\t\t\t  <div class="promo-meta">Expires ${escapeHtml(item.endDate)}. Ask for details.</div>`
     : "";
   const image = item.imageUrl
     ? `\n\t\t\t<div class="promo-image promo-image--cover">\n\t\t\t  <img src="${escapeHtml(item.imageUrl)}" alt="${escapeHtml(item.title)}" loading="lazy" />\n\t\t\t</div>`
@@ -67,7 +73,7 @@ function renderPromoCard(item, index) {
   return `\t\t  <article class="promo-card-static ${variant}">${image}
 \t\t\t<div class="promo-content">${kicker}
 \t\t\t  <h3>${escapeHtml(item.title)}</h3>
-\t\t\t  <p>${escapeHtml(item.body)}</p>${meta}
+\t\t\t  <p>${escapeHtml(body)}</p>${meta}
 \t\t\t</div>
 \t\t  </article>`;
 }
