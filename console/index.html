@@ -4,18 +4,18 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="robots" content="noindex,nofollow" />
-<title>PlumbAZING Promotions &amp; Services Console</title>
+<title>PlumbAZING Content Console</title>
 <link rel="stylesheet" href="../css/styles.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.css" />
 <style>
   body { background: var(--color-bg-soft); padding-bottom: 0; }
-  .console-wrap { max-width: 980px; margin: 0 auto; padding: 28px 18px 80px; }
+  .console-wrap { max-width: 1080px; margin: 0 auto; padding: 28px 18px 80px; }
 
   .console-hero { background: linear-gradient(135deg, var(--color-navy), var(--color-blue)); color: #fff; border-radius: var(--radius-xl); padding: 28px 26px; margin-bottom: 20px; }
   .console-hero .brandrow img { height: 30px; margin-bottom: 10px; }
   .console-hero .kicker { text-transform: uppercase; letter-spacing: .12em; font-size: 12px; font-weight: 800; color: #bcd3f5; margin: 0 0 6px; }
   .console-hero h1 { margin: 0 0 8px; font-size: 26px; font-family: var(--font-heading); }
-  .console-hero p { margin: 0; color: #dce6f5; font-size: 15px; max-width: 62ch; }
+  .console-hero p { margin: 0; color: #dce6f5; font-size: 15px; max-width: 66ch; }
 
   .links { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0 22px; }
   .btn-disabled { opacity: .55; cursor: not-allowed; }
@@ -24,16 +24,14 @@
   .note h2 { margin: 0 0 8px; font-size: 13px; color: var(--color-blue-dark); text-transform: uppercase; letter-spacing: .05em; }
   .note ol { margin: 0; padding-left: 20px; } .note li { margin: 5px 0; font-size: 14px; color: var(--color-text); }
 
-  .mode-tabs { display: inline-flex; border: 1px solid var(--color-border); border-radius: var(--radius-pill); padding: 4px; background: #fff; margin-bottom: 20px; }
-  .mode-tab { border: 0; background: transparent; padding: 8px 18px; border-radius: var(--radius-pill); font-weight: 800; font-size: 14px; color: var(--color-muted); cursor: pointer; }
-  .mode-tab.active { background: var(--color-blue); color: #fff; }
-
   h3.sec { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--color-muted); margin: 26px 0 12px; }
+  h3.sec:first-child { margin-top: 0; }
 
-  .console-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
-  @media (max-width: 760px) { .console-grid { grid-template-columns: 1fr; } }
+  .console-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 18px; align-items: start; }
+  @media (max-width: 860px) { .console-grid { grid-template-columns: 1fr; } }
 
-  .builder-card, .preview-pane, .cropper-card { border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: #fff; padding: 18px; }
+  .builder-card, .preview-pane, .cropper-card, .batch-card, .live-card { border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: #fff; padding: 18px; }
+  .preview-pane { margin-bottom: 18px; }
 
   .builder label { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; margin: 12px 0 4px; color: var(--color-text); }
   .builder label:first-of-type { margin-top: 0; }
@@ -46,9 +44,16 @@
   .checkbox-row input { width: auto; }
   .checkbox-row label { margin: 0; }
 
+  .type-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 4px; }
+  @media (max-width: 480px) { .type-row { grid-template-columns: 1fr; } }
+
+  .field-row { margin: 0; }
+  .field-deemphasized { opacity: .5; }
+  .reviews-note { font-size: 12px; color: var(--color-blue-dark); background: var(--color-bg-tint); border-radius: 8px; padding: 6px 10px; margin: 4px 0 0; display: none; }
+
   .tip { position: relative; display: inline-flex; }
   .tip .i { width: 15px; height: 15px; border-radius: 50%; background: var(--color-border); color: var(--color-muted); font-size: 10px; font-weight: 800; display: grid; place-items: center; cursor: help; }
-  .tip .txt { display: none; position: absolute; left: 18px; top: -4px; z-index: 5; width: 220px; background: var(--color-navy); color: #fff; font-size: 12px; font-weight: 500; padding: 8px 10px; border-radius: 8px; }
+  .tip .txt { display: none; position: absolute; left: 18px; top: -4px; z-index: 5; width: 230px; background: var(--color-navy); color: #fff; font-size: 12px; font-weight: 500; padding: 8px 10px; border-radius: 8px; }
   .tip:hover .txt, .tip.open .txt { display: block; }
 
   .genid { font-size: 12px; color: var(--color-muted); margin-top: 6px; }
@@ -63,15 +68,17 @@
   .warnings-box ul { margin: 0; padding-left: 18px; }
   .warnings-box li { font-size: 13px; color: #92400e; margin: 3px 0; }
 
-  .out-box { margin-top: 16px; background: var(--color-navy); color: #e2e8f0; border-radius: 12px; padding: 14px; font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; white-space: pre-wrap; word-break: break-word; }
+  .out-box { background: var(--color-navy); color: #e2e8f0; border-radius: 12px; padding: 14px; font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; white-space: pre-wrap; word-break: break-word; }
   .out-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
   .copied-msg { display: none; color: #16a34a; font-weight: 700; font-size: 13px; margin-top: 6px; }
 
   .console-preview-frame { max-width: 320px; margin: 0 auto; }
-  .preview-pane .pill-row { margin: 0; }
+  .console-preview-frame--wide { max-width: 460px; }
+  .preview-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--color-muted); text-align: center; margin: 0 0 8px; }
+  .preview-stack > * + * { margin-top: 22px; }
+  .preview-pane .pill-row { margin: 0; justify-content: center; }
   .flip-hint { font-size: 12px; color: var(--color-muted); text-align: center; margin-top: 10px; font-weight: 700; }
 
-  .cropper-card { margin-top: 18px; }
   .drop-zone { border: 2px dashed var(--color-border); border-radius: var(--radius-md); padding: 24px; text-align: center; color: var(--color-muted); cursor: pointer; font-size: 13px; }
   .drop-zone.drag { border-color: var(--color-blue); background: var(--color-bg-tint); }
   .cropper-stage { max-height: 340px; overflow: hidden; margin-top: 12px; }
@@ -79,6 +86,18 @@
   .cropper-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
   .img-spec-note { font-size: 12px; color: var(--color-muted); margin-top: 10px; }
   .crop-warning { font-size: 13px; color: #92400e; background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px; padding: 8px 12px; margin-top: 10px; }
+
+  .batch-card { margin: 22px 0; }
+  .batch-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--color-border); font-size: 13px; }
+  .batch-row:last-child { border-bottom: 0; }
+  .batch-meta { font-weight: 800; color: var(--color-blue-dark); background: var(--color-bg-tint); border-radius: 999px; padding: 3px 10px; font-size: 11px; text-transform: uppercase; letter-spacing: .03em; white-space: nowrap; }
+  .batch-title { flex: 1; color: var(--color-text); }
+  .batch-row button { border: 1px solid var(--color-border); background: #fff; border-radius: 8px; padding: 5px 10px; font-size: 12px; font-weight: 700; cursor: pointer; color: var(--color-muted); }
+  .batch-row button:hover { color: var(--color-blue); }
+
+  .copy-block { border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 14px; margin-top: 14px; }
+  .copy-block-label { font-size: 13px; font-weight: 700; margin: 0 0 8px; color: var(--color-text); }
+  .copy-block .out-box { max-height: 220px; overflow: auto; }
 
   details.how { border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: #fff; margin: 22px 0; }
   details.how summary { cursor: pointer; padding: 14px 18px; font-weight: 800; list-style: none; color: var(--color-navy); }
@@ -90,7 +109,7 @@
   .reminder { background: var(--color-bg-tint); border-radius: 10px; padding: 10px 14px; font-size: 13px; }
   .live-item { border-bottom: 1px solid var(--color-border); padding: 8px 0; }
   .live-item:last-child { border-bottom: 0; }
-  .mini-badge { font-size: 10px; font-weight: 800; text-transform: uppercase; background: var(--color-bg-tint); color: var(--color-blue-dark); padding: 2px 7px; border-radius: 999px; }
+  .mini-badge { font-size: 10px; font-weight: 800; text-transform: uppercase; background: var(--color-bg-tint); color: var(--color-blue-dark); padding: 2px 7px; border-radius: 999px; margin-left: 6px; }
   .retry { font-size: 12px; font-weight: 700; color: var(--color-blue); background: none; border: 1px solid var(--color-border); border-radius: 999px; padding: 6px 14px; cursor: pointer; margin-top: 10px; }
   .muted { color: var(--color-muted); font-size: 13px; }
 
@@ -103,12 +122,11 @@
   <header class="console-hero">
     <div class="brandrow"><img src="../img/bizName.svg" alt="PlumbAZING" /></div>
     <p class="kicker">Internal &middot; Read-Only &middot; Phase 1</p>
-    <h1>Promotions &amp; Services Console</h1>
-    <p>A friendly window onto the sheet-CMS. Build a correctly-formatted row, see exactly how it'll look on the site, crop a promo image to spec, and paste the row into the Google Sheet yourself. This page never writes to the sheet, needs no login, and holds no secrets.</p>
+    <h1>Content Console</h1>
+    <p>Build a correctly-formatted sheet row for the Content tab (Promo/Trust/Brand) or the Services tab, see exactly how it'll look on the site, crop an image to spec, queue up several at once, and paste them into the Google Sheet yourself. This page never writes to the sheet, needs no login, and holds no secrets.</p>
   </header>
 
   <div class="links">
-    <a class="btn btn-primary" id="openSheetLink" target="_blank" rel="noopener noreferrer">Open the Sheet</a>
     <a class="btn btn-secondary" id="viewSiteLink" target="_blank" rel="noopener noreferrer">View Live Site</a>
     <a class="btn btn-secondary" id="openRenderLink" target="_blank" rel="noopener noreferrer">Open Render</a>
   </div>
@@ -116,199 +134,258 @@
   <div class="note">
     <h2>How this works</h2>
     <ol>
-      <li>The Google Sheet is the <strong>source of truth</strong>. This console is a helper — it never edits the sheet by itself.</li>
-      <li>Build a row below, copy it, and paste it into the matching sheet tab.</li>
+      <li>The Google Sheet is the <strong>source of truth</strong>. This console is a helper -- it never edits the sheet by itself.</li>
+      <li>Build a row (or several) below, then <strong>copy</strong> and paste into the matching tab.</li>
       <li>Click <strong>Publish &gt; Publish to site</strong> in the sheet's menu. The live site rebuilds in a few minutes.</li>
-      <li><strong>Fail-safe by design:</strong> a bad row or a down endpoint can never blank the live site — it just keeps showing the last good version.</li>
+      <li><strong>Fail-safe by design:</strong> a bad row or a down endpoint can never blank the live site -- it just keeps showing the last good version.</li>
     </ol>
   </div>
 
-  <div class="mode-tabs">
-    <button class="mode-tab active" type="button" data-mode="promos" id="tabPromos">Promotions</button>
-    <button class="mode-tab" type="button" data-mode="services" id="tabServices">Services</button>
-  </div>
-
   <div class="console-grid">
+    <div class="builder-card builder">
+      <h3 class="sec">Build a row</h3>
+
+      <div class="type-row">
+        <div>
+          <label>Type <span class="tip"><span class="i">i</span><span class="txt">What kind of row this is. Promo/Trust/Brand go in the Content tab; Service goes in the Services tab.</span></span></label>
+          <select id="f-type">
+            <option value="promo">Promo</option>
+            <option value="trust">Trust</option>
+            <option value="brand">Brand</option>
+            <option value="service">Service</option>
+          </select>
+        </div>
+        <div class="field-row" data-show-for="promo,trust,brand" id="row-placement">
+          <label>Placement <span class="tip"><span class="i">i</span><span class="txt">Grid = promo grid card. Carousel = hero slide. Both = shows in both places.</span></span></label>
+          <select id="f-placement">
+            <option value="Grid">Grid</option>
+            <option value="Carousel">Carousel</option>
+            <option value="Both">Both</option>
+          </select>
+        </div>
+        <div class="field-row" data-show-for="service" id="row-tier">
+          <label>Tier <span class="tip"><span class="i">i</span><span class="txt">1 = full flip-card with icon, bullets, and a button. 2 = simple text pill in "More services we offer".</span></span></label>
+          <select id="f-tier">
+            <option value="1">1 -- Flip card</option>
+            <option value="2">2 -- Text pill</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="checkbox-row">
+        <input type="checkbox" id="f-active" checked />
+        <label for="f-active">Active <span class="tip"><span class="i">i</span><span class="txt">Unchecked = hidden even if everything else is right.</span></span></label>
+      </div>
+
+      <div class="field-row" data-show-for="promo">
+        <label>Tag <span class="tip"><span class="i">i</span><span class="txt">Small tag on the card/slide. Promos derive their kicker from this automatically.</span></span></label>
+        <select id="f-tag">
+          <option value="">(none)</option>
+          <option>Featured Promotion</option>
+          <option>Value Promise</option>
+          <option>First-Time Offer</option>
+          <option>Limited Time</option>
+          <option>Seasonal</option>
+          <option>New</option>
+          <option>Popular</option>
+        </select>
+      </div>
+
+      <div class="field-row" data-show-for="trust,brand">
+        <label>Kicker <span class="tip"><span class="i">i</span><span class="txt">Small eyebrow tag above the title. Free text.</span></span></label>
+        <input type="text" id="f-kicker" list="kickerSuggestions" placeholder="5-Star Feedback" />
+        <datalist id="kickerSuggestions">
+          <option value="5-Star Feedback"></option>
+          <option value="Meet the Team"></option>
+          <option value="Local & Family-Run"></option>
+          <option value="Licensed & Insured"></option>
+          <option value="Value Promise"></option>
+        </datalist>
+      </div>
+
+      <label>Title <span class="tip"><span class="i">i</span><span class="txt">The headline people see.</span></span></label>
+      <input type="text" id="f-title" placeholder="Summer Drain Special" />
+      <div class="genid" id="genid">Generated key: (type a title)</div>
+
+      <div class="field-row" data-show-for="promo,trust,brand">
+        <label>Body <span class="tip"><span class="i">i</span><span class="txt">The supporting copy or fine print.</span></span></label>
+        <textarea id="f-body" placeholder="15% off drain cleaning through August."></textarea>
+      </div>
+
+      <div class="field-row" data-show-for="service">
+        <label>Subtitle <span class="tip"><span class="i">i</span><span class="txt">One-line summary shown on the card front.</span></span></label>
+        <input type="text" id="f-subtitle" placeholder="Stop the damage early" />
+      </div>
+
+      <div class="field-row" data-show-for="service">
+        <label>Description bullets <span class="tip"><span class="i">i</span><span class="txt">Shown on the card back when flipped. Stored pipe-separated in the sheet.</span></span></label>
+        <div id="s-bullets"></div>
+        <button type="button" class="btn add-bullet-btn" id="addBullet">+ Add bullet</button>
+      </div>
+
+      <div class="field-row" data-show-for="trust" id="row-source">
+        <label>Source <span class="tip"><span class="i">i</span><span class="txt">"Live Google Reviews" auto-fills the kicker and title from the real rating/review count at build time.</span></span></label>
+        <select id="f-source">
+          <option value="">(none)</option>
+          <option value="reviews">Live Google Reviews</option>
+        </select>
+        <p class="reviews-note" id="reviewsNote">Kicker and title will be auto-filled from live Google reviews at build time -- what you type here is only a fallback.</p>
+      </div>
+
+      <div class="field-row" data-show-for="promo,trust,brand">
+        <label>Image path <span class="tip"><span class="i">i</span><span class="txt">Use the cropper below, then download (or upload, if enabled) and paste the resulting path here, e.g. /img/promo-name.jpg. Optional.</span></span></label>
+        <input type="text" id="f-image_url" placeholder="/img/promo-name.jpg" />
+      </div>
+
+      <div class="field-row" data-show-for="promo,trust,brand">
+        <div class="g2">
+          <div>
+            <label>Button <span class="tip"><span class="i">i</span><span class="txt">Which button shows, if any. "Learn More" needs a link below.</span></span></label>
+            <select id="f-cta">
+              <option value="">(none)</option>
+              <option value="book">Book Now</option>
+              <option value="call">Call Now</option>
+              <option value="learn">Learn More</option>
+            </select>
+          </div>
+          <div class="field-row" data-show-for="promo,trust,brand" id="row-link">
+            <label>Link <span class="tip"><span class="i">i</span><span class="txt">Where "Learn More" goes, e.g. /#about.</span></span></label>
+            <input type="text" id="f-link" placeholder="/#about" />
+          </div>
+        </div>
+      </div>
+
+      <div class="field-row" data-show-for="service">
+        <div class="g2">
+          <div>
+            <label>Button text <span class="tip"><span class="i">i</span><span class="txt">What the back-of-card button says.</span></span></label>
+            <input type="text" id="f-svc_cta" placeholder="Request Service" />
+          </div>
+          <div>
+            <label>Button link <span class="tip"><span class="i">i</span><span class="txt">Where it goes, e.g. /book.</span></span></label>
+            <input type="text" id="f-svc_cta_url" placeholder="/book" />
+          </div>
+        </div>
+      </div>
+
+      <div class="field-row" data-show-for="promo">
+        <label>Meta line <span class="tip"><span class="i">i</span><span class="txt">Small note under the body, e.g. an expiry line. Optional.</span></span></label>
+        <input type="text" id="f-meta" placeholder="Expires 08/31/26. Ask for details." />
+      </div>
+
+      <div class="field-row" data-show-for="promo">
+        <div class="g2">
+          <div>
+            <label>Start date <span class="tip"><span class="i">i</span><span class="txt">When it goes live. Blank = live now.</span></span></label>
+            <input type="date" id="f-start_date" />
+          </div>
+          <div>
+            <label>End date <span class="tip"><span class="i">i</span><span class="txt">When it expires. Blank = runs until you switch it off.</span></span></label>
+            <input type="date" id="f-end_date" />
+          </div>
+        </div>
+      </div>
+
+      <div class="g2">
+        <div>
+          <label>Sort <span class="tip"><span class="i">i</span><span class="txt">Order among rows sharing a placement. Lower shows first.</span></span></label>
+          <input type="number" id="f-sort" value="1" />
+        </div>
+      </div>
+
+      <div class="warnings-box" id="warningsBox" style="display:none;">
+        <ul id="warningsList"></ul>
+      </div>
+
+      <div class="out-box" id="out">Fill in a title to start...</div>
+      <div class="out-actions">
+        <button class="btn btn-primary" id="addToBatch" type="button">Add to batch</button>
+      </div>
+      <p class="copied-msg" id="copiedMsg"></p>
+    </div>
+
     <div>
-      <div class="builder-card builder">
-        <h3 class="sec" style="margin-top:0;">Build a row</h3>
-
-        <!-- ===== Promotions fields ===== -->
-        <div id="promoFields">
-          <div class="checkbox-row">
-            <input type="checkbox" id="p-active" checked />
-            <label for="p-active">Active <span class="tip"><span class="i">i</span><span class="txt">Unchecked = hidden even if the dates are right.</span></span></label>
-          </div>
-
-          <label>Title <span class="tip"><span class="i">i</span><span class="txt">The headline people see, e.g. "$50 Off Water Heater Install".</span></span></label>
-          <input type="text" id="p-title" placeholder="$50 Off Water Heater Install" />
-          <div class="genid" id="p-genid">Generated key: (type a title)</div>
-
-          <label>Subtitle <span class="tip"><span class="i">i</span><span class="txt">A short supporting line under the title. Optional.</span></span></label>
-          <input type="text" id="p-subtitle" placeholder="New installs only" />
-
-          <label>Description <span class="tip"><span class="i">i</span><span class="txt">The details or fine print for the offer. Shown if there's no subtitle, or alongside it.</span></span></label>
-          <textarea id="p-description" placeholder="Save $50 on any standard water heater installation..."></textarea>
-
-          <label>Image path <span class="tip"><span class="i">i</span><span class="txt">4:3 ratio, 1200x900px, JPG/PNG/WebP, under 400KB. Use the cropper below, then commit the file to /img and paste its path here, e.g. /img/promo-name.jpg. Leave blank for no image.</span></span></label>
-          <input type="text" id="p-image_url" placeholder="/img/promo-name.jpg" />
-
-          <div class="g2">
-            <div>
-              <label>Badge <span class="tip"><span class="i">i</span><span class="txt">Small tag on the card. Optional.</span></span></label>
-              <select id="p-badge">
-                <option value="">(none)</option>
-                <option>Featured Promotion</option>
-                <option>Value Promise</option>
-                <option>First-Time Offer</option>
-                <option>Limited Time</option>
-                <option>Seasonal</option>
-                <option>New</option>
-                <option>Popular</option>
-              </select>
-            </div>
-            <div>
-              <label>Sort <span class="tip"><span class="i">i</span><span class="txt">Order among promos. Lower shows first.</span></span></label>
-              <input type="number" id="p-sort" value="1" />
-            </div>
-          </div>
-
-          <div class="g2">
-            <div>
-              <label>Button text <span class="tip"><span class="i">i</span><span class="txt">What the button says, e.g. "Book Now". Leave both button fields blank to hide the button.</span></span></label>
-              <input type="text" id="p-cta" placeholder="Book Now" />
-            </div>
-            <div>
-              <label>Button link <span class="tip"><span class="i">i</span><span class="txt">Where the button goes, e.g. /book.</span></span></label>
-              <input type="text" id="p-cta_url" placeholder="/book" />
-            </div>
-          </div>
-
-          <div class="g2">
-            <div>
-              <label>Start date <span class="tip"><span class="i">i</span><span class="txt">When it goes live. Blank = live now.</span></span></label>
-              <input type="date" id="p-start_date" />
-            </div>
-            <div>
-              <label>End date <span class="tip"><span class="i">i</span><span class="txt">When it expires. Blank = runs until you switch it off.</span></span></label>
-              <input type="date" id="p-end_date" />
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== Services fields ===== -->
-        <div id="serviceFields" style="display:none;">
-          <div class="checkbox-row">
-            <input type="checkbox" id="s-active" checked />
-            <label for="s-active">Active <span class="tip"><span class="i">i</span><span class="txt">Unchecked = hidden from the site.</span></span></label>
-          </div>
-
-          <label>Title <span class="tip"><span class="i">i</span><span class="txt">Service name, e.g. "Leak & Pipe Repair".</span></span></label>
-          <input type="text" id="s-title" placeholder="Leak & Pipe Repair" />
-          <div class="genid" id="s-genid">Generated key: (type a title)</div>
-
-          <div class="g2">
-            <div>
-              <label>Tier <span class="tip"><span class="i">i</span><span class="txt">1 = full flip-card with icon, bullets, and a button. 2 = simple text pill in "More services we offer".</span></span></label>
-              <select id="s-tier">
-                <option value="1">1 — Flip card</option>
-                <option value="2">2 — Text pill</option>
-              </select>
-            </div>
-            <div>
-              <label>Sort <span class="tip"><span class="i">i</span><span class="txt">Display order. Lower shows first.</span></span></label>
-              <input type="number" id="s-sort" value="1" />
-            </div>
-          </div>
-          <p class="field-hint" id="tierHint"></p>
-
-          <label>Subtitle <span class="tip"><span class="i">i</span><span class="txt">One-line summary shown on the card front. Tier 1 only.</span></span></label>
-          <input type="text" id="s-subtitle" placeholder="Stop the damage early" />
-
-          <label>Description bullets <span class="tip"><span class="i">i</span><span class="txt">Shown on the card back when flipped. Tier 1 only. Stored pipe-separated in the sheet.</span></span></label>
-          <div id="s-bullets"></div>
-          <button type="button" class="btn add-bullet-btn" id="addBullet">+ Add bullet</button>
-
-          <div class="g2">
-            <div>
-              <label>Button text <span class="tip"><span class="i">i</span><span class="txt">What the back-of-card button says. Tier 1 only.</span></span></label>
-              <input type="text" id="s-cta" placeholder="Request Service" />
-            </div>
-            <div>
-              <label>Button link <span class="tip"><span class="i">i</span><span class="txt">Where it goes, e.g. /book. Tier 1 only.</span></span></label>
-              <input type="text" id="s-cta_url" placeholder="/book" />
-            </div>
-          </div>
-        </div>
-
-        <div class="warnings-box" id="warningsBox" style="display:none;">
-          <ul id="warningsList"></ul>
-        </div>
-
-        <div class="out-box" id="out">Fill in a title to start...</div>
-        <div class="out-actions">
-          <button class="btn btn-primary" id="copyRow" type="button">Copy row</button>
-          <button class="btn btn-secondary" id="copyHeader" type="button">Copy header row</button>
-        </div>
-        <p class="copied-msg" id="copiedMsg"></p>
+      <div class="preview-pane">
+        <h3 class="sec">Live preview</h3>
+        <div id="preview" class="preview-stack"></div>
       </div>
 
       <div class="cropper-card" id="cropperSection">
-        <h3 class="sec" style="margin-top:0;">Promo image cropper</h3>
+        <h3 class="sec">Image cropper</h3>
         <div class="drop-zone" id="dropZone">
           <input type="file" id="imgFile" accept="image/*" style="display:none" />
-          <div id="dropHint">Drag &amp; drop an image here, or click to choose one.<br />Locked to 4:3 — matches the promo card exactly.</div>
+          <div id="dropHint">Drag &amp; drop an image here, or click to choose one.</div>
           <div class="cropper-stage" id="cropperStage" style="display:none;">
             <img id="cropSource" alt="" />
           </div>
         </div>
         <div class="cropper-actions" id="cropperActions" style="display:none;">
-          <button class="btn btn-primary" id="downloadJpg" type="button">Download cropped JPG</button>
-          <button class="btn btn-secondary" id="downloadWebp" type="button">Download cropped WebP</button>
+          <button class="btn btn-primary" id="downloadJpg" type="button">Download JPG</button>
+          <button class="btn btn-secondary" id="downloadWebp" type="button">Download WebP</button>
+          <button class="btn btn-secondary" id="downloadPng" type="button" style="display:none;">Download PNG</button>
+          <button class="btn btn-secondary" id="uploadToSite" type="button" style="display:none;">Upload to site</button>
           <button class="btn btn-secondary" id="resetCrop" type="button">Remove image</button>
         </div>
-        <p class="img-spec-note">Spec: 4:3 ratio, 1200&times;900px, JPG/PNG/WebP, under 400KB. The live preview on the right updates as you crop. Download the file, commit it to <code>/img</code> in the repo (or ask your developer), then paste its path into "Image path" above.</p>
+        <p class="img-spec-note" id="cropSpecNote">Choose a placement above to see the right crop spec.</p>
         <p class="crop-warning" id="cropWarning" style="display:none;"></p>
       </div>
     </div>
+  </div>
 
-    <div class="preview-pane">
-      <h3 class="sec" style="margin-top:0;">Live preview</h3>
-      <div id="preview"></div>
+  <div class="batch-card">
+    <h3 class="sec">Batch queue</h3>
+    <div id="batchList"><p class="muted">No rows queued yet.</p></div>
+
+    <div class="out-actions">
+      <button class="btn btn-primary" id="copyAllRows" type="button">Copy all rows</button>
+      <a class="btn btn-secondary" id="openSheetLink" target="_blank" rel="noopener noreferrer">Open the Sheet</a>
     </div>
+    <div id="copyBlocks"></div>
   </div>
 
   <details class="how" open>
     <summary>Live from the sheet <span class="livebadge" id="liveBadge">checking...</span></summary>
     <div class="inner">
-      <p class="reminder">This shows what's currently in the sheet. The live site shows the last time someone clicked <strong>Publish</strong> — if you just edited the sheet, click Publish to push these changes live.</p>
-      <h3 class="sec">Promotions <span id="promoCount"></span></h3>
-      <div id="livePromos"><p class="muted">Checking...</p></div>
+      <p class="reminder">This shows what's currently in the sheet. The live site shows the last time someone clicked <strong>Publish</strong> -- if you just edited the sheet, click Publish to push these changes live.</p>
+      <h3 class="sec">Content <span id="contentCount"></span></h3>
+      <div id="liveContent"><p class="muted">Checking...</p></div>
       <h3 class="sec">Services <span id="serviceCount"></span></h3>
       <div id="liveServices"><p class="muted">Checking...</p></div>
       <button class="retry" id="retryLive" type="button">Retry</button>
     </div>
   </details>
 
-  <footer class="console-footer">Read-only internal console. Nothing here edits the sheet or the site directly. If something looks off: confirm you hit Publish, wait a few minutes, refresh. A bad edit here cannot take the site down.</footer>
+  <footer class="console-footer">Read-only internal console (except the optional gated image upload). Nothing here edits the sheet or the site directly. If something looks off: confirm you hit Publish, wait a few minutes, refresh. A bad edit here cannot take the site down.</footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.js"></script>
 <script>
   // ==== CONFIG: set these ====
   const CONFIG = {
-    APPS_SCRIPT_URL: "",    // the Apps Script /exec URL (for the live-from-sheet view)
-    SHEET_URL: "",          // deep link to the Google Sheet
+    APPS_SCRIPT_URL: "",       // the Apps Script /exec URL (for the live-from-sheet view)
+    SHEET_URL: "",             // deep link to the Google Sheet
     LIVE_SITE_URL: "https://plumbazing.com",
-    RENDER_DASHBOARD_URL: "" // deep link to the Render service
+    RENDER_DASHBOARD_URL: "",  // deep link to the Render service
+    // Optional. If set, an "Upload to site" button POSTs the cropped image
+    // (multipart/form-data, field name "image") to this URL and expects a
+    // JSON response shaped { url: "/img/<file>" }, which auto-fills the
+    // Image path field. Leave blank to fall back to download-only (Josh
+    // commits the file to /img by hand). See chat for the server piece.
+    UPLOAD_ENDPOINT: ""
   };
   // ============================
 
-  const PROMO_HEADER = ["key","active","sort","title","subtitle","description","badge","cta","cta_url","start_date","end_date","image_url"];
+  const CONTENT_HEADER = ["key","active","type","placement","sort","tag","kicker","title","body","image_url","cta","link","meta","source","start_date","end_date"];
   const SERVICE_HEADER = ["key","active","sort","tier","title","subtitle","description","icon","cta","cta_url"];
+  const CTA_RESOLVE = {
+    book: { label: "Book Now", url: "/book" },
+    call: { label: "Call Now", url: "tel:15128884406" },
+    learn: { label: "Learn More", url: null }
+  };
 
-  let currentMode = "promos";
+  let currentType = "promo"; // promo | trust | brand | service
   let bullets = ["", "", ""];
+  let batch = [];
   let cropper = null;
   let croppedPreviewUrl = "";
 
@@ -321,23 +398,18 @@
     return String(s || "").toLowerCase().normalize("NFKD").replace(/[^\w\s-]/g, "").trim().replace(/[\s-]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 40);
   }
   function tsvCell(v) { return String(v == null ? "" : v).replace(/[\t\r\n]+/g, " "); }
-  function formatDateDisplay(iso) {
-    if (!iso) return "";
-    const parts = iso.split("-");
-    if (parts.length !== 3) return iso;
-    const [y, m, d] = parts;
-    return `${m}/${d}/${y.slice(2)}`;
-  }
+  function el(id) { return document.getElementById(id); }
+  function val(id) { const e = el(id); return e ? (e.value || "").trim() : ""; }
 
   // ---------- deep links ----------
   function wireDeepLink(id, url, label) {
-    const el = document.getElementById(id);
+    const a = el(id);
     if (url) {
-      el.href = url;
+      a.href = url;
     } else {
-      el.href = "#";
-      el.classList.add("btn-disabled");
-      el.addEventListener("click", (e) => {
+      a.href = "#";
+      a.classList.add("btn-disabled");
+      a.addEventListener("click", (e) => {
         e.preventDefault();
         alert(`Set CONFIG.${label} at the top of this file to enable this link.`);
       });
@@ -347,122 +419,168 @@
   wireDeepLink("viewSiteLink", CONFIG.LIVE_SITE_URL, "LIVE_SITE_URL");
   wireDeepLink("openRenderLink", CONFIG.RENDER_DASHBOARD_URL, "RENDER_DASHBOARD_URL");
 
-  // ---------- tooltips (tap to toggle on touch) ----------
+  // ---------- tooltips ----------
   document.querySelectorAll(".tip").forEach((t) => {
     t.addEventListener("click", (e) => { e.preventDefault(); t.classList.toggle("open"); });
   });
 
-  // ---------- mode switching ----------
-  function setMode(mode) {
-    currentMode = mode;
-    document.getElementById("promoFields").style.display = mode === "promos" ? "block" : "none";
-    document.getElementById("serviceFields").style.display = mode === "services" ? "block" : "none";
-    document.getElementById("cropperSection").style.display = mode === "promos" ? "block" : "none";
-    document.querySelectorAll(".mode-tab").forEach((t) => t.classList.toggle("active", t.dataset.mode === mode));
+  // ---------- field visibility ----------
+  function updateFieldVisibility() {
+    document.querySelectorAll("[data-show-for]").forEach((row) => {
+      const types = row.dataset.showFor.split(",");
+      row.style.display = types.includes(currentType) ? "" : "none";
+    });
+    const linkRow = el("row-link");
+    const ctaEl = el("f-cta");
+    if (linkRow) {
+      const typeAllowsCta = linkRow.style.display !== "none";
+      linkRow.style.display = (typeAllowsCta && ctaEl && ctaEl.value === "learn") ? "" : "none";
+    }
+    updateReviewsGraying();
+    updateCropperUiForPlacement();
+  }
+
+  function updateReviewsGraying() {
+    const isReviews = currentType === "trust" && val("f-source") === "reviews";
+    [el("f-kicker"), el("f-title")].forEach((input) => input && input.classList.toggle("field-deemphasized", isReviews));
+    el("reviewsNote").style.display = isReviews ? "block" : "none";
+  }
+
+  el("f-type").addEventListener("change", (e) => {
+    currentType = e.target.value;
+    if (currentType === "trust" || currentType === "brand") el("f-placement").value = "Carousel";
+    else if (currentType === "promo") el("f-placement").value = "Grid";
+    updateFieldVisibility();
+    refreshAll();
+  });
+  el("f-placement").addEventListener("change", () => {
+    updateCropperRatioForPlacement();
+    refreshAll();
+  });
+  el("f-cta").addEventListener("change", () => { updateFieldVisibility(); refreshAll(); });
+  el("f-source").addEventListener("change", () => { updateFieldVisibility(); refreshAll(); });
+
+  // ---------- kicker/cta resolution (mirrors code.gs) ----------
+  function resolvedKicker(recordType, fields) {
+    return recordType === "promo" ? (fields.tag || "") : (fields.kicker || "");
+  }
+  function resolvedCta(fields) {
+    const info = CTA_RESOLVE[fields.cta];
+    if (!info) return { label: "", url: "" };
+    return { label: info.label, url: info.url === null ? (fields.link || "") : info.url };
+  }
+
+  // ---------- read current form into a record ----------
+  function readCurrentRecord() {
+    const title = val("f-title");
+    const key = slug(title);
+    const active = el("f-active").checked ? "TRUE" : "FALSE";
+    const sort = val("f-sort") || "1";
+
+    if (currentType === "service") {
+      return {
+        recordType: "service",
+        fields: {
+          key, active, sort,
+          tier: val("f-tier"),
+          title,
+          subtitle: val("f-subtitle"),
+          description: bullets.filter((b) => b.trim()).map(tsvCell).join("|"),
+          icon: "",
+          cta: val("f-svc_cta"),
+          cta_url: val("f-svc_cta_url")
+        }
+      };
+    }
+
+    const typeLabel = currentType.charAt(0).toUpperCase() + currentType.slice(1);
+    return {
+      recordType: currentType,
+      fields: {
+        key, active,
+        type: typeLabel,
+        placement: val("f-placement"),
+        sort,
+        tag: currentType === "promo" ? val("f-tag") : "",
+        kicker: currentType !== "promo" ? val("f-kicker") : "",
+        title,
+        body: val("f-body"),
+        image_url: val("f-image_url"),
+        cta: val("f-cta"),
+        link: val("f-link"),
+        meta: currentType === "promo" ? val("f-meta") : "",
+        source: currentType === "trust" ? val("f-source") : "",
+        start_date: currentType === "promo" ? val("f-start_date") : "",
+        end_date: currentType === "promo" ? val("f-end_date") : ""
+      }
+    };
+  }
+
+  function loadRecordIntoForm(item) {
+    el("f-type").value = item.recordType;
+    currentType = item.recordType;
+    const f = item.fields;
+    el("f-active").checked = f.active !== "FALSE";
+    el("f-sort").value = f.sort || "1";
+    el("f-title").value = f.title || "";
+
+    if (item.recordType === "service") {
+      el("f-tier").value = f.tier || "1";
+      el("f-subtitle").value = f.subtitle || "";
+      bullets = (f.description || "").split("|").filter(Boolean);
+      if (bullets.length === 0) bullets = ["", "", ""];
+      renderBulletInputs();
+      el("f-svc_cta").value = f.cta || "";
+      el("f-svc_cta_url").value = f.cta_url || "";
+    } else {
+      el("f-placement").value = f.placement || "Grid";
+      el("f-tag").value = f.tag || "";
+      el("f-kicker").value = f.kicker || "";
+      el("f-body").value = f.body || "";
+      el("f-image_url").value = f.image_url || "";
+      el("f-cta").value = f.cta || "";
+      el("f-link").value = f.link || "";
+      el("f-meta").value = f.meta || "";
+      el("f-source").value = f.source || "";
+      el("f-start_date").value = f.start_date || "";
+      el("f-end_date").value = f.end_date || "";
+    }
+    updateFieldVisibility();
     refreshAll();
   }
-  document.getElementById("tabPromos").addEventListener("click", () => setMode("promos"));
-  document.getElementById("tabServices").addEventListener("click", () => setMode("services"));
 
-  // ---------- promo field getters ----------
-  const pv = (id) => (document.getElementById("p-" + id).value || "").trim();
-  const sv = (id) => (document.getElementById("s-" + id).value || "").trim();
-
-  function renderPromoPreview() {
-    const title = pv("title"), subtitle = pv("subtitle"), description = pv("description"),
-      badge = pv("badge"), endDate = pv("end_date"), imageUrlField = pv("image_url");
-    const imageSrc = croppedPreviewUrl || imageUrlField;
-    const kicker = badge ? `<span class="promo-kicker-static">${escapeHtml(badge)}</span>` : "";
-    const body = description || subtitle || "Description will appear here.";
-    const meta = endDate ? `<div class="promo-meta">Expires ${escapeHtml(formatDateDisplay(endDate))}. Ask for details.</div>` : "";
-    const image = imageSrc ? `<div class="promo-image promo-image--cover"><img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(title)}" /></div>` : "";
-    document.getElementById("preview").innerHTML = `
-      <div class="console-preview-frame">
-        <article class="promo-card-static promo-card-static--gradient">
-          ${image}
-          <div class="promo-content">
-            ${kicker}
-            <h3>${escapeHtml(title) || "Your promo title"}</h3>
-            <p>${escapeHtml(body)}</p>
-            ${meta}
-          </div>
-        </article>
-      </div>`;
-  }
-
-  function wireFlipToggle(card) {
-    if (!card) return;
-    const mq = window.matchMedia("(max-width: 1199px)");
-    card.addEventListener("click", (e) => {
-      if (!mq.matches) return;
-      if (e.target.closest("a,button")) return;
-      card.classList.toggle("is-flipped");
-    });
-  }
-
-  function renderServicePreview() {
-    const tier = sv("tier") || "1";
-    const title = sv("title"), subtitle = sv("subtitle"), cta = sv("cta");
-    const tierHint = document.getElementById("tierHint");
-    if (tier === "2") {
-      tierHint.textContent = "Tier 2 renders as a simple pill — subtitle, bullets, and the button are ignored.";
-      document.getElementById("preview").innerHTML = `
-        <div class="console-preview-frame">
-          <div class="pill-row">
-            <span class="service-pill">${escapeHtml(title) || "Service name"}</span>
-          </div>
-        </div>`;
-      return;
-    }
-    tierHint.textContent = "Tier 1 renders as the full flip card shown here.";
-    const bulletsHtml = bullets.filter((b) => b.trim()).map((b) => `<li>${escapeHtml(b)}</li>`).join("")
-      || "<li>Add a bullet below to see it here.</li>";
-    document.getElementById("preview").innerHTML = `
-      <div class="console-preview-frame">
-        <article class="service-card" data-card>
-          <div class="service-card-inner">
-            <div class="service-face service-front">
-              <div class="service-top">
-                <div class="service-visual"></div>
-                <div>
-                  <h3>${escapeHtml(title) || "Service name"}</h3>
-                  <p>${escapeHtml(subtitle) || "One-line summary"}</p>
-                </div>
-              </div>
-            </div>
-            <div class="service-face service-back">
-              <div class="service-top">
-                <h3>${escapeHtml(title) || "Service name"}</h3>
-                <ul>${bulletsHtml}</ul>
-              </div>
-              <div>
-                <div class="service-cta-label">Need help now?</div>
-                <div class="service-actions">
-                  <span class="text-link">${escapeHtml(cta) || "Request Service"}</span>
-                  <span class="text-link">Call Now</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-        <p class="flip-hint">Hover to flip (desktop) or tap the card (mobile).</p>
-      </div>`;
-    wireFlipToggle(document.querySelector("#preview [data-card]"));
+  function resetFormKeepingType() {
+    el("f-title").value = "";
+    el("f-body").value = "";
+    el("f-subtitle").value = "";
+    el("f-image_url").value = "";
+    el("f-link").value = "";
+    el("f-meta").value = "";
+    el("f-start_date").value = "";
+    el("f-end_date").value = "";
+    el("f-svc_cta").value = "";
+    el("f-svc_cta_url").value = "";
+    el("f-tag").value = "";
+    el("f-kicker").value = "";
+    el("f-cta").value = "";
+    el("f-source").value = "";
+    bullets = ["", "", ""];
+    renderBulletInputs();
+    resetCropper();
+    updateFieldVisibility();
+    refreshAll();
   }
 
   // ---------- bullet builder ----------
   function renderBulletInputs() {
-    const container = document.getElementById("s-bullets");
-    container.innerHTML = bullets.map((val, i) => `
+    const container = el("s-bullets");
+    container.innerHTML = bullets.map((v, i) => `
       <div class="bullet-row">
-        <input type="text" class="bullet-input" data-i="${i}" value="${escapeHtml(val)}" placeholder="Bullet point ${i + 1}" />
+        <input type="text" class="bullet-input" data-i="${i}" value="${escapeHtml(v)}" placeholder="Bullet point ${i + 1}" />
         <button type="button" class="bullet-remove" data-remove="${i}" aria-label="Remove bullet">&times;</button>
       </div>`).join("");
     container.querySelectorAll(".bullet-input").forEach((inp) => {
-      inp.addEventListener("input", (e) => {
-        bullets[Number(e.target.dataset.i)] = e.target.value;
-        refreshAll();
-      });
+      inp.addEventListener("input", (e) => { bullets[Number(e.target.dataset.i)] = e.target.value; refreshAll(); });
     });
     container.querySelectorAll(".bullet-remove").forEach((btn) => {
       btn.addEventListener("click", (e) => {
@@ -473,104 +591,264 @@
       });
     });
   }
-  document.getElementById("addBullet").addEventListener("click", () => {
-    bullets.push("");
-    renderBulletInputs();
-    refreshAll();
-  });
+  el("addBullet").addEventListener("click", () => { bullets.push(""); renderBulletInputs(); refreshAll(); });
 
-  // ---------- output + validation ----------
-  function refreshOutput() {
+  // ---------- preview ----------
+  function wireFlipToggle(card) {
+    if (!card) return;
+    const mq = window.matchMedia("(max-width: 1199px)");
+    card.addEventListener("click", (e) => {
+      if (!mq.matches) return;
+      if (e.target.closest("a,button")) return;
+      card.classList.toggle("is-flipped");
+    });
+  }
+
+  function renderGridCardHtml(record) {
+    const f = record.fields;
+    const kicker = resolvedKicker(record.recordType, f);
+    const body = f.body || "Body text will appear here.";
+    const imageUrl = croppedPreviewUrl || f.image_url || "";
+    const image = imageUrl
+      ? `<div class="promo-image promo-image--cover"><img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(f.title)}" /></div>` : "";
+    return `<div class="console-preview-frame">
+      <p class="preview-label">Grid card preview</p>
+      <article class="promo-card-static promo-card-static--gradient">${image}
+        <div class="promo-content">
+          ${kicker ? `<span class="promo-kicker-static">${escapeHtml(kicker)}</span>` : ""}
+          <h3>${escapeHtml(f.title) || "Your title"}</h3>
+          <p>${escapeHtml(body)}</p>
+          ${f.meta ? `<div class="promo-meta">${escapeHtml(f.meta)}</div>` : ""}
+        </div>
+      </article>
+    </div>`;
+  }
+
+  function renderHeroSlideHtml(record) {
+    const f = record.fields;
+    let kicker = resolvedKicker(record.recordType, f);
+    let title = f.title || "Your title";
+    if (record.recordType === "trust" && f.source === "reviews") {
+      kicker = "Rated 5.0";
+      title = "Loved by N local customers";
+    }
+    const body = f.body || "Body text will appear here.";
+    const imageUrl = croppedPreviewUrl || f.image_url || "";
+    const image = imageUrl
+      ? `<div class="hero-slide-media"><img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(title)}" /></div>` : "";
+    const ctaInfo = resolvedCta(f);
+    const primaryButton = (record.recordType !== "trust" && ctaInfo.label && ctaInfo.url)
+      ? `<a class="btn btn-primary" href="${escapeHtml(ctaInfo.url)}">${escapeHtml(ctaInfo.label)}</a>` : "";
+    const meta = f.meta ? `<div class="promo-meta">${escapeHtml(f.meta)}</div>` : "";
+    const note = (record.recordType === "trust" && f.source === "reviews")
+      ? `<p class="flip-hint">Illustrative -- real numbers come from build/.reviews.json at bake time.</p>` : "";
+    return `<div class="console-preview-frame console-preview-frame--wide">
+      <p class="preview-label">Carousel slide preview</p>
+      <article class="hero-slide active" data-hero-slide="0">
+        <div class="hero-slide-card">${image}
+          <div class="hero-slide-body">
+            <span class="hero-slide-kicker">${escapeHtml(kicker) || "Kicker"}</span>
+            <h3>${escapeHtml(title)}</h3>
+            <p>${escapeHtml(body)}</p>
+            <div class="hero-slide-actions">
+              ${primaryButton}<a class="btn btn-secondary" href="tel:15128884406">Call Now</a>
+            </div>${meta}
+          </div>
+        </div>
+      </article>${note}
+    </div>`;
+  }
+
+  function renderServicePreviewHtml(record) {
+    const f = record.fields;
+    if (f.tier === "2") {
+      return `<div class="console-preview-frame">
+        <p class="preview-label">Pill preview (tier 2)</p>
+        <div class="pill-row"><span class="service-pill">${escapeHtml(f.title) || "Service name"}</span></div>
+      </div>`;
+    }
+    const bulletsHtml = bullets.filter((b) => b.trim()).map((b) => `<li>${escapeHtml(b)}</li>`).join("")
+      || "<li>Add a bullet to see it here.</li>";
+    return `<div class="console-preview-frame">
+      <p class="preview-label">Flip card preview (tier 1)</p>
+      <article class="service-card" data-card>
+        <div class="service-card-inner">
+          <div class="service-face service-front">
+            <div class="service-top">
+              <div class="service-visual"></div>
+              <div><h3>${escapeHtml(f.title) || "Service name"}</h3><p>${escapeHtml(f.subtitle) || "One-line summary"}</p></div>
+            </div>
+          </div>
+          <div class="service-face service-back">
+            <div class="service-top"><h3>${escapeHtml(f.title) || "Service name"}</h3><ul>${bulletsHtml}</ul></div>
+            <div>
+              <div class="service-cta-label">Need help now?</div>
+              <div class="service-actions">
+                <span class="text-link">${escapeHtml(f.cta) || "Request Service"}</span>
+                <span class="text-link">Call Now</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+      <p class="flip-hint">Hover to flip (desktop) or tap the card (mobile).</p>
+    </div>`;
+  }
+
+  function refreshPreview(record) {
+    const box = el("preview");
+    if (record.recordType === "service") {
+      box.innerHTML = renderServicePreviewHtml(record);
+      wireFlipToggle(box.querySelector("[data-card]"));
+      return;
+    }
+    const placement = record.fields.placement;
+    let html = "";
+    if (placement === "Grid" || placement === "Both") html += renderGridCardHtml(record);
+    if (placement === "Carousel" || placement === "Both") html += renderHeroSlideHtml(record);
+    box.innerHTML = html || `<p class="muted">Choose a placement to see a preview.</p>`;
+  }
+
+  // ---------- warnings + output ----------
+  function refreshOutput(record) {
     const warnings = [];
-    let row, header;
+    const f = record.fields;
+    if (!f.title) warnings.push("Title is required.");
 
-    if (currentMode === "promos") {
-      const title = pv("title");
-      if (!title) warnings.push("Title is required.");
-      const cta = pv("cta"), ctaUrl = pv("cta_url");
-      if ((cta && !ctaUrl) || (!cta && ctaUrl)) warnings.push("Button text and button link should both be set, or both left blank.");
-      const start = pv("start_date"), end = pv("end_date");
-      if (start && end && end < start) warnings.push("End date is before the start date.");
-      if (croppedPreviewUrl && !pv("image_url")) warnings.push("You cropped an image but haven't pasted its saved path into Image path yet.");
-      const key = slug(title);
-      document.getElementById("p-genid").textContent = key ? "Generated key: " + key : "Generated key: (type a title)";
-      const active = document.getElementById("p-active").checked ? "TRUE" : "FALSE";
-      row = [key, active, pv("sort") || "1", title, pv("subtitle"), pv("description"), pv("badge"), cta, ctaUrl, start, end, pv("image_url")];
-      header = PROMO_HEADER;
+    if (record.recordType === "service") {
+      if (f.tier === "1" && !bullets.some((b) => b.trim())) warnings.push("Tier 1 services usually have at least one bullet.");
     } else {
-      const title = sv("title");
-      if (!title) warnings.push("Title is required.");
-      const tier = sv("tier") || "1";
-      const activeBullets = bullets.filter((b) => b.trim());
-      if (tier === "1" && activeBullets.length === 0) warnings.push("Tier 1 services usually have at least one bullet.");
-      const key = slug(title);
-      document.getElementById("s-genid").textContent = key ? "Generated key: " + key : "Generated key: (type a title)";
-      const active = document.getElementById("s-active").checked ? "TRUE" : "FALSE";
-      const desc = activeBullets.map(tsvCell).join("|");
-      row = [key, active, sv("sort") || "1", tier, title, sv("subtitle"), desc, "", sv("cta"), sv("cta_url")];
-      header = SERVICE_HEADER;
+      if (f.cta === "learn" && !f.link) warnings.push('"Learn More" needs a link.');
+      if (f.start_date && f.end_date && f.end_date < f.start_date) warnings.push("End date is before the start date.");
+      if (croppedPreviewUrl && !f.image_url) warnings.push("You cropped an image but haven't pasted its saved path into Image path yet.");
     }
 
-    document.getElementById("out").textContent = row[3] || row[0] ? row.map(tsvCell).join("\t") : "Fill in a title to start...";
-    const box = document.getElementById("warningsBox");
-    const list = document.getElementById("warningsList");
-    if (warnings.length) {
-      list.innerHTML = warnings.map((w) => `<li>${escapeHtml(w)}</li>`).join("");
-      box.style.display = "block";
-    } else {
-      box.style.display = "none";
-    }
-    window.__lastHeader = header;
+    const header = record.recordType === "service" ? SERVICE_HEADER : CONTENT_HEADER;
+    const row = header.map((c) => tsvCell(f[c] ?? "")).join("\t");
+    el("out").textContent = f.title ? row : "Fill in a title to start...";
+
+    const box = el("warningsBox");
+    const list = el("warningsList");
+    if (warnings.length) { list.innerHTML = warnings.map((w) => `<li>${escapeHtml(w)}</li>`).join(""); box.style.display = "block"; }
+    else box.style.display = "none";
   }
 
   function refreshAll() {
-    if (currentMode === "promos") renderPromoPreview(); else renderServicePreview();
-    refreshOutput();
+    const record = readCurrentRecord();
+    el("genid").textContent = record.fields.key ? "Generated key: " + record.fields.key : "Generated key: (type a title)";
+    refreshPreview(record);
+    refreshOutput(record);
   }
 
-  ["title","subtitle","description","image_url","badge","sort","cta","cta_url","start_date","end_date","active"]
-    .forEach((id) => document.getElementById("p-" + id).addEventListener("input", refreshAll));
-  ["title","subtitle","tier","sort","cta","cta_url","active"]
-    .forEach((id) => document.getElementById("s-" + id).addEventListener("input", refreshAll));
+  ["f-active","f-sort","f-tag","f-kicker","f-title","f-body","f-subtitle","f-image_url","f-link","f-meta","f-start_date","f-end_date","f-svc_cta","f-svc_cta_url","f-tier"]
+    .forEach((id) => { const e = el(id); if (e) e.addEventListener("input", refreshAll); });
 
-  document.getElementById("copyRow").addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(document.getElementById("out").textContent);
-      showCopied("Row copied. Paste it into a new row in the sheet, then Publish.");
-    } catch { alert("Copy failed. Select the text manually."); }
+  // ---------- batch queue ----------
+  function renderBatchList() {
+    const box = el("batchList");
+    if (!batch.length) { box.innerHTML = '<p class="muted">No rows queued yet.</p>'; return; }
+    box.innerHTML = batch.map((item, i) => {
+      const meta = item.recordType === "service" ? `Tier ${item.fields.tier}` : item.fields.placement;
+      const typeLabel = item.recordType.charAt(0).toUpperCase() + item.recordType.slice(1);
+      return `<div class="batch-row">
+        <span class="batch-meta">${escapeHtml(typeLabel)} &middot; ${escapeHtml(meta)}</span>
+        <span class="batch-title">${escapeHtml(item.fields.title)}</span>
+        <button type="button" data-edit="${i}">Edit</button>
+        <button type="button" data-remove="${i}">Remove</button>
+      </div>`;
+    }).join("");
+    box.querySelectorAll("[data-edit]").forEach((btn) => btn.addEventListener("click", (e) => editBatchItem(Number(e.target.dataset.edit))));
+    box.querySelectorAll("[data-remove]").forEach((btn) => btn.addEventListener("click", (e) => removeBatchItem(Number(e.target.dataset.remove))));
+  }
+  function editBatchItem(i) {
+    const item = batch[i];
+    batch.splice(i, 1);
+    renderBatchList();
+    loadRecordIntoForm(item);
+  }
+  function removeBatchItem(i) {
+    batch.splice(i, 1);
+    renderBatchList();
+  }
+
+  el("addToBatch").addEventListener("click", () => {
+    const record = readCurrentRecord();
+    if (!record.fields.title) { alert("Add a title first."); return; }
+    batch.push(record);
+    renderBatchList();
+    resetFormKeepingType();
+    showCopied("Added to batch.");
   });
-  document.getElementById("copyHeader").addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText((window.__lastHeader || []).join("\t"));
-      showCopied("Header row copied. Paste it into row 1 of a fresh tab.");
-    } catch { alert("Copy failed."); }
+
+  function renderCopyBlocks(blocks) {
+    const box = el("copyBlocks");
+    if (!blocks.length) { box.innerHTML = '<p class="muted">Queue at least one row first.</p>'; return; }
+    box.innerHTML = blocks.map((b, i) => `
+      <div class="copy-block">
+        <p class="copy-block-label">Paste this block into the <strong>${escapeHtml(b.label)}</strong></p>
+        <div class="out-box">${escapeHtml(b.rows.join("\n"))}</div>
+        <div class="out-actions"><button type="button" class="btn btn-primary" data-copy-block="${i}">Copy this block</button></div>
+      </div>`).join("");
+    box.querySelectorAll("[data-copy-block]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const i = Number(btn.dataset.copyBlock);
+        try { await navigator.clipboard.writeText(blocks[i].rows.join("\n")); showCopied(`${blocks[i].label} block copied.`); }
+        catch { alert("Copy failed. Select the text manually."); }
+      });
+    });
+  }
+
+  el("copyAllRows").addEventListener("click", () => {
+    const contentItems = batch.filter((b) => b.recordType !== "service");
+    const serviceItems = batch.filter((b) => b.recordType === "service");
+    const blocks = [];
+    if (contentItems.length) blocks.push({ label: "Content tab", rows: contentItems.map((i) => CONTENT_HEADER.map((c) => tsvCell(i.fields[c] ?? "")).join("\t")) });
+    if (serviceItems.length) blocks.push({ label: "Services tab", rows: serviceItems.map((i) => SERVICE_HEADER.map((c) => tsvCell(i.fields[c] ?? "")).join("\t")) });
+    renderCopyBlocks(blocks);
   });
+
   function showCopied(text) {
-    const el = document.getElementById("copiedMsg");
-    el.textContent = text;
-    el.style.display = "block";
-    setTimeout(() => (el.style.display = "none"), 3000);
+    const m = el("copiedMsg");
+    m.textContent = text;
+    m.style.display = "block";
+    setTimeout(() => (m.style.display = "none"), 3000);
   }
 
-  // ---------- image cropper ----------
-  function showCropWarning(text) {
-    const el = document.getElementById("cropWarning");
-    el.textContent = text;
-    el.style.display = "block";
+  // ---------- image cropper (placement-aware) ----------
+  function currentPlacementForCropper() {
+    if (currentType === "service") return "Grid"; // not used, cropper hidden for services below
+    return val("f-placement") || "Grid";
   }
-  function hideCropWarning() {
-    document.getElementById("cropWarning").style.display = "none";
+  function isCarouselOnly() { return currentPlacementForCropper() === "Carousel"; }
+
+  function updateCropperUiForPlacement() {
+    el("cropperSection").style.display = currentType === "service" ? "none" : "block";
+    const carouselOnly = isCarouselOnly();
+    el("downloadPng").style.display = carouselOnly ? "inline-flex" : "none";
+    el("cropSpecNote").textContent = carouselOnly
+      ? "Carousel-only: no fixed crop shape needed. Resized to ~1200px wide; transparent PNG allowed."
+      : "Grid image: locked to 4:3, exported at 1200×900px, under 400KB.";
+    el("uploadToSite").style.display = CONFIG.UPLOAD_ENDPOINT ? "inline-flex" : "none";
   }
+
+  function updateCropperRatioForPlacement() {
+    if (!cropper) { updateCropperUiForPlacement(); return; }
+    cropper.setAspectRatio(isCarouselOnly() ? NaN : 4 / 3);
+    updateCropperUiForPlacement();
+  }
+
+  function showCropWarning(text) { const e = el("cropWarning"); e.textContent = text; e.style.display = "block"; }
+  function hideCropWarning() { el("cropWarning").style.display = "none"; }
 
   function loadImageFile(file) {
     if (!file || !file.type.startsWith("image/")) { showCropWarning("That file doesn't look like an image."); return; }
     const reader = new FileReader();
     reader.onload = (e) => {
-      const img = document.getElementById("cropSource");
+      const img = el("cropSource");
       img.src = e.target.result;
-      document.getElementById("dropHint").style.display = "none";
-      document.getElementById("cropperStage").style.display = "block";
-      document.getElementById("cropperActions").style.display = "flex";
+      el("dropHint").style.display = "none";
+      el("cropperStage").style.display = "block";
+      el("cropperActions").style.display = "flex";
       hideCropWarning();
       if (cropper) { cropper.destroy(); cropper = null; }
       if (typeof Cropper === "undefined") {
@@ -578,7 +856,7 @@
         return;
       }
       cropper = new Cropper(img, {
-        aspectRatio: 4 / 3,
+        aspectRatio: isCarouselOnly() ? NaN : 4 / 3,
         viewMode: 1,
         autoCropArea: 1,
         crop: updateCroppedPreview
@@ -587,57 +865,89 @@
     reader.readAsDataURL(file);
   }
 
+  function getExportCanvas() {
+    if (!cropper) return null;
+    return isCarouselOnly()
+      ? cropper.getCroppedCanvas({ maxWidth: 1200, imageSmoothingQuality: "high" })
+      : cropper.getCroppedCanvas({ width: 1200, height: 900, imageSmoothingQuality: "high" });
+  }
+
   function updateCroppedPreview() {
-    if (!cropper) return;
-    const canvas = cropper.getCroppedCanvas({ width: 1200, height: 900 });
+    const canvas = getExportCanvas();
     if (!canvas) return;
     canvas.toBlob((blob) => {
       if (!blob) return;
       if (croppedPreviewUrl) URL.revokeObjectURL(croppedPreviewUrl);
       croppedPreviewUrl = URL.createObjectURL(blob);
-      if (currentMode === "promos") { renderPromoPreview(); refreshOutput(); }
+      refreshAll();
     }, "image/jpeg", 0.9);
   }
 
   function downloadCropped(format) {
     if (!cropper) { showCropWarning("Pick an image first."); return; }
-    const canvas = cropper.getCroppedCanvas({ width: 1200, height: 900 });
-    const mime = format === "webp" ? "image/webp" : "image/jpeg";
-    const ext = format === "webp" ? "webp" : "jpg";
+    const canvas = getExportCanvas();
+    const mime = format === "webp" ? "image/webp" : format === "png" ? "image/png" : "image/jpeg";
     canvas.toBlob((blob) => {
       if (!blob) { showCropWarning("Could not export that image."); return; }
       const sizeKb = Math.round(blob.size / 1024);
-      if (blob.size > 400 * 1024) {
-        showCropWarning(`Exported image is ${sizeKb}KB, over the 400KB spec. Try WebP or a lower-detail source image.`);
-      } else {
-        hideCropWarning();
-      }
+      if (blob.size > 400 * 1024) showCropWarning(`Exported image is ${sizeKb}KB, over the 400KB spec. Try WebP/PNG or a lower-detail source image.`);
+      else hideCropWarning();
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = `promo-image.${ext}`;
+      a.download = `promo-image.${format}`;
       document.body.appendChild(a);
       a.click();
       a.remove();
     }, mime, 0.85);
   }
 
+  // Optional gated upload. Assumed server contract: POST multipart/form-data
+  // with field "image" -> JSON response { url: "/img/<file>" }. See CONFIG.
+  function canvasToBlobAsync(canvas, type, quality) {
+    return new Promise((resolve) => canvas.toBlob(resolve, type, quality));
+  }
+
+  async function uploadCroppedImage() {
+    if (!CONFIG.UPLOAD_ENDPOINT) return;
+    if (!cropper) { showCropWarning("Pick an image first."); return; }
+    const uploadBtn = el("uploadToSite");
+    uploadBtn.disabled = true;
+    uploadBtn.textContent = "Uploading...";
+    try {
+      const canvas = getExportCanvas();
+      const blob = await canvasToBlobAsync(canvas, "image/jpeg", 0.9);
+      if (!blob) { showCropWarning("Could not export that image."); return; }
+      const formData = new FormData();
+      formData.append("image", blob, "promo-image.jpg");
+      const res = await fetch(CONFIG.UPLOAD_ENDPOINT, { method: "POST", body: formData });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      if (!data || !data.url) throw new Error("response missing url");
+      el("f-image_url").value = data.url;
+      refreshAll();
+      showCopied(`Uploaded. Image path set to ${data.url}`);
+    } catch (err) {
+      showCropWarning(`Upload failed (${err.message}). Use "Download" instead and paste the path manually.`);
+    } finally {
+      uploadBtn.disabled = false;
+      uploadBtn.textContent = "Upload to site";
+    }
+  }
+
   function resetCropper() {
     if (cropper) { cropper.destroy(); cropper = null; }
     if (croppedPreviewUrl) { URL.revokeObjectURL(croppedPreviewUrl); croppedPreviewUrl = ""; }
-    document.getElementById("imgFile").value = "";
-    document.getElementById("dropHint").style.display = "block";
-    document.getElementById("cropperStage").style.display = "none";
-    document.getElementById("cropperActions").style.display = "none";
+    el("imgFile").value = "";
+    el("dropHint").style.display = "block";
+    el("cropperStage").style.display = "none";
+    el("cropperActions").style.display = "none";
     hideCropWarning();
-    if (currentMode === "promos") { renderPromoPreview(); refreshOutput(); }
+    refreshAll();
   }
 
-  const dropZone = document.getElementById("dropZone");
-  const fileInput = document.getElementById("imgFile");
-  dropZone.addEventListener("click", (e) => {
-    if (e.target.closest("#cropperActions")) return;
-    fileInput.click();
-  });
+  const dropZone = el("dropZone");
+  const fileInput = el("imgFile");
+  dropZone.addEventListener("click", (e) => { if (!e.target.closest("#cropperActions")) fileInput.click(); });
   dropZone.addEventListener("dragover", (e) => { e.preventDefault(); dropZone.classList.add("drag"); });
   dropZone.addEventListener("dragleave", () => dropZone.classList.remove("drag"));
   dropZone.addEventListener("drop", (e) => {
@@ -650,16 +960,18 @@
     const file = fileInput.files && fileInput.files[0];
     if (file) loadImageFile(file);
   });
-  document.getElementById("downloadJpg").addEventListener("click", () => downloadCropped("jpg"));
-  document.getElementById("downloadWebp").addEventListener("click", () => downloadCropped("webp"));
-  document.getElementById("resetCrop").addEventListener("click", resetCropper);
+  el("downloadJpg").addEventListener("click", () => downloadCropped("jpg"));
+  el("downloadWebp").addEventListener("click", () => downloadCropped("webp"));
+  el("downloadPng").addEventListener("click", () => downloadCropped("png"));
+  el("uploadToSite").addEventListener("click", uploadCroppedImage);
+  el("resetCrop").addEventListener("click", resetCropper);
 
   // ---------- live from sheet ----------
   async function loadLiveType(type, containerId, countId) {
-    const box = document.getElementById(containerId);
+    const box = el(containerId);
     if (!CONFIG.APPS_SCRIPT_URL) {
       box.innerHTML = '<p class="muted">Not configured yet. Set CONFIG.APPS_SCRIPT_URL at the top of this file.</p>';
-      document.getElementById(countId).textContent = "";
+      el(countId).textContent = "";
       return;
     }
     try {
@@ -667,36 +979,34 @@
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
       if (!data || data.ok !== true || !Array.isArray(data.items)) throw new Error("Unexpected response shape");
-      document.getElementById(countId).textContent = `(${data.items.length} live)`;
+      el(countId).textContent = `(${data.items.length} live)`;
       if (!data.items.length) { box.innerHTML = '<p class="muted">None currently live.</p>'; return; }
-      box.innerHTML = data.items.map((i) => `
-        <div class="live-item">
-          <strong>${escapeHtml(i.title || "")}</strong>
-          ${i.badge ? `<span class="mini-badge">${escapeHtml(i.badge)}</span>` : ""}
-          <div class="muted">${escapeHtml(i.subtitle || i.description || "")}</div>
-        </div>`).join("");
+      box.innerHTML = data.items.map((i) => {
+        const tag = type === "content" ? `<span class="mini-badge">${escapeHtml(i.type || "")}</span><span class="mini-badge">${escapeHtml(i.placement || "")}</span>` : "";
+        return `<div class="live-item">
+          <strong>${escapeHtml(i.title || "")}</strong>${tag}
+          <div class="muted">${escapeHtml(i.description || i.subtitle || "")}</div>
+        </div>`;
+      }).join("");
     } catch (err) {
       box.innerHTML = '<p class="muted">Could not reach the sheet right now. Check the endpoint or retry.</p>';
-      document.getElementById(countId).textContent = "";
+      el(countId).textContent = "";
     }
   }
-
   async function loadLive() {
     const hasEndpoint = !!CONFIG.APPS_SCRIPT_URL;
-    const badge = document.getElementById("liveBadge");
+    const badge = el("liveBadge");
     badge.textContent = hasEndpoint ? "checking..." : "not configured";
     badge.className = "livebadge " + (hasEndpoint ? "" : "snap");
-    await loadLiveType("promos", "livePromos", "promoCount");
+    await loadLiveType("content", "liveContent", "contentCount");
     await loadLiveType("services", "liveServices", "serviceCount");
-    if (hasEndpoint) {
-      badge.textContent = "live from sheet - " + new Date().toLocaleTimeString();
-      badge.className = "livebadge live";
-    }
+    if (hasEndpoint) { badge.textContent = "live from sheet - " + new Date().toLocaleTimeString(); badge.className = "livebadge live"; }
   }
-  document.getElementById("retryLive").addEventListener("click", loadLive);
+  el("retryLive").addEventListener("click", loadLive);
 
   // ---------- init ----------
   renderBulletInputs();
+  updateFieldVisibility();
   refreshAll();
   loadLive();
 </script>

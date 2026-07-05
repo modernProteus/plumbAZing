@@ -1,21 +1,27 @@
 /*******************************************************
  * PlumbAZing Sheet-CMS - Apps Script API
  *
- * Serves sheet-managed content (Promotions + Services) as JSON, and exposes a
+ * Serves sheet-managed content (Content + Services) as JSON, and exposes a
  * "Publish" menu that triggers a Render rebuild via a Deploy Hook.
  *
- * Adapted from the sheet-cms seed. Two changes worth knowing:
+ * Adapted from the sheet-cms seed. Notable changes:
  *   1. Publishing targets a RENDER DEPLOY HOOK (this site deploys on Render),
  *      not GitHub repository_dispatch. Simpler: no PAT, no Action, no repo var.
- *   2. One endpoint now serves MULTIPLE content types via ?type= (promos today,
- *      services when you want them, more tabs later).
+ *   2. One endpoint serves MULTIPLE content types via ?type= (content, services,
+ *      more tabs later).
+ *   3. The `Content` tab unifies what used to be a promos-only tab: every row
+ *      has a `type` (Promo/Trust/Brand) and a `placement` (Grid/Carousel/Both).
+ *      This script resolves each row's raw `tag`/`cta`/`link` columns into the
+ *      `kicker`/`tagLabel`/`ctaLabel`/`ctaUrl` fields the site's build/bake-
+ *      content.mjs and build/bake-carousel.mjs actually consume, so the front
+ *      end never has to know about the sheet's raw enum columns.
  *
  * GET:
- *   /exec                                       -> liveness + available types
- *   /exec?action=items                          -> active promos (default)
- *   /exec?action=items&type=promos              -> active, in-window promos
- *   /exec?action=items&type=services            -> active services
- *   /exec?action=items&type=promos&callback=cb  -> JSONP
+ *   /exec                                        -> liveness + available types
+ *   /exec?action=items                           -> active content rows (default)
+ *   /exec?action=items&type=content              -> active, in-window Content rows
+ *   /exec?action=items&type=services              -> active services
+ *   /exec?action=items&type=content&callback=cb  -> JSONP
  *******************************************************/
 
 /* ================= CONFIG (edit these) ================= */
@@ -23,10 +29,18 @@ const SPREADSHEET_ID = "PASTE_YOUR_SPREADSHEET_ID_HERE";
 
 // One entry per sheet-managed content type. Add tabs here later (FAQs, cities...).
 const ITEM_TYPES = {
-  promos:   { sheetName: "Promotions", timeBound: true  },
+  content:  { sheetName: "Content",    timeBound: true  },
   services: { sheetName: "Services",   timeBound: false }
 };
-const DEFAULT_TYPE = "promos";
+const DEFAULT_TYPE = "content";
+
+// Content tab `cta` column -> resolved button label/url. `learn` pulls its
+// url from that row's own `link` column instead of a fixed one.
+const CTA_MAP = {
+  book:  { label: "Book Now",    url: "/book" },
+  call:  { label: "Call Now",    url: "tel:15128884406" },
+  learn: { label: "Learn More",  url: null }
+};
 /* ======================================================= */
 
 
@@ -46,7 +60,7 @@ function doGet(e) {
         ok: true,
         message: "PlumbAZing Sheet-CMS endpoint is live.",
         availableTypes: Object.keys(ITEM_TYPES),
-        usage: "?action=items&type=promos | services"
+        usage: "?action=items&type=content | services"
       };
     }
   } catch (error) {
@@ -78,26 +92,10 @@ function getItems(typeKey) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
+  const mapRow = typeKey === "content" ? mapContentRow : mapServiceRow;
+
   const items = rows
-    .map((row, index) => {
-      const r = rowToObject(headers, row);
-      return {
-        id: r.key || (typeKey + "-" + (index + 1)),
-        active: r.active,
-        title: r.title || "",
-        subtitle: r.subtitle || "",
-        description: r.description || "",
-        badge: r.badge || "",     // promos: "Limited Time" etc.
-        icon: r.icon || "",       // services: icon name if you use one
-        cta: r.cta || "",
-        ctaUrl: r.cta_url || "",
-        startDate: r.start_date || "",
-        endDate: r.end_date || "",
-        sort: r.sort || "",
-        imageUrl: r.image_url || "",  // promos: 4:3 image, e.g. /img/promo-name.jpg
-        tier: r.tier || "1"  // services: "1" = flip-card, "2" = pill in "More services we offer"
-      };
-    })
+    .map((row, index) => mapRow(rowToObject(headers, row), index))
     .filter((item) => {
       const isActive = ["true", "yes", "1"].includes(String(item.active).trim().toLowerCase());
       if (!isActive || !item.title) return false;
@@ -112,6 +110,58 @@ function getItems(typeKey) {
     });
 
   return { ok: true, type: typeKey, updatedAt: now.toISOString(), items };
+}
+
+// Content tab: unified Promo/Trust/Brand rows. Resolves the raw sheet
+// columns (tag, cta, link, source) into the fields the site's bake scripts
+// actually consume (kicker, tagLabel, ctaLabel, ctaUrl) so the front end
+// never has to know about the sheet's raw enum columns.
+function mapContentRow(r, index) {
+  const isPromo = String(r.type || "").toLowerCase() === "promo";
+  const cta = resolveCta(r);
+  return {
+    id: r.key || ("content-" + (index + 1)),
+    active: r.active,
+    type: r.type || "",
+    placement: r.placement || "",
+    sort: r.sort || "",
+    title: r.title || "",
+    description: r.body || "",
+    kicker: isPromo ? (r.tag || "") : (r.kicker || ""),
+    tagLabel: isPromo ? (r.tag || "") : "",
+    ctaLabel: cta.ctaLabel,
+    ctaUrl: cta.ctaUrl,
+    meta: r.meta || "",
+    source: r.source || "",
+    startDate: r.start_date || "",
+    endDate: r.end_date || "",
+    imageUrl: r.image_url || ""
+  };
+}
+
+function resolveCta(r) {
+  const ctaInfo = CTA_MAP[String(r.cta || "").toLowerCase()];
+  if (!ctaInfo) return { ctaLabel: "", ctaUrl: "" };
+  return {
+    ctaLabel: ctaInfo.label,
+    ctaUrl: ctaInfo.url === null ? (r.link || "") : ctaInfo.url
+  };
+}
+
+// Services tab: unchanged plain passthrough (tier 1 flip-card / tier 2 pill).
+function mapServiceRow(r, index) {
+  return {
+    id: r.key || ("services-" + (index + 1)),
+    active: r.active,
+    sort: r.sort || "",
+    tier: r.tier || "1",
+    title: r.title || "",
+    subtitle: r.subtitle || "",
+    description: r.description || "",
+    icon: r.icon || "",
+    cta: r.cta || "",
+    ctaUrl: r.cta_url || ""
+  };
 }
 
 function withinWindow(startStr, endStr, today) {

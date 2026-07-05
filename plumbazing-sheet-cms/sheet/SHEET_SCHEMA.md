@@ -1,38 +1,59 @@
 # PlumbAZing Sheet-CMS schema
 
-One Google Sheet, two tabs to start: **Promotions** and **Services**. Row 1 =
-headers, exact names below. Josh edits rows, clicks Publish, site updates.
+One Google Sheet, two tabs: **Content** and **Services**. Row 1 = headers,
+exact names below. Josh edits rows, clicks Publish, site updates.
 
 ---
 
-## Tab 1: `Promotions` (time-bound)
+## Tab 1: `Content` (unified Promo / Trust / Brand, time-bound)
+
+Replaces the old single-purpose `Promotions` tab. Every row has a `type`
+(what it is) and a `placement` (where it shows). One row can appear in the
+promo grid, the hero carousel, or both -- the site's `?action=items&type=content`
+endpoint returns every column below plus the columns it *resolves*
+(`kicker`, `tagLabel`, `ctaLabel`, `ctaUrl`) so the front end never has to
+know about `tag`/`cta`/`link` directly. See `apps-script/code.gs` `getItems()`
+for the resolution logic.
 
 | Column | Meaning | Validation |
 |---|---|---|
 | `key` | short unique slug | lowercase, no spaces |
 | `active` | show it or not | **checkbox** (TRUE/FALSE) |
-| `sort` | order among promos | number |
-| `title` | headline, e.g. "Free PRV Inspection" | - |
-| `subtitle` | short supporting line | - |
-| `description` | details / fine print | - |
-| `badge` | small tag | dropdown: Featured Promotion, Value Promise, First-Time Offer, Limited Time, Seasonal, New, Popular |
-| `cta` | button text, e.g. "Book Now" | - |
-| `cta_url` | where the button goes | - |
-| `start_date` | promo begins (blank = live now) | **date** |
-| `end_date` | promo expires (blank = open-ended) | **date** |
-| `image_url` | promo image, e.g. `/img/promo-drain.jpg` | optional; 4:3 ratio, 1200x900px, JPG/PNG/WebP, under 400KB |
+| `type` | what kind of row this is | dropdown: `Promo`, `Trust`, `Brand` |
+| `placement` | where it shows | dropdown: `Grid`, `Carousel`, `Both` |
+| `sort` | order among rows sharing a placement | number |
+| `tag` | small tag, **Promo only** -- resolves into `kicker`/`tagLabel` | dropdown: Featured Promotion, Value Promise, First-Time Offer, Limited Time, Seasonal, New, Popular |
+| `kicker` | small tag/eyebrow text, **Trust/Brand only** (Promo derives this from `tag` instead) | free text |
+| `title` | headline | - |
+| `body` | supporting copy / fine print | - |
+| `image_url` | card/slide image | optional; see "Image spec" below |
+| `cta` | which button to show, if any | dropdown: (none), `book` (Book Now -> /book), `call` (Call Now -> tel:), `learn` (Learn More -> `link`) |
+| `link` | button URL, **only used when `cta` = `learn`** | - |
+| `meta` | small line under the body, **Promo only** (e.g. an expiry note) | - |
+| `source` | where the content actually comes from, **Trust only** | dropdown: (none), `reviews` (live Google rating/review count overrides `kicker`/`title` at bake time -- see `build/bake-carousel.mjs`) |
+| `start_date` | row begins showing, **Promo only** (blank = live now) | **date** |
+| `end_date` | row stops showing, **Promo only** (blank = open-ended) | **date** |
+
+### Image spec
+4:3 ratio, 1200x900px, JPG/PNG/WebP, under 400KB -- for `placement = Grid` or
+`Both` (the grid crops with `object-fit: cover`, so the crop matters). For
+`placement = Carousel` only, the hero uses `object-fit: contain` on a
+gradient background, so a hard 4:3 crop isn't required -- a resized image
+(~1200px wide, transparent PNG allowed) works fine.
 
 ### Seed rows (import as CSV or type in)
 ```csv
-key,active,sort,title,subtitle,description,badge,cta,cta_url,start_date,end_date,image_url
-prv_special,FALSE,1,PRV Special,Pressure reducing valve offer,"The current PRV promotion. Set active to FALSE (or an end_date in the past) to retire it.",Limited Time,Book Now,/book,,,
-water_heater_flush,TRUE,2,Water Heater Flush,Keep it running longer,"Seasonal water heater flush and inspection. Book online in under a minute.",Seasonal,Book Now,/book,,,
+key,active,type,placement,sort,tag,kicker,title,body,image_url,cta,link,meta,source,start_date,end_date
+prv_special,FALSE,Promo,Both,1,Limited Time,,PRV Special,"The current PRV promotion. Set active to FALSE (or an end_date in the past) to retire it.",,book,,,,,
+water_heater_flush,TRUE,Promo,Grid,2,Seasonal,,Water Heater Flush,"Seasonal water heater flush and inspection. Book online in under a minute.",,book,,,,,
+meet_the_team,TRUE,Brand,Carousel,3,,Meet the Team,Josh + Alan + Jackson,"We're the folks who show up, explain the options, and leave your place cleaner than we found it.",/img/ad-team.png,learn,/#about,,,,
+live_reviews,TRUE,Trust,Carousel,4,,5-Star Feedback,What customers appreciate most,"Clear communication, dependable work, and help when it matters most.",,,,,"reviews",,
 ```
 
-> **Request 1 (remove the PRV special) lives here.** Once this tab is wired, the
-> PRV row is seeded with `active = FALSE`, so it is already retired. Flip it back
-> to TRUE any time it returns. This is also the perfect first smoke test: toggle
-> it, Publish, watch it appear and disappear.
+> **Request 1 (remove the PRV special) lives here.** Once this tab is wired,
+> the PRV row is seeded with `active = FALSE`, so it is already retired. Flip
+> it back to TRUE any time it returns. This is also the perfect first smoke
+> test: toggle it, Publish, watch it appear and disappear.
 
 ---
 
@@ -67,11 +88,12 @@ sewer_line_repair,TRUE,4,2,Sewer Line Repair,,,,,
 
 ## Data validation to set up (both tabs)
 - `active`: select the column, Insert -> Checkbox.
-- `start_date` / `end_date` (Promotions only): Format -> Number -> Date.
-- `badge` (Promotions): Data validation -> Dropdown.
+- `start_date` / `end_date` (Content only): Format -> Number -> Date.
+- `type`, `placement`, `tag`, `cta`, `source` (Content): Data validation -> Dropdown, using the values listed above.
+- `tier` (Services): Data validation -> Dropdown (1, 2).
 - Freeze row 1: View -> Freeze -> 1 row.
 
 ## Why services are NOT time-bound
-Promos come and go on dates. Services are just "on or off," so the endpoint skips
-the date-window check for the Services tab (`timeBound: false` in code.gs). Same
-machinery, one honest difference.
+Content rows (Promo/Trust/Brand) can come and go on dates. Services are just
+"on or off," so the endpoint skips the date-window check for the Services
+tab (`timeBound: false` in code.gs). Same machinery, one honest difference.
