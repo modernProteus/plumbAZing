@@ -94,7 +94,8 @@ function getItems(typeKey) {
         startDate: r.start_date || "",
         endDate: r.end_date || "",
         sort: r.sort || "",
-        imageUrl: r.image_url || ""  // promos: 4:3 image, e.g. /img/promo-name.jpg
+        imageUrl: r.image_url || "",  // promos: 4:3 image, e.g. /img/promo-name.jpg
+        tier: r.tier || "1"  // services: "1" = flip-card, "2" = pill in "More services we offer"
       };
     })
     .filter((item) => {

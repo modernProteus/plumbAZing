@@ -3,296 +3,701 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="robots" content="noindex, nofollow" />
-<title>PlumbAZING Promotions Console</title>
+<meta name="robots" content="noindex,nofollow" />
+<title>PlumbAZING Promotions &amp; Services Console</title>
+<link rel="stylesheet" href="../css/styles.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.css" />
 <style>
-  :root {
-    --brand: #1D4E89;
-    --brand-dark: #0B3B82;
-    --ink: #102A43;
-    --slate: #52606D;
-    --line: #D9E2EC;
-    --bg: #F7FAFC;
-    --card: #ffffff;
-    --ok: #16a34a;
-    --warn: #d97706;
+  body { background: var(--color-bg-soft); padding-bottom: 0; }
+  .console-wrap { max-width: 980px; margin: 0 auto; padding: 28px 18px 80px; }
+
+  .console-hero { background: linear-gradient(135deg, var(--color-navy), var(--color-blue)); color: #fff; border-radius: var(--radius-xl); padding: 28px 26px; margin-bottom: 20px; }
+  .console-hero .brandrow img { height: 30px; margin-bottom: 10px; }
+  .console-hero .kicker { text-transform: uppercase; letter-spacing: .12em; font-size: 12px; font-weight: 800; color: #bcd3f5; margin: 0 0 6px; }
+  .console-hero h1 { margin: 0 0 8px; font-size: 26px; font-family: var(--font-heading); }
+  .console-hero p { margin: 0; color: #dce6f5; font-size: 15px; max-width: 62ch; }
+
+  .links { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0 22px; }
+  .btn-disabled { opacity: .55; cursor: not-allowed; }
+
+  .note { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--radius-lg); padding: 16px 18px; margin-bottom: 22px; }
+  .note h2 { margin: 0 0 8px; font-size: 13px; color: var(--color-blue-dark); text-transform: uppercase; letter-spacing: .05em; }
+  .note ol { margin: 0; padding-left: 20px; } .note li { margin: 5px 0; font-size: 14px; color: var(--color-text); }
+
+  .mode-tabs { display: inline-flex; border: 1px solid var(--color-border); border-radius: var(--radius-pill); padding: 4px; background: #fff; margin-bottom: 20px; }
+  .mode-tab { border: 0; background: transparent; padding: 8px 18px; border-radius: var(--radius-pill); font-weight: 800; font-size: 14px; color: var(--color-muted); cursor: pointer; }
+  .mode-tab.active { background: var(--color-blue); color: #fff; }
+
+  h3.sec { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--color-muted); margin: 26px 0 12px; }
+
+  .console-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+  @media (max-width: 760px) { .console-grid { grid-template-columns: 1fr; } }
+
+  .builder-card, .preview-pane, .cropper-card { border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: #fff; padding: 18px; }
+
+  .builder label { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; margin: 12px 0 4px; color: var(--color-text); }
+  .builder label:first-of-type { margin-top: 0; }
+  .builder input[type="text"], .builder input[type="number"], .builder input[type="date"], .builder textarea, .builder select {
+    width: 100%; padding: 9px 10px; border: 1px solid var(--color-border); border-radius: 10px; font-size: 14px; font-family: inherit;
   }
-  * { box-sizing: border-box; }
-  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.55; }
-  .wrap { max-width: 860px; margin: 0 auto; padding: 24px 18px 80px; }
-  header.hero { background: linear-gradient(135deg, var(--ink), #1D4E89); color: #fff; border-radius: 20px; padding: 26px 24px; margin-bottom: 20px; }
-  header.hero .brandrow { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-  header.hero .brandrow img { height: 28px; }
-  header.hero .kicker { text-transform: uppercase; letter-spacing: .12em; font-size: 12px; font-weight: 800; color: #93c5fd; margin: 0; }
-  header.hero h1 { margin: 0 0 8px; font-size: 25px; }
-  header.hero p { margin: 0; color: #cbd5e1; font-size: 15px; }
-
-  .badge-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
-  .status { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); }
-  .status .dot { width: 9px; height: 9px; border-radius: 50%; background: #94a3b8; }
-  .status.live { background: #ecfdf5; border-color: #bbf7d0; color: var(--ok); }
-  .status.live .dot { background: var(--ok); }
-  .status.snap { background: #fffbeb; border-color: #fde68a; color: var(--warn); }
-  .status.snap .dot { background: var(--warn); }
-  .retry { font-size: 12px; font-weight: 700; color: var(--brand); background: none; border: 1px solid #bfdbfe; border-radius: 999px; padding: 5px 12px; cursor: pointer; }
-
-  .note { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 14px; padding: 14px 16px; margin-bottom: 18px; }
-  .note h2 { margin: 0 0 8px; font-size: 14px; color: #1e3a8a; text-transform: uppercase; letter-spacing: .05em; }
-  .note ol { margin: 0; padding-left: 20px; } .note li { margin: 5px 0; font-size: 14px; }
-
-  .links { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 22px; }
-  .btn { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 700; font-size: 14px; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; }
-  .btn.primary { background: var(--brand); border-color: var(--brand); color: #fff; }
-
-  details.how { border: 1px solid var(--line); border-radius: 14px; background: var(--card); margin-bottom: 22px; }
-  details.how summary { cursor: pointer; padding: 14px 18px; font-weight: 800; list-style: none; }
-  details.how summary::-webkit-details-marker { display: none; }
-  details.how .inner { padding: 0 18px 16px; color: var(--slate); font-size: 14px; }
-  details.how ol { padding-left: 20px; } details.how li { margin: 5px 0; }
-
-  h3.sec { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--slate); margin: 26px 0 12px; }
-
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  @media (max-width: 620px) { .grid { grid-template-columns: 1fr; } }
-  .preview-card { border: 1px solid var(--line); border-radius: 14px; background: var(--card); padding: 16px; }
-  .preview-card img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; margin-bottom: 10px; background: var(--bg); }
-  .preview-card .badge { display: inline-block; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: var(--brand-dark); background: #dbeafe; border-radius: 999px; padding: 3px 9px; margin-bottom: 8px; }
-  .preview-card h4 { margin: 0 0 3px; font-size: 16px; }
-  .preview-card .sub { color: var(--slate); font-size: 13px; margin: 0 0 6px; }
-  .preview-card .desc { font-size: 13px; margin: 0 0 8px; }
-  .preview-card .win { font-size: 12px; color: var(--slate); }
-
-  .builder label { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; margin: 12px 0 4px; }
-  .builder input, .builder textarea, .builder select { width: 100%; padding: 9px 10px; border: 1px solid var(--line); border-radius: 10px; font-size: 14px; font-family: inherit; }
   .builder textarea { min-height: 56px; resize: vertical; }
   .builder .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  @media (max-width: 620px) { .builder .g2 { grid-template-columns: 1fr; } }
+  .checkbox-row { display: flex; align-items: center; gap: 8px; margin: 12px 0 4px; }
+  .checkbox-row input { width: auto; }
+  .checkbox-row label { margin: 0; }
+
   .tip { position: relative; display: inline-flex; }
-  .tip .i { width: 16px; height: 16px; border-radius: 50%; background: var(--line); color: var(--slate); font-size: 11px; font-weight: 800; display: grid; place-items: center; cursor: help; }
-  .tip .txt { display: none; position: absolute; left: 20px; top: -4px; z-index: 5; width: 220px; background: var(--ink); color: #fff; font-size: 12px; font-weight: 500; padding: 8px 10px; border-radius: 8px; }
+  .tip .i { width: 15px; height: 15px; border-radius: 50%; background: var(--color-border); color: var(--color-muted); font-size: 10px; font-weight: 800; display: grid; place-items: center; cursor: help; }
+  .tip .txt { display: none; position: absolute; left: 18px; top: -4px; z-index: 5; width: 220px; background: var(--color-navy); color: #fff; font-size: 12px; font-weight: 500; padding: 8px 10px; border-radius: 8px; }
   .tip:hover .txt, .tip.open .txt { display: block; }
-  .genid { font-size: 12px; color: var(--slate); margin-top: 6px; }
-  .out { margin-top: 16px; background: var(--ink); color: #e2e8f0; border-radius: 12px; padding: 14px; font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; white-space: pre-wrap; word-break: break-word; }
-  .copybtn { margin-top: 10px; background: var(--brand); color: #fff; border: 0; border-radius: 999px; padding: 10px 18px; font-weight: 800; font-size: 14px; cursor: pointer; }
-  .copied { display: none; color: var(--ok); font-weight: 700; font-size: 13px; margin-top: 6px; }
-  footer { text-align: center; color: var(--slate); font-size: 13px; margin-top: 30px; }
+
+  .genid { font-size: 12px; color: var(--color-muted); margin-top: 6px; }
+  .field-hint { font-size: 12px; color: var(--color-muted); margin: 4px 0 0; }
+
+  .bullet-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .bullet-row input { flex: 1; }
+  .bullet-remove { border: 1px solid var(--color-border); background: #fff; color: var(--color-muted); border-radius: 8px; width: 32px; height: 32px; font-size: 16px; cursor: pointer; flex: 0 0 auto; }
+  .add-bullet-btn { margin-top: 4px; }
+
+  .warnings-box { background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px; padding: 10px 14px; margin-top: 14px; }
+  .warnings-box ul { margin: 0; padding-left: 18px; }
+  .warnings-box li { font-size: 13px; color: #92400e; margin: 3px 0; }
+
+  .out-box { margin-top: 16px; background: var(--color-navy); color: #e2e8f0; border-radius: 12px; padding: 14px; font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; white-space: pre-wrap; word-break: break-word; }
+  .out-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+  .copied-msg { display: none; color: #16a34a; font-weight: 700; font-size: 13px; margin-top: 6px; }
+
+  .console-preview-frame { max-width: 320px; margin: 0 auto; }
+  .preview-pane .pill-row { margin: 0; }
+  .flip-hint { font-size: 12px; color: var(--color-muted); text-align: center; margin-top: 10px; font-weight: 700; }
+
+  .cropper-card { margin-top: 18px; }
+  .drop-zone { border: 2px dashed var(--color-border); border-radius: var(--radius-md); padding: 24px; text-align: center; color: var(--color-muted); cursor: pointer; font-size: 13px; }
+  .drop-zone.drag { border-color: var(--color-blue); background: var(--color-bg-tint); }
+  .cropper-stage { max-height: 340px; overflow: hidden; margin-top: 12px; }
+  .cropper-stage img { display: block; max-width: 100%; }
+  .cropper-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+  .img-spec-note { font-size: 12px; color: var(--color-muted); margin-top: 10px; }
+  .crop-warning { font-size: 13px; color: #92400e; background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px; padding: 8px 12px; margin-top: 10px; }
+
+  details.how { border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: #fff; margin: 22px 0; }
+  details.how summary { cursor: pointer; padding: 14px 18px; font-weight: 800; list-style: none; color: var(--color-navy); }
+  details.how summary::-webkit-details-marker { display: none; }
+  details.how .inner { padding: 0 18px 18px; color: var(--color-muted); font-size: 14px; }
+  .livebadge { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; padding: 3px 9px; border-radius: 999px; margin-left: 8px; border: 1px solid var(--color-border); }
+  .livebadge.live { background: #ecfdf5; border-color: #bbf7d0; color: #16a34a; }
+  .livebadge.snap { background: #fffbeb; border-color: #fde68a; color: #d97706; }
+  .reminder { background: var(--color-bg-tint); border-radius: 10px; padding: 10px 14px; font-size: 13px; }
+  .live-item { border-bottom: 1px solid var(--color-border); padding: 8px 0; }
+  .live-item:last-child { border-bottom: 0; }
+  .mini-badge { font-size: 10px; font-weight: 800; text-transform: uppercase; background: var(--color-bg-tint); color: var(--color-blue-dark); padding: 2px 7px; border-radius: 999px; }
+  .retry { font-size: 12px; font-weight: 700; color: var(--color-blue); background: none; border: 1px solid var(--color-border); border-radius: 999px; padding: 6px 14px; cursor: pointer; margin-top: 10px; }
+  .muted { color: var(--color-muted); font-size: 13px; }
+
+  footer.console-footer { text-align: center; color: var(--color-muted); font-size: 13px; margin-top: 30px; }
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="console-wrap">
 
-  <header class="hero">
-    <div class="brandrow">
-      <img src="../img/bizName.svg" alt="PlumbAZING" />
-    </div>
-    <p class="kicker">Internal · Read-Only</p>
-    <h1>Promotions Console</h1>
-    <p>Manage website specials from the Promotions Google Sheet. Build a promo below, paste it in, and Publish. Read-only: this page never changes your sheet on its own.</p>
+  <header class="console-hero">
+    <div class="brandrow"><img src="../img/bizName.svg" alt="PlumbAZING" /></div>
+    <p class="kicker">Internal &middot; Read-Only &middot; Phase 1</p>
+    <h1>Promotions &amp; Services Console</h1>
+    <p>A friendly window onto the sheet-CMS. Build a correctly-formatted row, see exactly how it'll look on the site, crop a promo image to spec, and paste the row into the Google Sheet yourself. This page never writes to the sheet, needs no login, and holds no secrets.</p>
   </header>
 
-  <div class="badge-row">
-    <span class="status" id="status"><span class="dot"></span><span id="statusText">Checking data source...</span></span>
-    <button class="retry" id="retry" style="display:none;">Retry</button>
+  <div class="links">
+    <a class="btn btn-primary" id="openSheetLink" target="_blank" rel="noopener noreferrer">Open the Sheet</a>
+    <a class="btn btn-secondary" id="viewSiteLink" target="_blank" rel="noopener noreferrer">View Live Site</a>
+    <a class="btn btn-secondary" id="openRenderLink" target="_blank" rel="noopener noreferrer">Open Render</a>
   </div>
 
   <div class="note">
-    <h2>Read once</h2>
+    <h2>How this works</h2>
     <ol>
-      <li>Edit only the <strong>Promotions</strong> tab. Never change the top header row.</li>
-      <li>Promotions are <strong>time-bound</strong>: set a start/end date and they appear and expire on their own.</li>
-      <li>After editing, click <strong>Publish &gt; Publish to site</strong> in the sheet. The site rebuilds and updates in a few minutes (not instantly).</li>
+      <li>The Google Sheet is the <strong>source of truth</strong>. This console is a helper — it never edits the sheet by itself.</li>
+      <li>Build a row below, copy it, and paste it into the matching sheet tab.</li>
+      <li>Click <strong>Publish &gt; Publish to site</strong> in the sheet's menu. The live site rebuilds in a few minutes.</li>
+      <li><strong>Fail-safe by design:</strong> a bad row or a down endpoint can never blank the live site — it just keeps showing the last good version.</li>
     </ol>
   </div>
 
-  <h3 class="sec">Build a new promotion</h3>
-  <div class="grid">
-    <div class="builder">
-      <label>Title <span class="tip"><span class="i">i</span><span class="txt">The headline people see, e.g. "$50 Off Water Heater Install".</span></span></label>
-      <input id="f-title" placeholder="$50 Off Water Heater Install" />
-      <div class="genid" id="genid">Generated key: (type a title)</div>
+  <div class="mode-tabs">
+    <button class="mode-tab active" type="button" data-mode="promos" id="tabPromos">Promotions</button>
+    <button class="mode-tab" type="button" data-mode="services" id="tabServices">Services</button>
+  </div>
 
-      <label>Subtitle <span class="tip"><span class="i">i</span><span class="txt">A short supporting line under the title.</span></span></label>
-      <input id="f-subtitle" placeholder="New installs only" />
+  <div class="console-grid">
+    <div>
+      <div class="builder-card builder">
+        <h3 class="sec" style="margin-top:0;">Build a row</h3>
 
-      <label>Description <span class="tip"><span class="i">i</span><span class="txt">The details or fine print for the offer.</span></span></label>
-      <textarea id="f-description" placeholder="Save $50 on any standard water heater installation..."></textarea>
+        <!-- ===== Promotions fields ===== -->
+        <div id="promoFields">
+          <div class="checkbox-row">
+            <input type="checkbox" id="p-active" checked />
+            <label for="p-active">Active <span class="tip"><span class="i">i</span><span class="txt">Unchecked = hidden even if the dates are right.</span></span></label>
+          </div>
 
-      <label>Image path <span class="tip"><span class="i">i</span><span class="txt">4:3 ratio, 1200x900px, JPG/PNG/WebP, under 400KB. Get the file into the repo's /img folder first (ask your developer), then paste its path here, e.g. /img/promo-drain.jpg. Leave blank for no image.</span></span></label>
-      <input id="f-image_url" placeholder="/img/promo-name.jpg" />
+          <label>Title <span class="tip"><span class="i">i</span><span class="txt">The headline people see, e.g. "$50 Off Water Heater Install".</span></span></label>
+          <input type="text" id="p-title" placeholder="$50 Off Water Heater Install" />
+          <div class="genid" id="p-genid">Generated key: (type a title)</div>
 
-      <div class="g2">
-        <div>
-          <label>Badge <span class="tip"><span class="i">i</span><span class="txt">Small tag on the card. Optional.</span></span></label>
-          <select id="f-badge"><option value="">(none)</option><option>Limited Time</option><option>New</option><option>Seasonal</option><option>Popular</option></select>
+          <label>Subtitle <span class="tip"><span class="i">i</span><span class="txt">A short supporting line under the title. Optional.</span></span></label>
+          <input type="text" id="p-subtitle" placeholder="New installs only" />
+
+          <label>Description <span class="tip"><span class="i">i</span><span class="txt">The details or fine print for the offer. Shown if there's no subtitle, or alongside it.</span></span></label>
+          <textarea id="p-description" placeholder="Save $50 on any standard water heater installation..."></textarea>
+
+          <label>Image path <span class="tip"><span class="i">i</span><span class="txt">4:3 ratio, 1200x900px, JPG/PNG/WebP, under 400KB. Use the cropper below, then commit the file to /img and paste its path here, e.g. /img/promo-name.jpg. Leave blank for no image.</span></span></label>
+          <input type="text" id="p-image_url" placeholder="/img/promo-name.jpg" />
+
+          <div class="g2">
+            <div>
+              <label>Badge <span class="tip"><span class="i">i</span><span class="txt">Small tag on the card. Optional.</span></span></label>
+              <select id="p-badge">
+                <option value="">(none)</option>
+                <option>Featured Promotion</option>
+                <option>Value Promise</option>
+                <option>First-Time Offer</option>
+                <option>Limited Time</option>
+                <option>Seasonal</option>
+                <option>New</option>
+                <option>Popular</option>
+              </select>
+            </div>
+            <div>
+              <label>Sort <span class="tip"><span class="i">i</span><span class="txt">Order among promos. Lower shows first.</span></span></label>
+              <input type="number" id="p-sort" value="1" />
+            </div>
+          </div>
+
+          <div class="g2">
+            <div>
+              <label>Button text <span class="tip"><span class="i">i</span><span class="txt">What the button says, e.g. "Book Now". Leave both button fields blank to hide the button.</span></span></label>
+              <input type="text" id="p-cta" placeholder="Book Now" />
+            </div>
+            <div>
+              <label>Button link <span class="tip"><span class="i">i</span><span class="txt">Where the button goes, e.g. /book.</span></span></label>
+              <input type="text" id="p-cta_url" placeholder="/book" />
+            </div>
+          </div>
+
+          <div class="g2">
+            <div>
+              <label>Start date <span class="tip"><span class="i">i</span><span class="txt">When it goes live. Blank = live now.</span></span></label>
+              <input type="date" id="p-start_date" />
+            </div>
+            <div>
+              <label>End date <span class="tip"><span class="i">i</span><span class="txt">When it expires. Blank = runs until you switch it off.</span></span></label>
+              <input type="date" id="p-end_date" />
+            </div>
+          </div>
         </div>
-        <div>
-          <label>Sort <span class="tip"><span class="i">i</span><span class="txt">Order among promos. Lower shows first.</span></span></label>
-          <input id="f-sort" type="number" value="1" />
+
+        <!-- ===== Services fields ===== -->
+        <div id="serviceFields" style="display:none;">
+          <div class="checkbox-row">
+            <input type="checkbox" id="s-active" checked />
+            <label for="s-active">Active <span class="tip"><span class="i">i</span><span class="txt">Unchecked = hidden from the site.</span></span></label>
+          </div>
+
+          <label>Title <span class="tip"><span class="i">i</span><span class="txt">Service name, e.g. "Leak & Pipe Repair".</span></span></label>
+          <input type="text" id="s-title" placeholder="Leak & Pipe Repair" />
+          <div class="genid" id="s-genid">Generated key: (type a title)</div>
+
+          <div class="g2">
+            <div>
+              <label>Tier <span class="tip"><span class="i">i</span><span class="txt">1 = full flip-card with icon, bullets, and a button. 2 = simple text pill in "More services we offer".</span></span></label>
+              <select id="s-tier">
+                <option value="1">1 — Flip card</option>
+                <option value="2">2 — Text pill</option>
+              </select>
+            </div>
+            <div>
+              <label>Sort <span class="tip"><span class="i">i</span><span class="txt">Display order. Lower shows first.</span></span></label>
+              <input type="number" id="s-sort" value="1" />
+            </div>
+          </div>
+          <p class="field-hint" id="tierHint"></p>
+
+          <label>Subtitle <span class="tip"><span class="i">i</span><span class="txt">One-line summary shown on the card front. Tier 1 only.</span></span></label>
+          <input type="text" id="s-subtitle" placeholder="Stop the damage early" />
+
+          <label>Description bullets <span class="tip"><span class="i">i</span><span class="txt">Shown on the card back when flipped. Tier 1 only. Stored pipe-separated in the sheet.</span></span></label>
+          <div id="s-bullets"></div>
+          <button type="button" class="btn add-bullet-btn" id="addBullet">+ Add bullet</button>
+
+          <div class="g2">
+            <div>
+              <label>Button text <span class="tip"><span class="i">i</span><span class="txt">What the back-of-card button says. Tier 1 only.</span></span></label>
+              <input type="text" id="s-cta" placeholder="Request Service" />
+            </div>
+            <div>
+              <label>Button link <span class="tip"><span class="i">i</span><span class="txt">Where it goes, e.g. /book. Tier 1 only.</span></span></label>
+              <input type="text" id="s-cta_url" placeholder="/book" />
+            </div>
+          </div>
         </div>
+
+        <div class="warnings-box" id="warningsBox" style="display:none;">
+          <ul id="warningsList"></ul>
+        </div>
+
+        <div class="out-box" id="out">Fill in a title to start...</div>
+        <div class="out-actions">
+          <button class="btn btn-primary" id="copyRow" type="button">Copy row</button>
+          <button class="btn btn-secondary" id="copyHeader" type="button">Copy header row</button>
+        </div>
+        <p class="copied-msg" id="copiedMsg"></p>
       </div>
 
-      <div class="g2">
-        <div>
-          <label>Button text <span class="tip"><span class="i">i</span><span class="txt">What the button says, e.g. "Book Now".</span></span></label>
-          <input id="f-cta" placeholder="Book Now" />
+      <div class="cropper-card" id="cropperSection">
+        <h3 class="sec" style="margin-top:0;">Promo image cropper</h3>
+        <div class="drop-zone" id="dropZone">
+          <input type="file" id="imgFile" accept="image/*" style="display:none" />
+          <div id="dropHint">Drag &amp; drop an image here, or click to choose one.<br />Locked to 4:3 — matches the promo card exactly.</div>
+          <div class="cropper-stage" id="cropperStage" style="display:none;">
+            <img id="cropSource" alt="" />
+          </div>
         </div>
-        <div>
-          <label>Button link <span class="tip"><span class="i">i</span><span class="txt">Where the button goes, e.g. /book.</span></span></label>
-          <input id="f-cta_url" placeholder="/book" />
+        <div class="cropper-actions" id="cropperActions" style="display:none;">
+          <button class="btn btn-primary" id="downloadJpg" type="button">Download cropped JPG</button>
+          <button class="btn btn-secondary" id="downloadWebp" type="button">Download cropped WebP</button>
+          <button class="btn btn-secondary" id="resetCrop" type="button">Remove image</button>
         </div>
+        <p class="img-spec-note">Spec: 4:3 ratio, 1200&times;900px, JPG/PNG/WebP, under 400KB. The live preview on the right updates as you crop. Download the file, commit it to <code>/img</code> in the repo (or ask your developer), then paste its path into "Image path" above.</p>
+        <p class="crop-warning" id="cropWarning" style="display:none;"></p>
       </div>
-
-      <div class="g2">
-        <div>
-          <label>Start date <span class="tip"><span class="i">i</span><span class="txt">When it goes live. Blank = live now.</span></span></label>
-          <input id="f-start_date" type="date" />
-        </div>
-        <div>
-          <label>End date <span class="tip"><span class="i">i</span><span class="txt">When it expires. Blank = runs until turned off.</span></span></label>
-          <input id="f-end_date" type="date" />
-        </div>
-      </div>
-
-      <div class="out" id="out">Fill in a title to start...</div>
-      <button class="copybtn" id="copy">Copy row</button>
-      <p class="copied" id="copied">Copied. Now open the sheet and paste into a new row, then Publish.</p>
-      <a class="btn primary" id="openSheet" href="#" target="_blank" rel="noopener noreferrer" style="margin-top:10px; display:inline-flex;">Open sheet to paste &rarr;</a>
     </div>
 
-    <div>
-      <p style="font-size:12px;color:var(--slate);text-transform:uppercase;letter-spacing:.05em;font-weight:800;margin:12px 0 8px;">Live preview</p>
-      <div class="preview-card" id="preview">
-        <img id="p-image" style="display:none;" alt="" />
-        <span class="badge" id="p-badge" style="display:none;"></span>
-        <h4 id="p-title">Your promo title</h4>
-        <p class="sub" id="p-sub" style="display:none;"></p>
-        <p class="desc" id="p-desc" style="display:none;"></p>
-        <p class="win" id="p-win"></p>
-      </div>
+    <div class="preview-pane">
+      <h3 class="sec" style="margin-top:0;">Live preview</h3>
+      <div id="preview"></div>
     </div>
   </div>
 
-  <details class="how">
-    <summary>How this works</summary>
+  <details class="how" open>
+    <summary>Live from the sheet <span class="livebadge" id="liveBadge">checking...</span></summary>
     <div class="inner">
-      <ol>
-        <li>Build a promo with the tool above and click <strong>Copy row</strong>.</li>
-        <li>Paste it as a new row in the <strong>Promotions</strong> tab.</li>
-        <li>Set <strong>active</strong> to checked and give it a start/end date if it is time-limited.</li>
-        <li>Click <strong>Publish &gt; Publish to site</strong>. The site rebuilds and updates in a few minutes.</li>
-      </ol>
-      <p>A promo only shows when it is active AND today is inside its date window. Blank start = live now. Blank end = runs until you turn it off.</p>
-      <p>This console is read-only: it never writes to the sheet or the site by itself. Nothing here can take the site down.</p>
+      <p class="reminder">This shows what's currently in the sheet. The live site shows the last time someone clicked <strong>Publish</strong> — if you just edited the sheet, click Publish to push these changes live.</p>
+      <h3 class="sec">Promotions <span id="promoCount"></span></h3>
+      <div id="livePromos"><p class="muted">Checking...</p></div>
+      <h3 class="sec">Services <span id="serviceCount"></span></h3>
+      <div id="liveServices"><p class="muted">Checking...</p></div>
+      <button class="retry" id="retryLive" type="button">Retry</button>
     </div>
   </details>
 
-  <details class="how">
-    <summary>View current live promotions <span id="liveCount" style="color:var(--slate); font-weight:600;"></span></summary>
-    <div class="inner">
-      <div class="grid" id="livePromos"><p style="color:var(--slate);font-size:14px;">Loading...</p></div>
-    </div>
-  </details>
-
-  <footer>Read-only internal console. Nothing here edits the sheet directly. If something looks off: confirm you hit Publish, wait a few minutes, refresh. A bad edit cannot take the site down.</footer>
+  <footer class="console-footer">Read-only internal console. Nothing here edits the sheet or the site directly. If something looks off: confirm you hit Publish, wait a few minutes, refresh. A bad edit here cannot take the site down.</footer>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.js"></script>
 <script>
-  // ==== CONFIG: set these two ====
-  const SHEET_ID = "PASTE_SPREADSHEET_ID";
-  const PROMOS_GID = "0"; // the Promotions tab gid
-  const APPS_SCRIPT_URL = ""; // /exec URL; leave "" to skip the live preview
-  // ================================
+  // ==== CONFIG: set these ====
+  const CONFIG = {
+    APPS_SCRIPT_URL: "",    // the Apps Script /exec URL (for the live-from-sheet view)
+    SHEET_URL: "",          // deep link to the Google Sheet
+    LIVE_SITE_URL: "https://plumbazing.com",
+    RENDER_DASHBOARD_URL: "" // deep link to the Render service
+  };
+  // ============================
 
-  document.getElementById("openSheet").href =
-    "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/edit#gid=" + PROMOS_GID;
+  const PROMO_HEADER = ["key","active","sort","title","subtitle","description","badge","cta","cta_url","start_date","end_date","image_url"];
+  const SERVICE_HEADER = ["key","active","sort","tier","title","subtitle","description","icon","cta","cta_url"];
 
-  // Tooltips: tap to toggle on touch
+  let currentMode = "promos";
+  let bullets = ["", "", ""];
+  let cropper = null;
+  let croppedPreviewUrl = "";
+
+  function escapeHtml(v) {
+    return String(v == null ? "" : v).replace(/[&<>"']/g, (c) => (
+      { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
+    ));
+  }
+  function slug(s) {
+    return String(s || "").toLowerCase().normalize("NFKD").replace(/[^\w\s-]/g, "").trim().replace(/[\s-]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 40);
+  }
+  function tsvCell(v) { return String(v == null ? "" : v).replace(/[\t\r\n]+/g, " "); }
+  function formatDateDisplay(iso) {
+    if (!iso) return "";
+    const parts = iso.split("-");
+    if (parts.length !== 3) return iso;
+    const [y, m, d] = parts;
+    return `${m}/${d}/${y.slice(2)}`;
+  }
+
+  // ---------- deep links ----------
+  function wireDeepLink(id, url, label) {
+    const el = document.getElementById(id);
+    if (url) {
+      el.href = url;
+    } else {
+      el.href = "#";
+      el.classList.add("btn-disabled");
+      el.addEventListener("click", (e) => {
+        e.preventDefault();
+        alert(`Set CONFIG.${label} at the top of this file to enable this link.`);
+      });
+    }
+  }
+  wireDeepLink("openSheetLink", CONFIG.SHEET_URL, "SHEET_URL");
+  wireDeepLink("viewSiteLink", CONFIG.LIVE_SITE_URL, "LIVE_SITE_URL");
+  wireDeepLink("openRenderLink", CONFIG.RENDER_DASHBOARD_URL, "RENDER_DASHBOARD_URL");
+
+  // ---------- tooltips (tap to toggle on touch) ----------
   document.querySelectorAll(".tip").forEach((t) => {
     t.addEventListener("click", (e) => { e.preventDefault(); t.classList.toggle("open"); });
   });
 
-  // Slugify -> auto key
-  function slug(s) {
-    return String(s || "").toLowerCase().normalize("NFKD").replace(/[^\w\s-]/g, "").trim().replace(/[\s-]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 40);
+  // ---------- mode switching ----------
+  function setMode(mode) {
+    currentMode = mode;
+    document.getElementById("promoFields").style.display = mode === "promos" ? "block" : "none";
+    document.getElementById("serviceFields").style.display = mode === "services" ? "block" : "none";
+    document.getElementById("cropperSection").style.display = mode === "promos" ? "block" : "none";
+    document.querySelectorAll(".mode-tab").forEach((t) => t.classList.toggle("active", t.dataset.mode === mode));
+    refreshAll();
+  }
+  document.getElementById("tabPromos").addEventListener("click", () => setMode("promos"));
+  document.getElementById("tabServices").addEventListener("click", () => setMode("services"));
+
+  // ---------- promo field getters ----------
+  const pv = (id) => (document.getElementById("p-" + id).value || "").trim();
+  const sv = (id) => (document.getElementById("s-" + id).value || "").trim();
+
+  function renderPromoPreview() {
+    const title = pv("title"), subtitle = pv("subtitle"), description = pv("description"),
+      badge = pv("badge"), endDate = pv("end_date"), imageUrlField = pv("image_url");
+    const imageSrc = croppedPreviewUrl || imageUrlField;
+    const kicker = badge ? `<span class="promo-kicker-static">${escapeHtml(badge)}</span>` : "";
+    const body = description || subtitle || "Description will appear here.";
+    const meta = endDate ? `<div class="promo-meta">Expires ${escapeHtml(formatDateDisplay(endDate))}. Ask for details.</div>` : "";
+    const image = imageSrc ? `<div class="promo-image promo-image--cover"><img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(title)}" /></div>` : "";
+    document.getElementById("preview").innerHTML = `
+      <div class="console-preview-frame">
+        <article class="promo-card-static promo-card-static--gradient">
+          ${image}
+          <div class="promo-content">
+            ${kicker}
+            <h3>${escapeHtml(title) || "Your promo title"}</h3>
+            <p>${escapeHtml(body)}</p>
+            ${meta}
+          </div>
+        </article>
+      </div>`;
   }
 
-  const g = (id) => document.getElementById("f-" + id).value.trim();
-  // Tab-separated for a clean paste into Google Sheets (Sheets splits on tabs).
-  // Strip any tab/newline inside a field so the row never mis-splits.
-  function tsvCell(v) { return String(v == null ? "" : v).replace(/[\t\r\n]+/g, " "); }
-
-  function refresh() {
-    const key = slug(g("title"));
-    document.getElementById("genid").textContent = key ? "Generated key: " + key : "Generated key: (type a title)";
-
-    // preview
-    const badge = g("badge"), title = g("title"), sub = g("subtitle"), desc = g("description"), image = g("image_url");
-    const pb = document.getElementById("p-badge");
-    if (badge) { pb.textContent = badge; pb.style.display = "inline-block"; } else pb.style.display = "none";
-    document.getElementById("p-title").textContent = title || "Your promo title";
-    const ps = document.getElementById("p-sub"); if (sub) { ps.textContent = sub; ps.style.display = "block"; } else ps.style.display = "none";
-    const pd = document.getElementById("p-desc"); if (desc) { pd.textContent = desc; pd.style.display = "block"; } else pd.style.display = "none";
-    const pi = document.getElementById("p-image"); if (image) { pi.src = image; pi.alt = title || ""; pi.style.display = "block"; } else pi.style.display = "none";
-    const s = g("start_date"), e = g("end_date");
-    document.getElementById("p-win").textContent =
-      (s || e) ? ("Runs " + (s || "now") + " to " + (e || "until turned off")) : "Runs now, until turned off";
-
-    // row order matches plumbazing-sheet-cms/sheet/SHEET_SCHEMA.md:
-    // key,active,sort,title,subtitle,description,badge,cta,cta_url,start_date,end_date,image_url
-    const row = [key, "TRUE", g("sort"), title, sub, desc, badge, g("cta"), g("cta_url"), s, e, image];
-    document.getElementById("out").textContent = (key || title) ? row.map(tsvCell).join("\t") : "Fill in a title to start...";
+  function wireFlipToggle(card) {
+    if (!card) return;
+    const mq = window.matchMedia("(max-width: 1199px)");
+    card.addEventListener("click", (e) => {
+      if (!mq.matches) return;
+      if (e.target.closest("a,button")) return;
+      card.classList.toggle("is-flipped");
+    });
   }
-  ["title","subtitle","description","image_url","badge","sort","cta","cta_url","start_date","end_date"]
-    .forEach((id) => document.getElementById("f-" + id).addEventListener("input", refresh));
 
-  document.getElementById("copy").addEventListener("click", async () => {
+  function renderServicePreview() {
+    const tier = sv("tier") || "1";
+    const title = sv("title"), subtitle = sv("subtitle"), cta = sv("cta");
+    const tierHint = document.getElementById("tierHint");
+    if (tier === "2") {
+      tierHint.textContent = "Tier 2 renders as a simple pill — subtitle, bullets, and the button are ignored.";
+      document.getElementById("preview").innerHTML = `
+        <div class="console-preview-frame">
+          <div class="pill-row">
+            <span class="service-pill">${escapeHtml(title) || "Service name"}</span>
+          </div>
+        </div>`;
+      return;
+    }
+    tierHint.textContent = "Tier 1 renders as the full flip card shown here.";
+    const bulletsHtml = bullets.filter((b) => b.trim()).map((b) => `<li>${escapeHtml(b)}</li>`).join("")
+      || "<li>Add a bullet below to see it here.</li>";
+    document.getElementById("preview").innerHTML = `
+      <div class="console-preview-frame">
+        <article class="service-card" data-card>
+          <div class="service-card-inner">
+            <div class="service-face service-front">
+              <div class="service-top">
+                <div class="service-visual"></div>
+                <div>
+                  <h3>${escapeHtml(title) || "Service name"}</h3>
+                  <p>${escapeHtml(subtitle) || "One-line summary"}</p>
+                </div>
+              </div>
+            </div>
+            <div class="service-face service-back">
+              <div class="service-top">
+                <h3>${escapeHtml(title) || "Service name"}</h3>
+                <ul>${bulletsHtml}</ul>
+              </div>
+              <div>
+                <div class="service-cta-label">Need help now?</div>
+                <div class="service-actions">
+                  <span class="text-link">${escapeHtml(cta) || "Request Service"}</span>
+                  <span class="text-link">Call Now</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <p class="flip-hint">Hover to flip (desktop) or tap the card (mobile).</p>
+      </div>`;
+    wireFlipToggle(document.querySelector("#preview [data-card]"));
+  }
+
+  // ---------- bullet builder ----------
+  function renderBulletInputs() {
+    const container = document.getElementById("s-bullets");
+    container.innerHTML = bullets.map((val, i) => `
+      <div class="bullet-row">
+        <input type="text" class="bullet-input" data-i="${i}" value="${escapeHtml(val)}" placeholder="Bullet point ${i + 1}" />
+        <button type="button" class="bullet-remove" data-remove="${i}" aria-label="Remove bullet">&times;</button>
+      </div>`).join("");
+    container.querySelectorAll(".bullet-input").forEach((inp) => {
+      inp.addEventListener("input", (e) => {
+        bullets[Number(e.target.dataset.i)] = e.target.value;
+        refreshAll();
+      });
+    });
+    container.querySelectorAll(".bullet-remove").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        bullets.splice(Number(e.target.dataset.remove), 1);
+        if (bullets.length === 0) bullets.push("");
+        renderBulletInputs();
+        refreshAll();
+      });
+    });
+  }
+  document.getElementById("addBullet").addEventListener("click", () => {
+    bullets.push("");
+    renderBulletInputs();
+    refreshAll();
+  });
+
+  // ---------- output + validation ----------
+  function refreshOutput() {
+    const warnings = [];
+    let row, header;
+
+    if (currentMode === "promos") {
+      const title = pv("title");
+      if (!title) warnings.push("Title is required.");
+      const cta = pv("cta"), ctaUrl = pv("cta_url");
+      if ((cta && !ctaUrl) || (!cta && ctaUrl)) warnings.push("Button text and button link should both be set, or both left blank.");
+      const start = pv("start_date"), end = pv("end_date");
+      if (start && end && end < start) warnings.push("End date is before the start date.");
+      if (croppedPreviewUrl && !pv("image_url")) warnings.push("You cropped an image but haven't pasted its saved path into Image path yet.");
+      const key = slug(title);
+      document.getElementById("p-genid").textContent = key ? "Generated key: " + key : "Generated key: (type a title)";
+      const active = document.getElementById("p-active").checked ? "TRUE" : "FALSE";
+      row = [key, active, pv("sort") || "1", title, pv("subtitle"), pv("description"), pv("badge"), cta, ctaUrl, start, end, pv("image_url")];
+      header = PROMO_HEADER;
+    } else {
+      const title = sv("title");
+      if (!title) warnings.push("Title is required.");
+      const tier = sv("tier") || "1";
+      const activeBullets = bullets.filter((b) => b.trim());
+      if (tier === "1" && activeBullets.length === 0) warnings.push("Tier 1 services usually have at least one bullet.");
+      const key = slug(title);
+      document.getElementById("s-genid").textContent = key ? "Generated key: " + key : "Generated key: (type a title)";
+      const active = document.getElementById("s-active").checked ? "TRUE" : "FALSE";
+      const desc = activeBullets.map(tsvCell).join("|");
+      row = [key, active, sv("sort") || "1", tier, title, sv("subtitle"), desc, "", sv("cta"), sv("cta_url")];
+      header = SERVICE_HEADER;
+    }
+
+    document.getElementById("out").textContent = row[3] || row[0] ? row.map(tsvCell).join("\t") : "Fill in a title to start...";
+    const box = document.getElementById("warningsBox");
+    const list = document.getElementById("warningsList");
+    if (warnings.length) {
+      list.innerHTML = warnings.map((w) => `<li>${escapeHtml(w)}</li>`).join("");
+      box.style.display = "block";
+    } else {
+      box.style.display = "none";
+    }
+    window.__lastHeader = header;
+  }
+
+  function refreshAll() {
+    if (currentMode === "promos") renderPromoPreview(); else renderServicePreview();
+    refreshOutput();
+  }
+
+  ["title","subtitle","description","image_url","badge","sort","cta","cta_url","start_date","end_date","active"]
+    .forEach((id) => document.getElementById("p-" + id).addEventListener("input", refreshAll));
+  ["title","subtitle","tier","sort","cta","cta_url","active"]
+    .forEach((id) => document.getElementById("s-" + id).addEventListener("input", refreshAll));
+
+  document.getElementById("copyRow").addEventListener("click", async () => {
     try {
       await navigator.clipboard.writeText(document.getElementById("out").textContent);
-      const c = document.getElementById("copied"); c.style.display = "block"; setTimeout(() => c.style.display = "none", 2500);
+      showCopied("Row copied. Paste it into a new row in the sheet, then Publish.");
     } catch { alert("Copy failed. Select the text manually."); }
   });
-  refresh();
-
-  // ==== Live preview of current promos + data-source badge ====
-  function setStatus(kind, text, showRetry) {
-    const el = document.getElementById("status");
-    el.className = "status" + (kind ? " " + kind : "");
-    document.getElementById("statusText").textContent = text;
-    document.getElementById("retry").style.display = showRetry ? "inline-block" : "none";
-  }
-  function renderPromos(items) {
-    const box = document.getElementById("livePromos");
-    const count = document.getElementById("liveCount");
-    if (count) count.textContent = "(" + items.length + ")";
-    if (!items.length) { box.innerHTML = '<p style="color:var(--slate);font-size:14px;">No live promotions right now.</p>'; return; }
-    box.innerHTML = items.map((i) => `
-      <div class="preview-card">
-        ${i.imageUrl ? `<img src="${i.imageUrl}" alt="${i.title || ""}" />` : ""}
-        ${i.badge ? `<span class="badge">${i.badge}</span>` : ""}
-        <h4>${i.title || ""}</h4>
-        ${i.subtitle ? `<p class="sub">${i.subtitle}</p>` : ""}
-        ${i.description ? `<p class="desc">${i.description}</p>` : ""}
-        <p class="win">Runs ${i.startDate || "now"} to ${i.endDate || "until turned off"}</p>
-      </div>`).join("");
-  }
-  async function loadLive() {
-    const box = document.getElementById("livePromos");
-    if (!APPS_SCRIPT_URL) { setStatus("snap", "Live preview off (no endpoint set)", false); box.innerHTML = '<p style="color:var(--slate);font-size:14px;">Set APPS_SCRIPT_URL in this file to see live promos.</p>'; return; }
-    setStatus("", "Checking data source...", false);
+  document.getElementById("copyHeader").addEventListener("click", async () => {
     try {
-      const res = await fetch(APPS_SCRIPT_URL + "?action=items&type=promos");
+      await navigator.clipboard.writeText((window.__lastHeader || []).join("\t"));
+      showCopied("Header row copied. Paste it into row 1 of a fresh tab.");
+    } catch { alert("Copy failed."); }
+  });
+  function showCopied(text) {
+    const el = document.getElementById("copiedMsg");
+    el.textContent = text;
+    el.style.display = "block";
+    setTimeout(() => (el.style.display = "none"), 3000);
+  }
+
+  // ---------- image cropper ----------
+  function showCropWarning(text) {
+    const el = document.getElementById("cropWarning");
+    el.textContent = text;
+    el.style.display = "block";
+  }
+  function hideCropWarning() {
+    document.getElementById("cropWarning").style.display = "none";
+  }
+
+  function loadImageFile(file) {
+    if (!file || !file.type.startsWith("image/")) { showCropWarning("That file doesn't look like an image."); return; }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = document.getElementById("cropSource");
+      img.src = e.target.result;
+      document.getElementById("dropHint").style.display = "none";
+      document.getElementById("cropperStage").style.display = "block";
+      document.getElementById("cropperActions").style.display = "flex";
+      hideCropWarning();
+      if (cropper) { cropper.destroy(); cropper = null; }
+      if (typeof Cropper === "undefined") {
+        showCropWarning("Cropper.js didn't load (offline?). You can still type an image_url path directly once the file is saved to /img.");
+        return;
+      }
+      cropper = new Cropper(img, {
+        aspectRatio: 4 / 3,
+        viewMode: 1,
+        autoCropArea: 1,
+        crop: updateCroppedPreview
+      });
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function updateCroppedPreview() {
+    if (!cropper) return;
+    const canvas = cropper.getCroppedCanvas({ width: 1200, height: 900 });
+    if (!canvas) return;
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+      if (croppedPreviewUrl) URL.revokeObjectURL(croppedPreviewUrl);
+      croppedPreviewUrl = URL.createObjectURL(blob);
+      if (currentMode === "promos") { renderPromoPreview(); refreshOutput(); }
+    }, "image/jpeg", 0.9);
+  }
+
+  function downloadCropped(format) {
+    if (!cropper) { showCropWarning("Pick an image first."); return; }
+    const canvas = cropper.getCroppedCanvas({ width: 1200, height: 900 });
+    const mime = format === "webp" ? "image/webp" : "image/jpeg";
+    const ext = format === "webp" ? "webp" : "jpg";
+    canvas.toBlob((blob) => {
+      if (!blob) { showCropWarning("Could not export that image."); return; }
+      const sizeKb = Math.round(blob.size / 1024);
+      if (blob.size > 400 * 1024) {
+        showCropWarning(`Exported image is ${sizeKb}KB, over the 400KB spec. Try WebP or a lower-detail source image.`);
+      } else {
+        hideCropWarning();
+      }
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `promo-image.${ext}`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }, mime, 0.85);
+  }
+
+  function resetCropper() {
+    if (cropper) { cropper.destroy(); cropper = null; }
+    if (croppedPreviewUrl) { URL.revokeObjectURL(croppedPreviewUrl); croppedPreviewUrl = ""; }
+    document.getElementById("imgFile").value = "";
+    document.getElementById("dropHint").style.display = "block";
+    document.getElementById("cropperStage").style.display = "none";
+    document.getElementById("cropperActions").style.display = "none";
+    hideCropWarning();
+    if (currentMode === "promos") { renderPromoPreview(); refreshOutput(); }
+  }
+
+  const dropZone = document.getElementById("dropZone");
+  const fileInput = document.getElementById("imgFile");
+  dropZone.addEventListener("click", (e) => {
+    if (e.target.closest("#cropperActions")) return;
+    fileInput.click();
+  });
+  dropZone.addEventListener("dragover", (e) => { e.preventDefault(); dropZone.classList.add("drag"); });
+  dropZone.addEventListener("dragleave", () => dropZone.classList.remove("drag"));
+  dropZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropZone.classList.remove("drag");
+    const file = e.dataTransfer.files && e.dataTransfer.files[0];
+    if (file) loadImageFile(file);
+  });
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files && fileInput.files[0];
+    if (file) loadImageFile(file);
+  });
+  document.getElementById("downloadJpg").addEventListener("click", () => downloadCropped("jpg"));
+  document.getElementById("downloadWebp").addEventListener("click", () => downloadCropped("webp"));
+  document.getElementById("resetCrop").addEventListener("click", resetCropper);
+
+  // ---------- live from sheet ----------
+  async function loadLiveType(type, containerId, countId) {
+    const box = document.getElementById(containerId);
+    if (!CONFIG.APPS_SCRIPT_URL) {
+      box.innerHTML = '<p class="muted">Not configured yet. Set CONFIG.APPS_SCRIPT_URL at the top of this file.</p>';
+      document.getElementById(countId).textContent = "";
+      return;
+    }
+    try {
+      const res = await fetch(`${CONFIG.APPS_SCRIPT_URL}?action=items&type=${type}`);
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
       if (!data || data.ok !== true || !Array.isArray(data.items)) throw new Error("Unexpected response shape");
-      renderPromos(data.items);
-      setStatus("live", "Live from sheet - " + new Date().toLocaleTimeString(), false);
+      document.getElementById(countId).textContent = `(${data.items.length} live)`;
+      if (!data.items.length) { box.innerHTML = '<p class="muted">None currently live.</p>'; return; }
+      box.innerHTML = data.items.map((i) => `
+        <div class="live-item">
+          <strong>${escapeHtml(i.title || "")}</strong>
+          ${i.badge ? `<span class="mini-badge">${escapeHtml(i.badge)}</span>` : ""}
+          <div class="muted">${escapeHtml(i.subtitle || i.description || "")}</div>
+        </div>`).join("");
     } catch (err) {
-      console.warn("Live load failed:", err.message);
-      setStatus("snap", "Could not reach the sheet", true);
-      box.innerHTML = '<p style="color:var(--slate);font-size:14px;">Could not load live promos. Check the endpoint or retry.</p>';
+      box.innerHTML = '<p class="muted">Could not reach the sheet right now. Check the endpoint or retry.</p>';
+      document.getElementById(countId).textContent = "";
     }
   }
-  document.getElementById("retry").addEventListener("click", loadLive);
+
+  async function loadLive() {
+    const hasEndpoint = !!CONFIG.APPS_SCRIPT_URL;
+    const badge = document.getElementById("liveBadge");
+    badge.textContent = hasEndpoint ? "checking..." : "not configured";
+    badge.className = "livebadge " + (hasEndpoint ? "" : "snap");
+    await loadLiveType("promos", "livePromos", "promoCount");
+    await loadLiveType("services", "liveServices", "serviceCount");
+    if (hasEndpoint) {
+      badge.textContent = "live from sheet - " + new Date().toLocaleTimeString();
+      badge.className = "livebadge live";
+    }
+  }
+  document.getElementById("retryLive").addEventListener("click", loadLive);
+
+  // ---------- init ----------
+  renderBulletInputs();
+  refreshAll();
   loadLive();
 </script>
 </body>

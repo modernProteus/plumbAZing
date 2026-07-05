@@ -15,7 +15,7 @@ headers, exact names below. Josh edits rows, clicks Publish, site updates.
 | `title` | headline, e.g. "Free PRV Inspection" | - |
 | `subtitle` | short supporting line | - |
 | `description` | details / fine print | - |
-| `badge` | small tag | dropdown: Limited Time, New, Seasonal, Popular |
+| `badge` | small tag | dropdown: Featured Promotion, Value Promise, First-Time Offer, Limited Time, Seasonal, New, Popular |
 | `cta` | button text, e.g. "Book Now" | - |
 | `cta_url` | where the button goes | - |
 | `start_date` | promo begins (blank = live now) | **date** |
@@ -43,19 +43,21 @@ water_heater_flush,TRUE,2,Water Heater Flush,Keep it running longer,"Seasonal wa
 | `key` | short unique slug | lowercase, no spaces |
 | `active` | show it or not | **checkbox** (TRUE/FALSE) |
 | `sort` | display order | number |
+| `tier` | which layout it renders as | `1` = full flip-card (icon, title, subtitle, back-side bullets, CTA); `2` = simple text pill in "More services we offer" |
 | `title` | service name, e.g. "Leak & Pipe Repair" | - |
-| `subtitle` | one-line summary | - |
-| `description` | short paragraph | - |
-| `icon` | optional icon name your site maps | optional |
-| `cta` | button text | - |
-| `cta_url` | where the button goes | - |
+| `subtitle` | one-line summary (tier 1 only) | - |
+| `description` | bullet points for the flip-card back (tier 1 only) | pipe-separated, e.g. `Bullet one\|Bullet two\|Bullet three` |
+| `icon` | optional icon image path your site maps | optional |
+| `cta` | button text (tier 1 only) | - |
+| `cta_url` | where the button goes (tier 1 only) | - |
 
 ### Seed rows
 ```csv
-key,active,sort,title,subtitle,description,icon,cta,cta_url
-water_heaters,TRUE,1,Water Heaters,Repair & replacement,"Fast, clean water heater work with upfront pricing.",droplet,Book Now,/book
-drain_cleaning,TRUE,2,Drain Cleaning,Clogs cleared fast,"Professional drain clearing that fixes the cause, not just the symptom.",wrench,Book Now,/book
-leak_pipe_repair,TRUE,3,Leak & Pipe Repair,Stop the damage early,"Leak detection and pipe repair before a small drip becomes a big bill.",pipe,Book Now,/book
+key,active,sort,tier,title,subtitle,description,icon,cta,cta_url
+water_heaters,TRUE,1,1,Water Heaters,Repair & replacement,"Fast, clean water heater work with upfront pricing.|Tank and tankless service support|Clear repair vs. replace guidance",droplet,Book Now,/book
+drain_cleaning,TRUE,2,1,Drain Cleaning,Clogs cleared fast,"Professional drain clearing that fixes the cause, not just the symptom.|Kitchen, bath, and main drain issues|Clear next-step recommendations",wrench,Book Now,/book
+leak_pipe_repair,TRUE,3,1,Leak & Pipe Repair,Stop the damage early,"Leak detection and pipe repair before a small drip becomes a big bill.|Visible leaks and hidden plumbing issues|Practical solutions to help protect your home",pipe,Book Now,/book
+sewer_line_repair,TRUE,4,2,Sewer Line Repair,,,,,
 ```
 
 > Leak & Pipe Repair is seeded here because it is the next likely build. When
