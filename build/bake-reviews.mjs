@@ -23,6 +23,7 @@ import { dirname, join } from "node:path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const INDEX_HTML = join(__dirname, "..", "index.html");
+const REVIEWS_SNAPSHOT_PATH = join(__dirname, ".reviews.json");
 
 const GOOGLE_PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY;
 const PLUMBAZING_PLACE_ID = process.env.PLUMBAZING_PLACE_ID;
@@ -103,6 +104,21 @@ function validateDetails(details) {
   return details;
 }
 
+// Lets bake-carousel.mjs show live rating numbers on a source=reviews slide
+// without re-hitting the Places API. Non-fatal: a write failure here should
+// never block the reviews section itself from baking.
+function writeReviewsSnapshot(details) {
+  try {
+    writeFileSync(
+      REVIEWS_SNAPSHOT_PATH,
+      JSON.stringify({ rating: details.rating, userRatingCount: details.userRatingCount }, null, 2) + "\n"
+    );
+    console.log(`[bake-reviews] Wrote ${REVIEWS_SNAPSHOT_PATH}.`);
+  } catch (err) {
+    console.warn(`[bake-reviews] Could not write ${REVIEWS_SNAPSHOT_PATH} (non-fatal):`, err.message);
+  }
+}
+
 function renderSummary(details) {
   const countLine =
     details.userRatingCount >= RATING_COUNT_THRESHOLD
@@ -171,6 +187,8 @@ async function main() {
     console.error("[bake-reviews] Failed to fetch/validate place details; leaving committed index.html untouched:", err.message);
     return;
   }
+
+  writeReviewsSnapshot(details);
 
   const reviewsGrid = renderReviewCards(details.reviews);
   if (!reviewsGrid) {

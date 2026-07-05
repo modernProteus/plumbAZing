@@ -3,19 +3,19 @@
 //
 // FAIL-SAFE CONTRACT: any fetch/network/parse/shape error leaves index.html
 // completely untouched (the committed markup is the last-known-good). A
-// successful fetch that returns an empty list DOES clear the section, since
-// that's a deliberate "turn this promo off" edit in the sheet (see
-// plumbazing-sheet-cms/README.md "empty-list fix").
+// successful fetch that returns an empty (post-filter) list DOES clear the
+// grid, since that's a deliberate "turn this promo off" edit in the sheet.
 //
-// Response shape from `${APPS_SCRIPT_URL}?action=items&type=promos`, per
-// plumbazing-sheet-cms/apps-script/code.gs:
-//   { ok: true, type: "promos", updatedAt: "...", items: [
-//       { id, active, title, subtitle, description, badge, icon, cta,
-//         ctaUrl, startDate, endDate, sort, imageUrl? }, ... ] }
+// Response shape from `${APPS_SCRIPT_URL}?action=items&type=content`
+// (the unified Content tab -- Promo/Trust/Brand rows, each with a
+// `placement` of Grid/Carousel/Both):
+//   { ok: true, type: "content", updatedAt: "...", items: [
+//       { id, active, type, placement, sort, title, description, kicker,
+//         tagLabel, ctaLabel, ctaUrl, meta, source, imageUrl }, ... ] }
 // Validation mirrors plumbazing-sheet-cms/build/fetch-content.mjs: payload.ok
 // must be true, items must be an array, and every item needs an id (or key)
-// and a title. `imageUrl` is this site's addition (image_url sheet column ->
-// code.gs mapping) and is optional.
+// and a title. This script only renders items where type === "Promo" and
+// placement is "Grid" or "Both" -- see build/bake-carousel.mjs for the hero.
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -29,6 +29,7 @@ const FETCH_TIMEOUT_MS = 15000;
 
 const PROMOS_MARKER = { start: "<!-- PROMOS:START -->", end: "<!-- PROMOS:END -->" };
 const PROMO_VARIANTS = ["promo-card-static--gradient", "promo-card-static--light", "promo-card-static--warm"];
+const GRID_PLACEMENTS = new Set(["Grid", "Both"]);
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -59,12 +60,12 @@ async function fetchItems(type) {
 
 function renderPromoCard(item, index) {
   const variant = PROMO_VARIANTS[index % PROMO_VARIANTS.length];
-  const kicker = item.badge
-    ? `\n\t\t\t  <span class="promo-kicker-static">${escapeHtml(item.badge)}</span>`
+  const kicker = item.kicker
+    ? `\n\t\t\t  <span class="promo-kicker-static">${escapeHtml(item.kicker)}</span>`
     : "";
   const body = item.description || item.subtitle || "";
-  const meta = item.endDate
-    ? `\n\t\t\t  <div class="promo-meta">Expires ${escapeHtml(item.endDate)}. Ask for details.</div>`
+  const meta = item.meta
+    ? `\n\t\t\t  <div class="promo-meta">${escapeHtml(item.meta)}</div>`
     : "";
   const image = item.imageUrl
     ? `\n\t\t\t<div class="promo-image promo-image--cover">\n\t\t\t  <img src="${escapeHtml(item.imageUrl)}" alt="${escapeHtml(item.title)}" loading="lazy" />\n\t\t\t</div>`
@@ -96,13 +97,17 @@ async function main() {
     return;
   }
 
-  let promoItems;
+  let contentItems;
   try {
-    promoItems = await fetchItems("promos");
+    contentItems = await fetchItems("content");
   } catch (err) {
-    console.error("[bake-content] Failed to fetch/validate promos; leaving committed index.html untouched:", err.message);
+    console.error("[bake-content] Failed to fetch/validate content; leaving committed index.html untouched:", err.message);
     return;
   }
+
+  const promoItems = contentItems.filter(
+    (item) => item.type === "Promo" && GRID_PLACEMENTS.has(item.placement)
+  );
 
   const html = readFileSync(INDEX_HTML, "utf8");
   const promoHtml = promoItems.map(renderPromoCard).join("\n\n");
@@ -116,7 +121,7 @@ async function main() {
   }
 
   writeFileSync(INDEX_HTML, updated);
-  console.log(`[bake-content] Baked ${promoItems.length} promo(s) into index.html.`);
+  console.log(`[bake-content] Baked ${promoItems.length} grid promo(s) into index.html (of ${contentItems.length} content item(s) fetched).`);
 }
 
 main().catch((err) => {
