@@ -1,10 +1,19 @@
 #!/usr/bin/env node
-// Build-time bake of live Google reviews into index.html via the Places API (New).
+// Build-time bake of the live Google rating + review count into index.html
+// via the Places API (New).
+//
+// DESIGN DECISION: quotes are curated, not auto-pulled. The Places API only
+// returns up to 5 uncontrollable reviews, and the curated picks committed
+// between the review cards tell the "honest, no-upsell" story better than
+// whatever Google happens to surface. So this script updates ONLY the
+// <!-- REVIEWS:START/END --> region, which now wraps just the rating/count
+// line (`.reviews-summary`) -- the review-card quotes, the "See all reviews
+// on Google" link, and the trust-badge pill row live outside the markers as
+// permanent committed content this script never touches.
 //
 // FAIL-SAFE CONTRACT: any error (missing key, network failure, unexpected
-// response shape, or zero usable reviews) leaves index.html completely
-// untouched. Unlike promos, the reviews section is never intentionally
-// blanked -- the committed markup is always a valid fallback.
+// response shape) leaves index.html completely untouched -- the committed
+// rating line is always a valid fallback.
 //
 // Place ID resolution:
 //   - If PLUMBAZING_PLACE_ID is set, it's used directly (fast path, no search).
@@ -35,17 +44,6 @@ const EXPECTED_CID = BigInt("0x386ed06a1a008637").toString(10);
 const EXPECTED_MID = "/g/11y_pv690m";
 
 const REVIEWS_MARKER = { start: "<!-- REVIEWS:START -->", end: "<!-- REVIEWS:END -->" };
-const RATING_COUNT_THRESHOLD = 10;
-const MAX_REVIEWS = 5;
-const TRUST_LINE = "Josh + Alan &middot; Licensed &amp; Insured &middot; Upfront Pricing &middot; LGBTQ+ Owned &middot; Local &amp; Family-Run";
-
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
 
 function starString(rating) {
   const full = Math.max(0, Math.min(5, Math.round(Number(rating) || 0)));
@@ -90,7 +88,7 @@ async function fetchPlaceDetails(placeId) {
   const res = await fetch(`https://places.googleapis.com/v1/places/${placeId}?languageCode=en`, {
     headers: {
       "X-Goog-Api-Key": GOOGLE_PLACES_API_KEY,
-      "X-Goog-FieldMask": "rating,userRatingCount,reviews",
+      "X-Goog-FieldMask": "rating,userRatingCount",
     },
     signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
   });
@@ -100,13 +98,12 @@ async function fetchPlaceDetails(placeId) {
 
 function validateDetails(details) {
   if (typeof details?.rating !== "number" || typeof details?.userRatingCount !== "number") return null;
-  if (!Array.isArray(details.reviews)) return null;
   return details;
 }
 
 // Lets bake-carousel.mjs show live rating numbers on a source=reviews slide
 // without re-hitting the Places API. Non-fatal: a write failure here should
-// never block the reviews section itself from baking.
+// never block the rating line itself from baking.
 function writeReviewsSnapshot(details) {
   try {
     writeFileSync(
@@ -120,37 +117,10 @@ function writeReviewsSnapshot(details) {
 }
 
 function renderSummary(details) {
-  const countLine =
-    details.userRatingCount >= RATING_COUNT_THRESHOLD
-      ? `\n\t\t<p class="lead">${details.rating.toFixed(1)} stars from ${details.userRatingCount} Google reviews</p>`
-      : "";
-
   return `\t\t<div class="reviews-summary">
 \t\t  <span class="stars">${starString(details.rating)}</span>
-\t\t  <span>${TRUST_LINE}</span>
-\t\t</div>${countLine}`;
-}
-
-function renderReviewCards(reviews) {
-  const usable = reviews
-    .filter((r) => r.text?.text || r.originalText?.text)
-    .slice(0, MAX_REVIEWS);
-
-  if (usable.length === 0) return null;
-
-  const cards = usable
-    .map((r) => {
-      const text = escapeHtml(r.text?.text || r.originalText?.text);
-      const author = escapeHtml(r.authorAttribution?.displayName || "Google User");
-      return `\t\t  <article class="review-card">
-\t\t\t<div class="stars">${starString(r.rating)}</div>
-\t\t\t<p>“${text}”</p>
-\t\t\t<div class="review-meta">— ${author}, Google Review</div>
-\t\t  </article>`;
-    })
-    .join("\n");
-
-  return { html: `\t\t<div class="reviews-grid">\n${cards}\n\t\t</div>`, count: usable.length };
+\t\t  <span>${details.rating.toFixed(1)} stars from ${details.userRatingCount} Google reviews</span>
+\t\t</div>`;
 }
 
 function replaceMarkerRegion(html, marker, innerHtml) {
@@ -190,25 +160,18 @@ async function main() {
 
   writeReviewsSnapshot(details);
 
-  const reviewsGrid = renderReviewCards(details.reviews);
-  if (!reviewsGrid) {
-    console.error("[bake-reviews] No usable reviews with text in response; leaving committed index.html untouched.");
-    return;
-  }
-
   const html = readFileSync(INDEX_HTML, "utf8");
-  const innerHtml = `${renderSummary(details)}\n${reviewsGrid.html}`;
 
   let updated;
   try {
-    updated = replaceMarkerRegion(html, REVIEWS_MARKER, innerHtml);
+    updated = replaceMarkerRegion(html, REVIEWS_MARKER, renderSummary(details));
   } catch (err) {
-    console.error("[bake-reviews] Failed to splice reviews into index.html; leaving committed index.html untouched:", err.message);
+    console.error("[bake-reviews] Failed to splice rating into index.html; leaving committed index.html untouched:", err.message);
     return;
   }
 
   writeFileSync(INDEX_HTML, updated);
-  console.log(`[bake-reviews] Baked rating ${details.rating} (${details.userRatingCount} total reviews), ${reviewsGrid.count} review card(s) into index.html.`);
+  console.log(`[bake-reviews] Baked rating ${details.rating} (${details.userRatingCount} Google reviews) into index.html. Curated quotes were left untouched.`);
 }
 
 main().catch((err) => {

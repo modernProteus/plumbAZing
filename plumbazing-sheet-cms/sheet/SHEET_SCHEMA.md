@@ -47,8 +47,14 @@ key,active,type,placement,sort,tag,kicker,title,body,image_url,cta,link,meta,sou
 prv_special,FALSE,Promo,Both,1,Limited Time,,PRV Special,"The current PRV promotion. Set active to FALSE (or an end_date in the past) to retire it.",,book,,,,,
 water_heater_flush,TRUE,Promo,Grid,2,Seasonal,,Water Heater Flush,"Seasonal water heater flush and inspection. Book online in under a minute.",,book,,,,,
 meet_the_team,TRUE,Brand,Carousel,3,,Meet the Team,Josh + Alan + Jackson,"We're the folks who show up, explain the options, and leave your place cleaner than we found it.",/img/ad-team.png,learn,/#about,,,,
-live_reviews,TRUE,Trust,Carousel,4,,5-Star Feedback,What customers appreciate most,"Clear communication, dependable work, and help when it matters most.",,,,,"reviews",,
+live_reviews,TRUE,Trust,Carousel,4,,Rated 5.0 on Google,Loved by 36 local customers,"Clear communication, dependable work, and help when it matters most.",,,,,"reviews",,
 ```
+
+> **The `live_reviews` row's `kicker`/`title` are the fallback shown until
+> `build/.reviews.json` exists** (i.e. until `bake-reviews.mjs` successfully
+> resolves a Place ID and pulls real numbers -- see its header comment).
+> Update them by hand whenever the real rating/count changes meaningfully,
+> the same way you'd update any other row.
 
 > **Request 1 (remove the PRV special) lives here.** Once this tab is wired,
 > the PRV row is seeded with `active = FALSE`, so it is already retired. Flip

@@ -835,9 +835,23 @@
     border: 1px solid rgba(217,226,236,0.9);
     border-radius: var(--radius-pill);
     box-shadow: var(--shadow-sm);
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-4);
     color: var(--color-blue-dark);
     font-weight: 800;
+  }
+
+  .reviews-google-link {
+    margin: 0 0 var(--space-6);
+  }
+
+  .reviews-google-link a {
+    color: var(--color-blue);
+    font-weight: 700;
+    text-decoration: underline;
+  }
+
+  .reviews-trust-pills {
+    margin-top: var(--space-8);
   }
 
   .stars {
