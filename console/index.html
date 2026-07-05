@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>PlumbAZING Promotions Console</title>
+<style>
+  :root {
+    --brand: #1D4E89;
+    --brand-dark: #0B3B82;
+    --ink: #102A43;
+    --slate: #52606D;
+    --line: #D9E2EC;
+    --bg: #F7FAFC;
+    --card: #ffffff;
+    --ok: #16a34a;
+    --warn: #d97706;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.55; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 24px 18px 80px; }
+  header.hero { background: linear-gradient(135deg, var(--ink), #1D4E89); color: #fff; border-radius: 20px; padding: 26px 24px; margin-bottom: 20px; }
+  header.hero .brandrow { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  header.hero .brandrow img { height: 28px; }
+  header.hero .kicker { text-transform: uppercase; letter-spacing: .12em; font-size: 12px; font-weight: 800; color: #93c5fd; margin: 0; }
+  header.hero h1 { margin: 0 0 8px; font-size: 25px; }
+  header.hero p { margin: 0; color: #cbd5e1; font-size: 15px; }
+
+  .badge-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+  .status { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); }
+  .status .dot { width: 9px; height: 9px; border-radius: 50%; background: #94a3b8; }
+  .status.live { background: #ecfdf5; border-color: #bbf7d0; color: var(--ok); }
+  .status.live .dot { background: var(--ok); }
+  .status.snap { background: #fffbeb; border-color: #fde68a; color: var(--warn); }
+  .status.snap .dot { background: var(--warn); }
+  .retry { font-size: 12px; font-weight: 700; color: var(--brand); background: none; border: 1px solid #bfdbfe; border-radius: 999px; padding: 5px 12px; cursor: pointer; }
+
+  .note { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 14px; padding: 14px 16px; margin-bottom: 18px; }
+  .note h2 { margin: 0 0 8px; font-size: 14px; color: #1e3a8a; text-transform: uppercase; letter-spacing: .05em; }
+  .note ol { margin: 0; padding-left: 20px; } .note li { margin: 5px 0; font-size: 14px; }
+
+  .links { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 22px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 700; font-size: 14px; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; }
+  .btn.primary { background: var(--brand); border-color: var(--brand); color: #fff; }
+
+  details.how { border: 1px solid var(--line); border-radius: 14px; background: var(--card); margin-bottom: 22px; }
+  details.how summary { cursor: pointer; padding: 14px 18px; font-weight: 800; list-style: none; }
+  details.how summary::-webkit-details-marker { display: none; }
+  details.how .inner { padding: 0 18px 16px; color: var(--slate); font-size: 14px; }
+  details.how ol { padding-left: 20px; } details.how li { margin: 5px 0; }
+
+  h3.sec { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--slate); margin: 26px 0 12px; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 620px) { .grid { grid-template-columns: 1fr; } }
+  .preview-card { border: 1px solid var(--line); border-radius: 14px; background: var(--card); padding: 16px; }
+  .preview-card img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; margin-bottom: 10px; background: var(--bg); }
+  .preview-card .badge { display: inline-block; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: var(--brand-dark); background: #dbeafe; border-radius: 999px; padding: 3px 9px; margin-bottom: 8px; }
+  .preview-card h4 { margin: 0 0 3px; font-size: 16px; }
+  .preview-card .sub { color: var(--slate); font-size: 13px; margin: 0 0 6px; }
+  .preview-card .desc { font-size: 13px; margin: 0 0 8px; }
+  .preview-card .win { font-size: 12px; color: var(--slate); }
+
+  .builder label { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; margin: 12px 0 4px; }
+  .builder input, .builder textarea, .builder select { width: 100%; padding: 9px 10px; border: 1px solid var(--line); border-radius: 10px; font-size: 14px; font-family: inherit; }
+  .builder textarea { min-height: 56px; resize: vertical; }
+  .builder .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 620px) { .builder .g2 { grid-template-columns: 1fr; } }
+  .tip { position: relative; display: inline-flex; }
+  .tip .i { width: 16px; height: 16px; border-radius: 50%; background: var(--line); color: var(--slate); font-size: 11px; font-weight: 800; display: grid; place-items: center; cursor: help; }
+  .tip .txt { display: none; position: absolute; left: 20px; top: -4px; z-index: 5; width: 220px; background: var(--ink); color: #fff; font-size: 12px; font-weight: 500; padding: 8px 10px; border-radius: 8px; }
+  .tip:hover .txt, .tip.open .txt { display: block; }
+  .genid { font-size: 12px; color: var(--slate); margin-top: 6px; }
+  .out { margin-top: 16px; background: var(--ink); color: #e2e8f0; border-radius: 12px; padding: 14px; font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; white-space: pre-wrap; word-break: break-word; }
+  .copybtn { margin-top: 10px; background: var(--brand); color: #fff; border: 0; border-radius: 999px; padding: 10px 18px; font-weight: 800; font-size: 14px; cursor: pointer; }
+  .copied { display: none; color: var(--ok); font-weight: 700; font-size: 13px; margin-top: 6px; }
+  footer { text-align: center; color: var(--slate); font-size: 13px; margin-top: 30px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="brandrow">
+      <img src="../img/bizName.svg" alt="PlumbAZING" />
+    </div>
+    <p class="kicker">Internal · Read-Only</p>
+    <h1>Promotions Console</h1>
+    <p>Manage website specials from the Promotions Google Sheet. Build a promo below, paste it in, and Publish. Read-only: this page never changes your sheet on its own.</p>
+  </header>
+
+  <div class="badge-row">
+    <span class="status" id="status"><span class="dot"></span><span id="statusText">Checking data source...</span></span>
+    <button class="retry" id="retry" style="display:none;">Retry</button>
+  </div>
+
+  <div class="note">
+    <h2>Read once</h2>
+    <ol>
+      <li>Edit only the <strong>Promotions</strong> tab. Never change the top header row.</li>
+      <li>Promotions are <strong>time-bound</strong>: set a start/end date and they appear and expire on their own.</li>
+      <li>After editing, click <strong>Publish &gt; Publish to site</strong> in the sheet. The site rebuilds and updates in a few minutes (not instantly).</li>
+    </ol>
+  </div>
+
+  <h3 class="sec">Build a new promotion</h3>
+  <div class="grid">
+    <div class="builder">
+      <label>Title <span class="tip"><span class="i">i</span><span class="txt">The headline people see, e.g. "$50 Off Water Heater Install".</span></span></label>
+      <input id="f-title" placeholder="$50 Off Water Heater Install" />
+      <div class="genid" id="genid">Generated key: (type a title)</div>
+
+      <label>Subtitle <span class="tip"><span class="i">i</span><span class="txt">A short supporting line under the title.</span></span></label>
+      <input id="f-subtitle" placeholder="New installs only" />
+
+      <label>Description <span class="tip"><span class="i">i</span><span class="txt">The details or fine print for the offer.</span></span></label>
+      <textarea id="f-description" placeholder="Save $50 on any standard water heater installation..."></textarea>
+
+      <label>Image path <span class="tip"><span class="i">i</span><span class="txt">4:3 ratio, 1200x900px, JPG/PNG/WebP, under 400KB. Get the file into the repo's /img folder first (ask your developer), then paste its path here, e.g. /img/promo-drain.jpg. Leave blank for no image.</span></span></label>
+      <input id="f-image_url" placeholder="/img/promo-name.jpg" />
+
+      <div class="g2">
+        <div>
+          <label>Badge <span class="tip"><span class="i">i</span><span class="txt">Small tag on the card. Optional.</span></span></label>
+          <select id="f-badge"><option value="">(none)</option><option>Limited Time</option><option>New</option><option>Seasonal</option><option>Popular</option></select>
+        </div>
+        <div>
+          <label>Sort <span class="tip"><span class="i">i</span><span class="txt">Order among promos. Lower shows first.</span></span></label>
+          <input id="f-sort" type="number" value="1" />
+        </div>
+      </div>
+
+      <div class="g2">
+        <div>
+          <label>Button text <span class="tip"><span class="i">i</span><span class="txt">What the button says, e.g. "Book Now".</span></span></label>
+          <input id="f-cta" placeholder="Book Now" />
+        </div>
+        <div>
+          <label>Button link <span class="tip"><span class="i">i</span><span class="txt">Where the button goes, e.g. /book.</span></span></label>
+          <input id="f-cta_url" placeholder="/book" />
+        </div>
+      </div>
+
+      <div class="g2">
+        <div>
+          <label>Start date <span class="tip"><span class="i">i</span><span class="txt">When it goes live. Blank = live now.</span></span></label>
+          <input id="f-start_date" type="date" />
+        </div>
+        <div>
+          <label>End date <span class="tip"><span class="i">i</span><span class="txt">When it expires. Blank = runs until turned off.</span></span></label>
+          <input id="f-end_date" type="date" />
+        </div>
+      </div>
+
+      <div class="out" id="out">Fill in a title to start...</div>
+      <button class="copybtn" id="copy">Copy row</button>
+      <p class="copied" id="copied">Copied. Now open the sheet and paste into a new row, then Publish.</p>
+      <a class="btn primary" id="openSheet" href="#" target="_blank" rel="noopener noreferrer" style="margin-top:10px; display:inline-flex;">Open sheet to paste &rarr;</a>
+    </div>
+
+    <div>
+      <p style="font-size:12px;color:var(--slate);text-transform:uppercase;letter-spacing:.05em;font-weight:800;margin:12px 0 8px;">Live preview</p>
+      <div class="preview-card" id="preview">
+        <img id="p-image" style="display:none;" alt="" />
+        <span class="badge" id="p-badge" style="display:none;"></span>
+        <h4 id="p-title">Your promo title</h4>
+        <p class="sub" id="p-sub" style="display:none;"></p>
+        <p class="desc" id="p-desc" style="display:none;"></p>
+        <p class="win" id="p-win"></p>
+      </div>
+    </div>
+  </div>
+
+  <details class="how">
+    <summary>How this works</summary>
+    <div class="inner">
+      <ol>
+        <li>Build a promo with the tool above and click <strong>Copy row</strong>.</li>
+        <li>Paste it as a new row in the <strong>Promotions</strong> tab.</li>
+        <li>Set <strong>active</strong> to checked and give it a start/end date if it is time-limited.</li>
+        <li>Click <strong>Publish &gt; Publish to site</strong>. The site rebuilds and updates in a few minutes.</li>
+      </ol>
+      <p>A promo only shows when it is active AND today is inside its date window. Blank start = live now. Blank end = runs until you turn it off.</p>
+      <p>This console is read-only: it never writes to the sheet or the site by itself. Nothing here can take the site down.</p>
+    </div>
+  </details>
+
+  <details class="how">
+    <summary>View current live promotions <span id="liveCount" style="color:var(--slate); font-weight:600;"></span></summary>
+    <div class="inner">
+      <div class="grid" id="livePromos"><p style="color:var(--slate);font-size:14px;">Loading...</p></div>
+    </div>
+  </details>
+
+  <footer>Read-only internal console. Nothing here edits the sheet directly. If something looks off: confirm you hit Publish, wait a few minutes, refresh. A bad edit cannot take the site down.</footer>
+</div>
+
+<script>
+  // ==== CONFIG: set these two ====
+  const SHEET_ID = "PASTE_SPREADSHEET_ID";
+  const PROMOS_GID = "0"; // the Promotions tab gid
+  const APPS_SCRIPT_URL = ""; // /exec URL; leave "" to skip the live preview
+  // ================================
+
+  document.getElementById("openSheet").href =
+    "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/edit#gid=" + PROMOS_GID;
+
+  // Tooltips: tap to toggle on touch
+  document.querySelectorAll(".tip").forEach((t) => {
+    t.addEventListener("click", (e) => { e.preventDefault(); t.classList.toggle("open"); });
+  });
+
+  // Slugify -> auto key
+  function slug(s) {
+    return String(s || "").toLowerCase().normalize("NFKD").replace(/[^\w\s-]/g, "").trim().replace(/[\s-]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 40);
+  }
+
+  const g = (id) => document.getElementById("f-" + id).value.trim();
+  // Tab-separated for a clean paste into Google Sheets (Sheets splits on tabs).
+  // Strip any tab/newline inside a field so the row never mis-splits.
+  function tsvCell(v) { return String(v == null ? "" : v).replace(/[\t\r\n]+/g, " "); }
+
+  function refresh() {
+    const key = slug(g("title"));
+    document.getElementById("genid").textContent = key ? "Generated key: " + key : "Generated key: (type a title)";
+
+    // preview
+    const badge = g("badge"), title = g("title"), sub = g("subtitle"), desc = g("description"), image = g("image_url");
+    const pb = document.getElementById("p-badge");
+    if (badge) { pb.textContent = badge; pb.style.display = "inline-block"; } else pb.style.display = "none";
+    document.getElementById("p-title").textContent = title || "Your promo title";
+    const ps = document.getElementById("p-sub"); if (sub) { ps.textContent = sub; ps.style.display = "block"; } else ps.style.display = "none";
+    const pd = document.getElementById("p-desc"); if (desc) { pd.textContent = desc; pd.style.display = "block"; } else pd.style.display = "none";
+    const pi = document.getElementById("p-image"); if (image) { pi.src = image; pi.alt = title || ""; pi.style.display = "block"; } else pi.style.display = "none";
+    const s = g("start_date"), e = g("end_date");
+    document.getElementById("p-win").textContent =
+      (s || e) ? ("Runs " + (s || "now") + " to " + (e || "until turned off")) : "Runs now, until turned off";
+
+    // row order matches plumbazing-sheet-cms/sheet/SHEET_SCHEMA.md:
+    // key,active,sort,title,subtitle,description,badge,cta,cta_url,start_date,end_date,image_url
+    const row = [key, "TRUE", g("sort"), title, sub, desc, badge, g("cta"), g("cta_url"), s, e, image];
+    document.getElementById("out").textContent = (key || title) ? row.map(tsvCell).join("\t") : "Fill in a title to start...";
+  }
+  ["title","subtitle","description","image_url","badge","sort","cta","cta_url","start_date","end_date"]
+    .forEach((id) => document.getElementById("f-" + id).addEventListener("input", refresh));
+
+  document.getElementById("copy").addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(document.getElementById("out").textContent);
+      const c = document.getElementById("copied"); c.style.display = "block"; setTimeout(() => c.style.display = "none", 2500);
+    } catch { alert("Copy failed. Select the text manually."); }
+  });
+  refresh();
+
+  // ==== Live preview of current promos + data-source badge ====
+  function setStatus(kind, text, showRetry) {
+    const el = document.getElementById("status");
+    el.className = "status" + (kind ? " " + kind : "");
+    document.getElementById("statusText").textContent = text;
+    document.getElementById("retry").style.display = showRetry ? "inline-block" : "none";
+  }
+  function renderPromos(items) {
+    const box = document.getElementById("livePromos");
+    const count = document.getElementById("liveCount");
+    if (count) count.textContent = "(" + items.length + ")";
+    if (!items.length) { box.innerHTML = '<p style="color:var(--slate);font-size:14px;">No live promotions right now.</p>'; return; }
+    box.innerHTML = items.map((i) => `
+      <div class="preview-card">
+        ${i.imageUrl ? `<img src="${i.imageUrl}" alt="${i.title || ""}" />` : ""}
+        ${i.badge ? `<span class="badge">${i.badge}</span>` : ""}
+        <h4>${i.title || ""}</h4>
+        ${i.subtitle ? `<p class="sub">${i.subtitle}</p>` : ""}
+        ${i.description ? `<p class="desc">${i.description}</p>` : ""}
+        <p class="win">Runs ${i.startDate || "now"} to ${i.endDate || "until turned off"}</p>
+      </div>`).join("");
+  }
+  async function loadLive() {
+    const box = document.getElementById("livePromos");
+    if (!APPS_SCRIPT_URL) { setStatus("snap", "Live preview off (no endpoint set)", false); box.innerHTML = '<p style="color:var(--slate);font-size:14px;">Set APPS_SCRIPT_URL in this file to see live promos.</p>'; return; }
+    setStatus("", "Checking data source...", false);
+    try {
+      const res = await fetch(APPS_SCRIPT_URL + "?action=items&type=promos");
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      if (!data || data.ok !== true || !Array.isArray(data.items)) throw new Error("Unexpected response shape");
+      renderPromos(data.items);
+      setStatus("live", "Live from sheet - " + new Date().toLocaleTimeString(), false);
+    } catch (err) {
+      console.warn("Live load failed:", err.message);
+      setStatus("snap", "Could not reach the sheet", true);
+      box.innerHTML = '<p style="color:var(--slate);font-size:14px;">Could not load live promos. Check the endpoint or retry.</p>';
+    }
+  }
+  document.getElementById("retry").addEventListener("click", loadLive);
+  loadLive();
+</script>
+</body>
+</html>
