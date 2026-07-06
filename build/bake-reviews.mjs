@@ -11,6 +11,12 @@
 // on Google" link, and the trust-badge pill row live outside the markers as
 // permanent committed content this script never touches.
 //
+// It also fills two small spans inside the pinned Jax hero slide (the
+// bespoke "What customers appreciate most" trust slide in index.html, never
+// touched by build/bake-carousel.mjs): <span data-review-rating> and
+// <span data-review-count>. Same fail-safe contract -- on any error, those
+// spans keep whatever's committed (currently 5.0 / 36).
+//
 // FAIL-SAFE CONTRACT: any error (missing key, network failure, unexpected
 // response shape) leaves index.html completely untouched -- the committed
 // rating line is always a valid fallback.
@@ -134,6 +140,14 @@ function replaceMarkerRegion(html, marker, innerHtml) {
   return `${before}\n${innerHtml}\n\t\t${after}`;
 }
 
+function replaceSpanContent(html, dataAttr, newValue) {
+  const pattern = new RegExp(`(<span data-${dataAttr}>)[^<]*(</span>)`);
+  if (!pattern.test(html)) {
+    throw new Error(`Could not find <span data-${dataAttr}> in index.html`);
+  }
+  return html.replace(pattern, `$1${newValue}$2`);
+}
+
 async function main() {
   if (!GOOGLE_PLACES_API_KEY) {
     console.warn("[bake-reviews] GOOGLE_PLACES_API_KEY not set; leaving committed index.html untouched.");
@@ -165,13 +179,15 @@ async function main() {
   let updated;
   try {
     updated = replaceMarkerRegion(html, REVIEWS_MARKER, renderSummary(details));
+    updated = replaceSpanContent(updated, "review-rating", details.rating.toFixed(1));
+    updated = replaceSpanContent(updated, "review-count", String(details.userRatingCount));
   } catch (err) {
     console.error("[bake-reviews] Failed to splice rating into index.html; leaving committed index.html untouched:", err.message);
     return;
   }
 
   writeFileSync(INDEX_HTML, updated);
-  console.log(`[bake-reviews] Baked rating ${details.rating} (${details.userRatingCount} Google reviews) into index.html. Curated quotes were left untouched.`);
+  console.log(`[bake-reviews] Baked rating ${details.rating} (${details.userRatingCount} Google reviews) into the summary and the pinned Jax slide. Curated quotes were left untouched.`);
 }
 
 main().catch((err) => {

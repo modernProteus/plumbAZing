@@ -107,9 +107,9 @@ function autoOpenBookingFromUrl() {
   const heroSlides = heroCarousel
 	? Array.from(heroCarousel.querySelectorAll("[data-hero-slide]"))
 	: [];
-  const heroDots = heroCarousel
-	? Array.from(heroCarousel.querySelectorAll("[data-hero-dot]"))
-	: [];
+  const heroDotsContainer = heroCarousel
+	? heroCarousel.querySelector(".hero-carousel-dots")
+	: null;
   const heroPrev = heroCarousel
 	? heroCarousel.querySelector("[data-hero-prev]")
 	: null;
@@ -117,6 +117,7 @@ function autoOpenBookingFromUrl() {
 	? heroCarousel.querySelector("[data-hero-next]")
 	: null;
 
+  let heroDots = [];
   let heroIndex = 0;
   let heroInterval = null;
 
@@ -130,6 +131,28 @@ function autoOpenBookingFromUrl() {
 	});
 
 	heroIndex = index;
+  }
+
+  // Dots are built from the live slide count instead of static/baked markup,
+  // so pinned slides + any sheet-driven promo slides always get the right
+  // number of dots and the counts can never drift apart.
+  function buildHeroDots() {
+	if (!heroDotsContainer) return;
+
+	heroDotsContainer.innerHTML = "";
+	heroDots = heroSlides.map((_, i) => {
+	  const dot = document.createElement("button");
+	  dot.type = "button";
+	  dot.className = i === 0 ? "hero-dot active" : "hero-dot";
+	  dot.setAttribute("aria-label", `Go to slide ${i + 1}`);
+	  dot.dataset.heroDot = String(i);
+	  dot.addEventListener("click", () => {
+		renderHeroSlide(i);
+		startHeroCarousel();
+	  });
+	  heroDotsContainer.appendChild(dot);
+	  return dot;
+	});
   }
 
   function nextHeroSlide() {
@@ -157,12 +180,7 @@ function autoOpenBookingFromUrl() {
   }
 
   if (heroCarousel && heroSlides.length) {
-	heroDots.forEach((dot, i) => {
-	  dot.addEventListener("click", () => {
-		renderHeroSlide(i);
-		startHeroCarousel();
-	  });
-	});
+	buildHeroDots();
 
 	heroPrev?.addEventListener("click", () => {
 	  prevHeroSlide();

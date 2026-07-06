@@ -132,7 +132,7 @@
 			<div class="hero-carousel-wrap">
 			  <div class="hero-carousel" id="heroCarousel">
 				<div class="hero-carousel-viewport">
-				<!-- CAROUSEL_SLIDES:START -->
+				<!-- CAROUSEL_PROMOS:START -->
 				<article class="hero-slide active" data-hero-slide="0">
 					  <div class="hero-slide-card">
 						<div class="hero-slide-media">
@@ -163,8 +163,10 @@
 					  </div>
 					</div>
 				  </article>
+				<!-- CAROUSEL_PROMOS:END -->
 
-				  <article class="hero-slide" data-hero-slide="2">
+				  <!-- Pinned slide -- bespoke design, never baked. See build/bake-carousel.mjs. -->
+				  <article class="hero-slide" data-hero-slide="pinned-reviews">
 					<div class="hero-slide-card">
 					  <div class="hero-slide-media hero-slide-media--review">
 						<img src="img/Jax.png" alt="Jax mascot" />
@@ -174,11 +176,13 @@
 						<span class="hero-slide-kicker">5-Star Feedback</span>
 						<h3>What customers appreciate most</h3>
 						<p>Clear communication, dependable work, and help when it matters most. We keep things straightforward from first call to finished job.</p>
+						<div class="promo-meta">Rated <span data-review-rating>5.0</span> from <span data-review-count>36</span> Google reviews.</div>
 					  </div>
 					</div>
 				  </article>
 
-				  <article class="hero-slide" data-hero-slide="3">
+				  <!-- Pinned slide -- bespoke design, never baked. See build/bake-carousel.mjs. -->
+				  <article class="hero-slide" data-hero-slide="pinned-team">
 					<div class="hero-slide-card">
 					  <div class="hero-slide-media">
 						<img src="img/ad-team.png" alt="Josh and Alan from PlumbAZING" />
@@ -191,18 +195,10 @@
 					  </div>
 					</div>
 				  </article>
-				<!-- CAROUSEL_SLIDES:END -->
 				</div>
 
 				<div class="hero-carousel-controls">
-				  <div class="hero-carousel-dots">
-					<!-- CAROUSEL_DOTS:START -->
-					<button class="hero-dot active" type="button" aria-label="Go to slide 1" data-hero-dot="0"></button>
-					<button class="hero-dot" type="button" aria-label="Go to slide 2" data-hero-dot="1"></button>
-					<button class="hero-dot" type="button" aria-label="Go to slide 3" data-hero-dot="2"></button>
-					<button class="hero-dot" type="button" aria-label="Go to slide 4" data-hero-dot="3"></button>
-					<!-- CAROUSEL_DOTS:END -->
-				  </div>
+				  <div class="hero-carousel-dots"></div>
 
 				  <div class="hero-carousel-nav">
 					<button class="hero-nav-btn" type="button" aria-label="Previous slide" data-hero-prev>‹</button>
