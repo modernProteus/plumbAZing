@@ -36,7 +36,6 @@ const FETCH_TIMEOUT_MS = 15000;
 
 const PROMOS_MARKER = { start: "<!-- CAROUSEL_PROMOS:START -->", end: "<!-- CAROUSEL_PROMOS:END -->", closeIndent: "\t\t\t\t" };
 const CAROUSEL_PLACEMENTS = new Set(["Carousel", "Both"]);
-const CALL_NOW_BUTTON = `<a class="btn btn-secondary" href="tel:15128884406">Call Now</a>`;
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -71,9 +70,6 @@ function renderPromoSlide(item, index) {
   const image = item.imageUrl
     ? `\n\t\t\t\t\t\t<div class="hero-slide-media">\n\t\t\t\t\t\t  <img src="${escapeHtml(item.imageUrl)}" alt="${escapeHtml(item.title)}" />\n\t\t\t\t\t\t</div>`
     : "";
-  const primaryButton = item.ctaLabel && item.ctaUrl
-    ? `<a class="btn btn-primary" href="${escapeHtml(item.ctaUrl)}">${escapeHtml(item.ctaLabel)}</a>\n\t\t\t\t\t\t\t`
-    : "";
   const meta = item.meta
     ? `\n\t\t\t\t\t\t  <div class="promo-meta">${escapeHtml(item.meta)}</div>`
     : "";
@@ -83,10 +79,7 @@ function renderPromoSlide(item, index) {
 \t\t\t\t\t\t<div class="hero-slide-body">
 \t\t\t\t\t\t  <span class="hero-slide-kicker">${escapeHtml(kicker)}</span>
 \t\t\t\t\t\t  <h3>${escapeHtml(item.title)}</h3>
-\t\t\t\t\t\t  <p>${escapeHtml(body)}</p>
-\t\t\t\t\t\t  <div class="hero-slide-actions">
-\t\t\t\t\t\t\t${primaryButton}${CALL_NOW_BUTTON}
-\t\t\t\t\t\t  </div>${meta}
+\t\t\t\t\t\t  <p>${escapeHtml(body)}</p>${meta}
 \t\t\t\t\t\t</div>
 \t\t\t\t\t  </div>
 \t\t\t\t\t</article>`;
